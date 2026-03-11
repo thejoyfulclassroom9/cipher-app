@@ -237,7 +237,10 @@
   <div class="login-box">
     <div class="agent-name">// AGENT: THE SILENT POSTMAN //</div>
     <label for="pw-input">CLEARANCE CODE</label>
-    <input type="password" id="pw-input" maxlength="5" autocomplete="off" placeholder="•••••">
+    <div style="position:relative;">
+      <input type="password" id="pw-input" autocomplete="off" placeholder="•••••" style="width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:var(--font-mono);font-size:18px;padding:12px 44px 12px 12px;letter-spacing:6px;text-align:center;">
+      <button type="button" onclick="toggleShowPw()" id="show-pw-btn" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--text3);font-size:18px;padding:4px;">👁</button>
+    </div>
     <div class="login-error" id="login-error"></div>
     <button class="btn-login" onclick="doLogin()">ACCESS GRANTED</button>
   </div>
@@ -336,7 +339,7 @@
       <div class="settings-title">AGENT CREDENTIALS</div>
       <div class="form-group">
         <label class="form-label">NEW CLEARANCE CODE</label>
-        <div class="text-small" style="margin-bottom:8px;">FORMAT: UPPERCASE · NUMBER · LOWERCASE · NUMBER · SYMBOL (e.g. A1b2!)</div>
+        <div class="text-small" style="margin-bottom:8px;">MINIMUM 3 CHARACTERS — ANY FORMAT YOU WANT</div>
         <input class="form-input" id="new-pw-input" type="password" maxlength="5" placeholder="•••••">
       </div>
       <div class="form-group">
@@ -409,7 +412,7 @@ function saveData(d) { localStorage.setItem('cipher_data', JSON.stringify(d)); }
 function initData() {
   const d = getData();
   if (!d.initialized) {
-    d.password = 'A1b2!';
+    d.password = 'Cipher1';
     d.totalXP = 0;
     d.currentGradeIndex = 0;
     d.grades = [
@@ -457,6 +460,11 @@ function imageToDataURL(file) {
 // ============================================================
 // AUTH
 // ============================================================
+function toggleShowPw() {
+  const inp = document.getElementById('pw-input');
+  inp.type = inp.type === 'password' ? 'text' : 'password';
+}
+
 function doLogin() {
   const d = initData();
   const pw = document.getElementById('pw-input').value;
@@ -479,8 +487,7 @@ function changePassword() {
   const np = document.getElementById('new-pw-input').value;
   const cp = document.getElementById('confirm-pw-input').value;
   const msg = document.getElementById('pw-change-msg');
-  const re = /^[A-Z][0-9][a-z][0-9][^A-Za-z0-9]$/;
-  if (!re.test(np)) { msg.style.color='var(--red)'; msg.textContent='// INVALID FORMAT: UPPERCASE·NUMBER·LOWERCASE·NUMBER·SYMBOL //'; return; }
+  if (!np || np.length < 3) { msg.style.color='var(--red)'; msg.textContent='// CODE TOO SHORT (MIN 3 CHARACTERS) //'; return; }
   if (np !== cp) { msg.style.color='var(--red)'; msg.textContent='// CODES DO NOT MATCH //'; return; }
   d.password = np;
   saveData(d);
