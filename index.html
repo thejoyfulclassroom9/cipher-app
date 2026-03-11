@@ -5,6 +5,30 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>CIPHER — The Silent Postman</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyDi-cCSGQz1MHUZ6InT8J5PsIZlKk2dGBI",
+    authDomain: "cipher-app-d9f4d.firebaseapp.com",
+    databaseURL: "https://cipher-app-d9f4d-default-rtdb.firebaseio.com",
+    projectId: "cipher-app-d9f4d",
+    storageBucket: "cipher-app-d9f4d.firebasestorage.app",
+    messagingSenderId: "820319942525",
+    appId: "1:820319942525:web:574b4b2a76262ebd3bfe14"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.database();
+  const USER_ID = 'silent_postman';
+  function fbSave(data) {
+    return db.ref('users/' + USER_ID).set(data);
+  }
+  function fbLoad(callback) {
+    db.ref('users/' + USER_ID).once('value').then(function(snap) {
+      callback(snap.val());
+    });
+  }
+</script>
 <style>
   :root {
     --bg: #0a0c0f;
@@ -405,30 +429,56 @@
 const GRADES_LIST = ['ALPHA','BRAVO','CHARLIE','DELTA','ECHO','FOXTROT','GOLF','HOTEL','INDIA','JULIET','KILO','LIMA','MIKE','NOVEMBER','OSCAR','PAPA','QUEBEC','ROMEO','SIERRA','TANGO','UNIFORM','VICTOR','WHISKEY','X-RAY','YANKEE','ZULU'];
 const DEFAULT_CATS = ['Physical Training','Mental Training','Spiritual Training','Relationships','Finances','Nutrition','Sleep & Recovery','Skills & Learning','Creativity','Productivity'];
 
+// In-memory data store - synced with Firebase
+let _appData = null;
+let _saveTimeout = null;
+
 function getData() {
-  try { return JSON.parse(localStorage.getItem('cipher_data') || '{}'); } catch(e) { return {}; }
+  return _appData || {};
 }
-function saveData(d) { localStorage.setItem('cipher_data', JSON.stringify(d)); }
-function initData() {
-  const d = getData();
-  if (!d.initialized) {
-    d.password = 'Cipher1';
-    d.totalXP = 0;
-    d.currentGradeIndex = 0;
-    d.grades = [
+
+function saveData(d) {
+  _appData = d;
+  // Debounce saves to avoid hammering Firebase
+  if (_saveTimeout) clearTimeout(_saveTimeout);
+  _saveTimeout = setTimeout(function() {
+    fbSave(d);
+  }, 800);
+}
+
+function getDefaultData() {
+  return {
+    password: 'Cipher1',
+    totalXP: 0,
+    currentGradeIndex: 0,
+    grades: [
       { name: 'ALPHA', xpRequired: 0, photo: '', message: 'You have been assigned. The mission begins now.', unlocked: true, unlockedDate: new Date().toISOString() },
       { name: 'BRAVO', xpRequired: 500, photo: '', message: 'First blood. The organization acknowledges your commitment.', unlocked: false, unlockedDate: null },
       { name: 'CHARLIE', xpRequired: 1500, photo: '', message: 'Discipline recognized. You are becoming a field asset.', unlocked: false, unlockedDate: null },
-    ];
-    d.inputs = [];
-    d.objectives = [];
-    d.logs = [];
-    d.categories = [...DEFAULT_CATS];
-    d.lastResetDate = '';
-    d.initialized = true;
-    saveData(d);
-  }
-  return d;
+    ],
+    inputs: [],
+    objectives: [],
+    logs: [],
+    categories: [...DEFAULT_CATS],
+    lastResetDate: '',
+    initialized: true
+  };
+}
+
+function initData(callback) {
+  // Show loading
+  document.getElementById('login-screen').innerHTML += '<div id="load-msg" style="font-family:var(--font-mono);font-size:11px;color:var(--text3);letter-spacing:2px;margin-top:16px;">CONNECTING TO CIPHER NETWORK...</div>';
+  fbLoad(function(data) {
+    var loadMsg = document.getElementById('load-msg');
+    if (loadMsg) loadMsg.remove();
+    if (!data || !data.initialized) {
+      _appData = getDefaultData();
+      fbSave(_appData);
+    } else {
+      _appData = data;
+    }
+    if (callback) callback();
+  });
 }
 
 function getOrCreateTodayLog() {
@@ -466,19 +516,26 @@ function toggleShowPw() {
 }
 
 function doLogin() {
-  const d = initData();
   const pw = document.getElementById('pw-input').value;
-  if (pw === d.password) {
-    document.getElementById('login-screen').classList.add('hidden');
-    document.getElementById('app').style.display = 'block';
-    document.getElementById('pw-input').value = '';
-    document.getElementById('login-error').textContent = '';
-    checkDailyReset();
-    refreshAll();
-  } else {
-    document.getElementById('login-error').textContent = '// ACCESS DENIED — INVALID CODE //';
-    document.getElementById('pw-input').value = '';
-  }
+  const btn = document.querySelector('.btn-login');
+  btn.textContent = 'CONNECTING...';
+  btn.disabled = true;
+  initData(function() {
+    btn.textContent = 'ACCESS GRANTED';
+    btn.disabled = false;
+    const d = getData();
+    if (pw === d.password) {
+      document.getElementById('login-screen').classList.add('hidden');
+      document.getElementById('app').style.display = 'block';
+      document.getElementById('pw-input').value = '';
+      document.getElementById('login-error').textContent = '';
+      checkDailyReset();
+      refreshAll();
+    } else {
+      document.getElementById('login-error').textContent = '// ACCESS DENIED — INVALID CODE //';
+      document.getElementById('pw-input').value = '';
+    }
+  });
 }
 document.getElementById('pw-input').addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
 
@@ -1303,7 +1360,8 @@ function deleteObjective(i) {
 }
 
 function resetAll() {
-  localStorage.removeItem('cipher_data');
+  _appData = getDefaultData();
+  fbSave(_appData);
   location.reload();
 }
 
@@ -1315,7 +1373,7 @@ function closeModal() { document.getElementById('modal-container').innerHTML = '
 // ============================================================
 // INIT
 // ============================================================
-initData();
+// Data loaded on login click via initData(callback)
 </script>
 </body>
 </html>
