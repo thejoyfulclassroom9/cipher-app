@@ -90,8 +90,8 @@
   .topbar-org { font-family: var(--font-display); font-size: 22px; color: var(--accent); letter-spacing: 4px; flex: 1; }
   .topbar-grade { display: flex; align-items: center; gap: 8px; }
   .grade-badge { background: var(--accent); color: var(--bg); font-family: var(--font-display); font-size: 14px; letter-spacing: 2px; padding: 4px 10px; }
-  .topbar-pts { font-family: var(--font-mono); font-size: 13px; color: var(--accent); }
-  .topbar-pts span { color: var(--text2); font-size: 10px; }
+  .topbar-pts { font-family: var(--font-mono); font-size: 16px; color: var(--accent); text-align: right; }
+  .pts-label { color: var(--text3); font-size: 10px; display: block; letter-spacing: 1px; font-family: var(--font-mono); }
   .topbar-agent { font-family: var(--font-mono); font-size: 10px; color: var(--text3); letter-spacing: 1px; display: none; }
 
   #bottom-nav {
@@ -143,17 +143,17 @@
   .img-preview-circle img { width: 100%; height: 100%; object-fit: cover; }
   .img-preview-circle-lg { width: 100px; height: 100px; }
 
-  .input-item { background: var(--card); border: 1px solid var(--border); padding: 14px; margin-bottom: 10px; display: flex; align-items: center; gap: 12px; }
-  .input-item-info { flex: 1; }
-  .input-item-name { font-family: var(--font-body); font-size: 16px; font-weight: 600; color: var(--text); }
-  .input-item-cat { font-family: var(--font-mono); font-size: 10px; color: var(--text3); letter-spacing: 1px; }
-  .input-item-pts { font-family: var(--font-mono); font-size: 11px; color: var(--accent); }
-  .input-control { display: flex; align-items: center; gap: 8px; }
-  .num-input { width: 80px; background: var(--bg); border: 1px solid var(--border); color: var(--text); font-family: var(--font-mono); font-size: 16px; padding: 6px 8px; text-align: center; }
-  .num-btn { width: 32px; height: 32px; background: var(--bg3); border: 1px solid var(--border); color: var(--text); font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); }
+  .input-item { background: var(--card); border: 1px solid var(--border); padding: 16px; margin-bottom: 10px; display: flex; align-items: center; gap: 14px; overflow: hidden; }
+  .input-item-info { flex: 1; min-width: 0; overflow: hidden; }
+  .input-item-name { font-family: var(--font-body); font-size: 19px; font-weight: 700; color: var(--white); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .input-item-cat { font-family: var(--font-mono); font-size: 13px; color: var(--text2); letter-spacing: 1px; margin-top: 2px; }
+  .input-item-pts { font-family: var(--font-mono); font-size: 14px; color: var(--accent); font-weight: 600; margin-top: 4px; }
+  .input-control { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+  .num-input { width: 72px; background: var(--bg); border: 1px solid var(--border); color: var(--text); font-family: var(--font-mono); font-size: 17px; padding: 8px 4px; text-align: center; }
+  .num-btn { width: 36px; height: 36px; background: var(--bg3); border: 1px solid var(--border); color: var(--text); font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); }
   .num-btn:hover { border-color: var(--accent); color: var(--accent); }
-  .check-input { width: 24px; height: 24px; accent-color: var(--accent); cursor: pointer; }
-  .text-input-sm { width: 120px; background: var(--bg); border: 1px solid var(--border); color: var(--text); font-family: var(--font-mono); font-size: 13px; padding: 6px 8px; }
+  .check-input { width: 28px; height: 28px; accent-color: var(--accent); cursor: pointer; }
+  .text-input-sm { width: 120px; background: var(--bg); border: 1px solid var(--border); color: var(--text); font-family: var(--font-mono); font-size: 14px; padding: 8px; }
   .save-log-btn { background: var(--accent); color: var(--bg); border: none; font-family: var(--font-display); font-size: 14px; letter-spacing: 2px; padding: 6px 14px; cursor: pointer; }
 
   .pts-flash { position: fixed; top: 70px; right: 16px; background: var(--accent); color: var(--bg); font-family: var(--font-display); font-size: 18px; letter-spacing: 2px; padding: 8px 16px; z-index: 9998; animation: flash-in-out 2s forwards; pointer-events: none; }
@@ -370,16 +370,13 @@
   .input-item {
     background: linear-gradient(135deg, var(--card) 0%, var(--card2) 100%);
     transition: border-color 0.2s, box-shadow 0.2s;
+    overflow: hidden;
   }
   .input-item:hover { border-color: rgba(74,158,255,0.3); box-shadow:0 2px 16px rgba(74,158,255,0.05); }
-  .input-item-name { font-size: 18px; font-weight: 700; color: #e8f4ff; }
-  .input-item-cat { font-size: 12px; }
-  .input-item-pts { font-size: 13px; }
+  .input-item-name { font-size: 19px; font-weight: 700; color: #e8f4ff; }
+  .input-item-cat { font-size: 13px; color: var(--text2); }
+  .input-item-pts { font-size: 14px; }
   .num-btn:hover { border-color:var(--accent); color:var(--accent); background:rgba(74,158,255,0.08); }
-
-  /* === BIGGER ICONS IN OPS === */
-  .ops-icon { width:68px; height:68px; border-radius:50%; border:3px solid rgba(74,158,255,0.3); overflow:hidden; background:#fff; flex-shrink:0; }
-  .ops-icon img { width:100%; height:100%; object-fit:cover; }
 
   /* === PROGRESS BAR === */
   .progress-bar-fill {
@@ -881,9 +878,12 @@ function renderDailyInputs() {
   const log = getOrCreateTodayLog();
   list.innerHTML = d.inputs.map((inp, i) => {
     const val = log.entries[inp.id] !== undefined ? log.entries[inp.id] : (inp.initialValue || 0);
+
+    // IMAGE: properly contained circle, overflow hidden, no bleed
     const imgHtml = inp.photo
-      ? '<div class="img-circle" style="width:68px;height:68px;flex-shrink:0;border:3px solid rgba(74,158,255,0.3);"><img src="' + inp.photo + '" alt=""></div>'
-      : '<div style="width:68px;height:68px;border-radius:50%;border:3px solid rgba(74,158,255,0.3);background:var(--card2);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:22px;color:var(--accent);">' + (inp.name[0]||'?') + '</div>';
+      ? '<div style="width:72px;height:72px;border-radius:50%;border:2px solid rgba(74,158,255,0.4);overflow:hidden;background:#fff;flex-shrink:0;box-shadow:0 0 12px rgba(74,158,255,0.15);">' +
+        '<img src="' + inp.photo + '" alt="" style="width:100%;height:100%;object-fit:cover;display:block;"></div>'
+      : '<div style="width:72px;height:72px;border-radius:50%;border:2px solid rgba(74,158,255,0.4);background:var(--card2);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:24px;color:var(--accent);box-shadow:0 0 12px rgba(74,158,255,0.1);">' + (inp.name[0]||'?') + '</div>';
 
     let control = '';
     if (inp.inputType === 'number') {
@@ -896,36 +896,40 @@ function renderDailyInputs() {
       control = '<input class="text-input-sm" type="text" value="' + (val||'') + '" placeholder="..." onchange="saveInputVal(' + i + ',this.value)">';
     } else if (inp.inputType === 'rating') {
       var opts = [1,2,3,4,5,6,7,8,9,10].map(function(n){ return '<option value="'+n+'"'+(val==n?' selected':'')+'>'+n+'</option>'; }).join('');
-      control = '<select class="form-select" style="width:80px;padding:6px 8px;font-size:13px;" onchange="saveInputVal('+i+',this.value)">'+opts+'</select>';
+      control = '<select class="form-select" style="width:80px;padding:8px;font-size:15px;" onchange="saveInputVal('+i+',this.value)">'+opts+'</select>';
     } else if (inp.inputType === 'duration') {
-      control = '<button class="num-btn" onclick="adjustNum(' + i + ',-1)">−</button>' +
-                '<input class="num-input" style="width:90px;" type="number" value="' + (val||0) + '" placeholder="min" id="inp-val-' + inp.id + '" onchange="saveInputVal(' + i + ',this.value)">' +
+      control = '<div style="display:flex;flex-direction:column;align-items:center;gap:4px;">' +
+                '<div style="display:flex;align-items:center;gap:6px;">' +
+                '<button class="num-btn" onclick="adjustNum(' + i + ',-1)">−</button>' +
+                '<input class="num-input" style="width:80px;" type="number" value="' + (val||0) + '" id="inp-val-' + inp.id + '" onchange="saveInputVal(' + i + ',this.value)">' +
                 '<button class="num-btn" onclick="adjustNum(' + i + ',1)">+</button>' +
-                '<span style="font-family:var(--font-mono);font-size:11px;color:var(--text3)">MIN</span>';
+                '</div>' +
+                '<span style="font-family:var(--font-mono);font-size:12px;color:var(--text3);letter-spacing:2px;">MIN</span>' +
+                '</div>';
     } else if (inp.inputType === 'digital_product') {
       const unitsSold = log.entries[inp.id] !== undefined ? log.entries[inp.id] : 0;
       const price = inp.digitalPrice || 0;
       const revenue = (unitsSold * price).toFixed(2);
-      control = '<div style="text-align:right;">' +
-        '<div style="display:flex;align-items:center;gap:8px;">' +
+      control = '<div style="text-align:center;">' +
+        '<div style="display:flex;align-items:center;gap:6px;">' +
         '<button class="num-btn" onclick="adjustNum(' + i + ',-1)">−</button>' +
         '<input class="num-input" type="number" value="' + unitsSold + '" id="inp-val-' + inp.id + '" onchange="saveInputVal(' + i + ',this.value)" style="width:70px;">' +
         '<button class="num-btn" onclick="adjustNum(' + i + ',1)">+</button>' +
         '</div>' +
-        '<div class="sale-today">$' + revenue + ' today</div>' +
+        '<div class="sale-today" style="font-size:13px;margin-top:4px;">$' + revenue + ' today</div>' +
         '</div>';
     }
 
     const pts = calculatePoints(inp, val);
-    return '<div class="input-item">' +
+    return '<div class="input-item" style="align-items:center;padding:16px;">' +
       imgHtml +
-      '<div class="input-item-info">' +
-        '<div class="input-item-name">' + inp.name + '</div>' +
-        '<div class="input-item-cat">' + (inp.category || '') + '</div>' +
-        (inp.inputType==='digital_product'?'<div style="font-family:var(--font-mono);font-size:11px;color:var(--text3);">$'+(inp.digitalPrice||0)+'/unit</div>':'') +
-      '<div class="input-item-pts">+' + pts + ' EP</div>' +
+      '<div class="input-item-info" style="min-width:0;">' +
+        '<div class="input-item-name" style="font-size:19px;font-weight:700;color:#e8f4ff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + inp.name + '</div>' +
+        '<div class="input-item-cat" style="font-size:13px;color:var(--text2);letter-spacing:1px;margin-top:2px;">' + (inp.category || '') + '</div>' +
+        (inp.inputType==='digital_product'?'<div style="font-family:var(--font-mono);font-size:12px;color:var(--text3);margin-top:2px;">$'+(inp.digitalPrice||0)+'/unit</div>':'') +
+        '<div class="input-item-pts" style="font-size:14px;color:var(--accent);margin-top:4px;font-weight:600;">+' + pts + ' EP</div>' +
       '</div>' +
-      '<div class="input-control">' + control + '</div>' +
+      '<div class="input-control" style="flex-shrink:0;">' + control + '</div>' +
     '</div>';
   }).join('');
 }
