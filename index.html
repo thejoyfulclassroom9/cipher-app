@@ -68,35 +68,30 @@
   #login-screen {
     position: fixed; inset: 0; background: var(--bg);
     display: flex; align-items: center; justify-content: center; z-index: 1000;
-    flex-direction: column; gap: 32px;
-    background-image: radial-gradient(ellipse at 50% 0%, rgba(74,158,255,0.07) 0%, transparent 65%);
+    flex-direction: column; gap: 24px;
   }
   .login-logo { text-align: center; }
-  .login-logo .org-name { font-family: var(--font-display); font-size: 100px; color: var(--accent); letter-spacing: 22px; line-height: 1; }
-  .login-logo .tagline { font-family: var(--font-mono); font-size: 13px; color: var(--text2); letter-spacing: 5px; margin-top: 12px; }
-  .login-box { background: var(--card); border: 1px solid var(--border); padding: 40px 48px; width: min(500px, 92vw); }
-  .login-box .agent-name { font-family: var(--font-display); font-size: 28px; color: var(--accent2); letter-spacing: 5px; text-align: center; margin-bottom: 4px; }
-  .login-box label { font-family: var(--font-mono); font-size: 12px; color: var(--text3); letter-spacing: 3px; display: block; margin-bottom: 8px; }
-  .login-box input { width: 100%; background: var(--bg); border: 1px solid var(--border); color: var(--text); font-family: var(--font-mono); font-size: 22px; padding: 14px; letter-spacing: 8px; text-align: center; }
+  .login-logo .org-name { font-family: var(--font-display); font-size: 56px; color: var(--accent); letter-spacing: 8px; line-height: 1; }
+  .login-logo .tagline { font-family: var(--font-mono); font-size: 11px; color: var(--text3); letter-spacing: 4px; margin-top: 4px; }
+  .login-box { background: var(--card); border: 1px solid var(--border); padding: 32px; width: 320px; }
+  .login-box .agent-name { font-family: var(--font-mono); font-size: 12px; color: var(--text2); letter-spacing: 2px; text-align: center; margin-bottom: 24px; }
+  .login-box label { font-family: var(--font-mono); font-size: 10px; color: var(--text3); letter-spacing: 2px; display: block; margin-bottom: 6px; }
+  .login-box input { width: 100%; background: var(--bg); border: 1px solid var(--border); color: var(--text); font-family: var(--font-mono); font-size: 18px; padding: 12px; letter-spacing: 6px; text-align: center; }
   .login-box input:focus { outline: none; border-color: var(--accent); }
-  .btn-login { width: 100%; margin-top: 20px; background: var(--accent); color: var(--bg); font-family: var(--font-display); font-size: 26px; letter-spacing: 5px; border: none; padding: 18px; cursor: pointer; transition: all 0.2s; }
+  .btn-login { width: 100%; margin-top: 16px; background: var(--accent); color: var(--bg); font-family: var(--font-display); font-size: 22px; letter-spacing: 4px; border: none; padding: 14px; cursor: pointer; transition: all 0.2s; }
   .btn-login:hover { background: var(--accent2); }
-  .login-error { font-family: var(--font-mono); font-size: 13px; color: var(--red); text-align: center; min-height: 18px; margin-top: 8px; }
+  .login-error { font-family: var(--font-mono); font-size: 11px; color: var(--red); text-align: center; min-height: 16px; }
 
   #topbar {
-    position: fixed; top: 0; left: 0; right: 0; height: 60px;
+    position: fixed; top: 0; left: 0; right: 0; height: 56px;
     background: var(--bg2); border-bottom: 1px solid var(--border);
-    display: flex; align-items: center; padding: 0 20px; z-index: 100; gap: 14px;
+    display: flex; align-items: center; padding: 0 16px; z-index: 100; gap: 12px;
   }
-  .topbar-org { font-family: var(--font-display); font-size: 24px; color: var(--accent); letter-spacing: 5px; flex: 1; }
+  .topbar-org { font-family: var(--font-display); font-size: 22px; color: var(--accent); letter-spacing: 4px; flex: 1; }
   .topbar-grade { display: flex; align-items: center; gap: 8px; }
   .grade-badge { background: var(--accent); color: var(--bg); font-family: var(--font-display); font-size: 14px; letter-spacing: 2px; padding: 4px 10px; }
-  .topbar-rank-info { display: flex; flex-direction: column; align-items: flex-end; }
-  .topbar-rank-label { font-family: var(--font-display); font-size: 20px; color: var(--accent); letter-spacing: 3px; line-height: 1; }
-  .topbar-rank-sub { font-family: var(--font-mono); font-size: 9px; color: var(--text3); letter-spacing: 3px; }
-  .topbar-divider { width: 1px; height: 28px; background: var(--border); }
-  .topbar-pts { font-family: var(--font-mono); font-size: 18px; color: var(--accent); display: flex; flex-direction: column; align-items: flex-end; }
-  .pts-label { color: var(--text3); font-size: 9px; display: block; letter-spacing: 2px; font-family: var(--font-mono); line-height: 1; margin-bottom: 1px; }
+  .topbar-pts { font-family: var(--font-mono); font-size: 13px; color: var(--accent); }
+  .topbar-pts span { color: var(--text2); font-size: 10px; }
   .topbar-agent { font-family: var(--font-mono); font-size: 10px; color: var(--text3); letter-spacing: 1px; display: none; }
 
   #bottom-nav {
@@ -148,7 +143,7 @@
   .img-preview-circle img { width: 100%; height: 100%; object-fit: cover; }
   .img-preview-circle-lg { width: 100px; height: 100px; }
 
-  .input-item { background: var(--card); border: 1px solid var(--border); padding: 14px; margin-bottom: 10px; display: flex; align-items: center; gap: 12px; }
+  .input-item { background: var(--card); border: 1px solid var(--border); padding: 16px; margin-bottom: 10px; display: flex; align-items: center; gap: 14px; overflow: hidden; }
   .input-item-info { flex: 1; }
   .input-item-name { font-family: var(--font-body); font-size: 16px; font-weight: 600; color: var(--text); }
   .input-item-cat { font-family: var(--font-mono); font-size: 10px; color: var(--text3); letter-spacing: 1px; }
@@ -282,15 +277,21 @@
 
   /* === LOGIN ENHANCEMENTS === */
   .login-logo .org-name {
-    text-shadow: 0 0 40px rgba(74,158,255,0.5), 0 0 80px rgba(74,158,255,0.2);
+    text-shadow: 0 0 30px rgba(74,158,255,0.4), 0 0 60px rgba(74,158,255,0.15);
   }
   .login-box {
-    box-shadow: 0 0 60px rgba(74,158,255,0.1), inset 0 1px 0 rgba(74,158,255,0.15);
+    box-shadow: 0 0 40px rgba(74,158,255,0.08), inset 0 1px 0 rgba(74,158,255,0.12);
     position: relative;
   }
   .login-box::before {
     content:''; position:absolute; top:0; left:20px; right:20px; height:1px;
-    background:linear-gradient(90deg,transparent,rgba(74,158,255,0.5),transparent);
+    background:linear-gradient(90deg,transparent,rgba(74,158,255,0.4),transparent);
+  }
+  .login-box .agent-motto {
+    font-family: var(--font-mono); font-size: 13px;
+    color: rgba(74,158,255,0.6); letter-spacing: 2px;
+    text-align: center; margin-bottom: 0; margin-top: 6px;
+    white-space: nowrap;
   }
   .login-box input:focus { box-shadow: 0 0 16px rgba(74,158,255,0.2); }
   .btn-login {
@@ -299,6 +300,36 @@
     position: relative; overflow: hidden;
   }
   .btn-login:hover { box-shadow: 0 0 24px rgba(74,158,255,0.35); }
+
+  /* === TOPBAR GLOW === */
+  #topbar { box-shadow: 0 2px 20px rgba(0,0,0,0.6); }
+  #topbar::after {
+    content:''; position:absolute; bottom:0; left:0; right:0; height:1px;
+    background:linear-gradient(90deg,transparent,rgba(74,158,255,0.3),transparent);
+  }
+  .topbar-org { text-shadow: 0 0 16px rgba(74,158,255,0.4); }
+  .grade-badge {
+    background: linear-gradient(135deg, #0f3a7a, #1a5fa0);
+    color: var(--white); border: 1px solid var(--accent);
+    box-shadow: 0 0 10px rgba(74,158,255,0.25);
+  }
+  .topbar-pts { text-shadow: 0 0 10px rgba(74,158,255,0.4); font-size: 15px; }
+
+  /* Topbar rank image */
+  .topbar-rank-img {
+    width: 36px; height: 36px; border-radius: 50%;
+    border: 2px solid var(--accent);
+    overflow: hidden; background: #fff;
+    box-shadow: 0 0 10px rgba(74,158,255,0.3);
+    flex-shrink: 0;
+  }
+  .topbar-rank-img img { width:100%; height:100%; object-fit:cover; }
+  .topbar-rank-placeholder {
+    width:36px; height:36px; border-radius:50%;
+    border:2px solid var(--accent); background:var(--card);
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 0 8px rgba(74,158,255,0.2); flex-shrink:0;
+  }
 
   /* === NAV === */
   #bottom-nav { box-shadow: 0 -2px 20px rgba(0,0,0,0.5); }
@@ -427,7 +458,6 @@
   <div class="login-box">
     <div class="agent-name">THE SILENT POSTMAN</div>
     <div class="agent-motto">Authenticity &nbsp;&middot;&nbsp; Integrity &nbsp;&middot;&nbsp; Honor</div>
-    <hr style="border:none;border-top:1px solid var(--border);margin:20px 0;">
     <label for="pw-input">CLEARANCE CODE</label>
     <div style="position:relative;">
       <input type="password" id="pw-input" autocomplete="off" placeholder="•••••" style="width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:var(--font-mono);font-size:18px;padding:12px 44px 12px 12px;letter-spacing:6px;text-align:center;">
@@ -436,7 +466,7 @@
     <div class="login-error" id="login-error"></div>
     <button class="btn-login" onclick="doLogin()">ACCESS GRANTED</button>
   </div>
-  <div style="font-family:var(--font-mono);font-size:12px;color:var(--text3);letter-spacing:3px;">CIPHER ORGANIZATION — CLEARANCE LEVEL RESTRICTED</div>
+  <div class="text-small" style="color:var(--text3)">CIPHER ORGANIZATION — CLEARANCE LEVEL RESTRICTED</div>
 </div>
 
 <!-- APP -->
@@ -444,13 +474,11 @@
   <div id="topbar">
     <div class="topbar-org">CIPHER</div>
     <div class="topbar-agent" id="topbar-agent">THE SILENT POSTMAN</div>
-    <div id="topbar-rank-img-wrap" style="flex-shrink:0;"></div>
-    <div class="topbar-rank-info">
-      <div class="topbar-rank-label" id="topbar-grade-label">ALPHA</div>
-      <div class="topbar-rank-sub">RANK</div>
+    <div class="topbar-rank-badge">
+      <div id="topbar-rank-img-wrap"></div>
+      <div class="grade-badge" id="topbar-grade-label">ALPHA</div>
     </div>
-    <div class="topbar-divider"></div>
-    <div class="topbar-pts"><span class="pts-label">EP</span><span id="topbar-pts">0</span></div>
+    <div class="topbar-pts"><span class="pts-label">EVOLUTION PTS</span><span id="topbar-pts">0</span></div>
   </div>
 
   <!-- DAILY OPS -->
@@ -829,9 +857,9 @@ function updateTopBar() {
   const wrap = document.getElementById('topbar-rank-img-wrap');
   if (wrap) {
     if (grade && grade.photo) {
-      wrap.innerHTML = '<div style="width:38px;height:38px;border-radius:50%;overflow:hidden;border:2px solid var(--accent);box-shadow:0 0 10px rgba(74,158,255,0.3);background:#fff;"><img src="' + grade.photo + '" style="width:100%;height:100%;object-fit:cover;display:block;"></div>';
+      wrap.innerHTML = '<div class="topbar-rank-img"><img src="' + grade.photo + '" alt="rank"></div>';
     } else {
-      wrap.innerHTML = '';
+      wrap.innerHTML = '<div class="topbar-rank-placeholder"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>';
     }
   }
 }
@@ -855,8 +883,8 @@ function renderDailyInputs() {
   list.innerHTML = d.inputs.map((inp, i) => {
     const val = log.entries[inp.id] !== undefined ? log.entries[inp.id] : (inp.initialValue || 0);
     const imgHtml = inp.photo
-      ? '<div class="img-circle" style="width:68px;height:68px;flex-shrink:0;border:3px solid rgba(74,158,255,0.3);"><img src="' + inp.photo + '" alt=""></div>'
-      : '<div style="width:68px;height:68px;border-radius:50%;border:3px solid rgba(74,158,255,0.3);background:var(--card2);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:22px;color:var(--accent);">' + (inp.name[0]||'?') + '</div>';
+      ? '<div style="width:72px;height:72px;border-radius:50%;overflow:hidden;border:2px solid rgba(74,158,255,0.45);flex-shrink:0;background:#fff;box-shadow:0 0 10px rgba(74,158,255,0.15);"><img src="' + inp.photo + '" alt="" style="width:100%;height:100%;object-fit:cover;display:block;"></div>'
+      : '<div style="width:72px;height:72px;border-radius:50%;border:2px solid rgba(74,158,255,0.35);background:var(--card2);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:28px;color:var(--accent);">' + (inp.name[0]||'?') + '</div>';
 
     let control = '';
     if (inp.inputType === 'number') {
@@ -1165,34 +1193,13 @@ function renderObjectiveCard(obj, realIdx) {
   }).join('');
 
   const allMet = conditions.length > 0 && conditions.every(function(c, ci) { return evalCondition(c, d, log); });
-
-  // Progress info for input_total conditions
-  const progressHtml = conditions.filter(c => c.type === 'input_total').map(function(cond) {
-    const inp = d.inputs.find(i => i.id === cond.inputId);
-    if (!inp) return '';
-    const total = (inp.initialValue || 0) + d.logs.reduce((s, l) => s + (parseFloat(l.entries[inp.id]) || 0), 0);
-    const pct = Math.min(100, Math.round(total / cond.targetValue * 100));
-    return '<div style="margin-top:8px;">' +
-      '<div style="display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:11px;color:var(--text3);margin-bottom:3px;">' +
-      '<span>' + inp.name.toUpperCase() + '</span><span>' + total + ' / ' + cond.targetValue + ' (' + pct + '%)</span></div>' +
-      '<div style="background:var(--bg);height:6px;border:1px solid var(--border);">' +
-      '<div style="width:' + pct + '%;height:100%;background:linear-gradient(90deg,var(--accent3),var(--accent));box-shadow:0 0 6px rgba(74,158,255,0.4);transition:width 0.6s;"></div></div></div>';
-  }).join('');
-
   return '<div class="obj-card ' + (obj.completed?'completed':'') + '">' +
     imgHtml +
     '<div class="obj-info">' +
-      '<div class="flex-between" style="align-items:flex-start;">' +
-        '<div class="obj-name" style="font-size:17px;">' + obj.name + '</div>' +
-        '<div style="display:flex;gap:6px;flex-shrink:0;margin-left:8px;">' +
-          (!obj.completed ? '<button class="btn btn-secondary btn-sm" style="padding:3px 10px;font-size:11px;" onclick="openAddObjectiveModal(' + realIdx + ')">EDIT</button>' : '') +
-          (!obj.completed ? '<button class="btn btn-danger btn-sm" style="padding:3px 10px;font-size:11px;" onclick="deleteObjectiveConfirm(' + realIdx + ')">DEL</button>' : '') +
-          (obj.completed ? '<div class="completed-badge">COMPLETE</div>' : '') +
-        '</div>' +
-      '</div>' +
+      '<div class="flex-between"><div class="obj-name">' + obj.name + '</div>' +
+      (obj.completed ? '<div class="completed-badge">COMPLETE</div>' : '') + '</div>' +
       '<div class="obj-conditions">' + condsHtml + '</div>' +
-      progressHtml +
-      (allMet && !obj.completed ? '<button class="btn btn-primary btn-sm mt8" onclick="completeObjective(' + realIdx + ')">✓ MARK COMPLETE</button>' : '') +
+      (allMet && !obj.completed ? '<button class="btn btn-primary btn-sm mt8" onclick="completeObjective(' + realIdx + ')">MARK COMPLETE</button>' : '') +
     '</div></div>';
 }
 
@@ -1225,16 +1232,6 @@ function completeObjective(objIdx) {
   renderAchievements();
 }
 
-function deleteObjectiveConfirm(objIdx) {
-  if (!confirm('Delete this mission?')) return;
-  const d = getData();
-  d.objectives.splice(objIdx, 1);
-  saveData(d);
-  renderMissions();
-  renderSettings();
-  showNotif('MISSION DELETED');
-}
-
 function checkObjectivesAuto() {
   renderMissions();
 }
@@ -1247,6 +1244,8 @@ function openAddObjectiveModal(editIdx) {
   const existingConds = editing && editing.conditions
     ? toArray(editing.conditions).map((c,ci) => renderCondBuildRow(c, ci, inpOptions)).join('')
     : '';
+
+  window._modalInpOptions = inpOptions;
 
   const html = '<div class="modal-overlay" id="modal-add-obj"><div class="modal">' +
     '<div class="modal-title">' + (editing?'EDIT MISSION':'NEW MISSION') + '</div>' +
@@ -1261,10 +1260,9 @@ function openAddObjectiveModal(editIdx) {
     '<input class="form-input" id="obj-name" placeholder="e.g. Complete 5000 push-ups" value="' + (editing?editing.name:'') + '"></div>' +
     '<div class="form-group"><label class="form-label">CONDITIONS</label>' +
     '<div class="cond-builder"><div id="cond-list">' + existingConds + '</div>' +
-    '<div class="flex-row mt8" style="flex-wrap:wrap;gap:6px;">' +
-    '<button class="btn btn-secondary btn-sm" onclick="addCondRow(\'manual\',\'' + inpOptions.replace(/'/g,'&#39;') + '\')">+ MANUAL CHECK</button>' +
-    '<button class="btn btn-secondary btn-sm" onclick="addCondRow(\'input_total\',\'' + inpOptions.replace(/'/g,'&#39;') + '\')">+ INPUT TOTAL</button>' +
-    '<button class="btn btn-secondary btn-sm" onclick="addCondRow(\'ep\',\'' + inpOptions.replace(/'/g,'&#39;') + '\')">+ XP TARGET</button>' +
+    '<button class="btn btn-secondary btn-sm" onclick="addCondRow(\'manual\')">+ MANUAL CHECK</button>' +
+    '<button class="btn btn-secondary btn-sm" onclick="addCondRow(\'input_total\')">+ INPUT TOTAL</button>' +
+    '<button class="btn btn-secondary btn-sm" onclick="addCondRow(\'ep\')">+ XP TARGET</button>' +
     '</div></div></div>' +
     '<div class="modal-actions">' +
     '<button class="btn btn-secondary" onclick="closeModal()">CANCEL</button>' +
@@ -1309,8 +1307,9 @@ function renderCondBuildRow(cond, ci, inpOptions) {
   return '';
 }
 
-function addCondRow(type, inpOptions) {
+function addCondRow(type) {
   const ci = 'c' + Date.now();
+  const inpOptions = window._modalInpOptions || '';
   const div = document.createElement('div');
   div.innerHTML = renderCondBuildRow({type: type, description:'', targetValue:0}, ci, inpOptions);
   document.getElementById('cond-list').appendChild(div.firstChild);
@@ -1391,7 +1390,7 @@ function renderRankPage() {
       img +
       '<div class="grade-info">' +
         '<div class="grade-label" style="font-size:22px;line-height:1;">' + g.name + '</div>' +
-        '<div class="grade-req">' + (gi===0?'STARTING RANK':'XP TO UNLOCK: '+g.xpRequired+' EP') + '</div>' +
+        '<div class="grade-req">' + (gi===0?'STARTING RANK':'EP REQUIRED: '+g.xpRequired) + '</div>' +
         '<div class="grade-msg">"' + (g.message||'') + '"</div>' +
       '</div>' +
       '<div style="display:flex;flex-direction:column;gap:4px;">' +
