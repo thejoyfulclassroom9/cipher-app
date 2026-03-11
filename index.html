@@ -563,7 +563,8 @@ function renderDailyInputs() {
     } else if (inp.inputType === 'text') {
       control = `<input class="text-input-sm" type="text" value="${val||''}" placeholder="..." onchange="saveInputVal(${i},this.value)">`;
     } else if (inp.inputType === 'rating') {
-      control = `<select class="form-select" style="width:80px;padding:6px 8px;font-size:13px;" onchange="saveInputVal(${i},this.value)">${[1,2,3,4,5,6,7,8,9,10].map(n=>`<option value="${n}" ${val==n?'selected':''}>${n}</option>`).join('')}</select>`;
+      var opts = [1,2,3,4,5,6,7,8,9,10].map(function(n){ return '<option value="'+n+'"'+(val==n?' selected':'')+'>'+n+'</option>'; }).join('');
+      control = '<select class="form-select" style="width:80px;padding:6px 8px;font-size:13px;" onchange="saveInputVal('+i+',this.value)">'+opts+'</select>';
     } else if (inp.inputType === 'duration') {
       control = `<input class="num-input" style="width:100px;" type="number" value="${val||0}" placeholder="min" id="inp-val-${inp.id}" onchange="saveInputVal(${i},this.value)"><span style="font-family:var(--font-mono);font-size:11px;color:var(--text3)">MIN</span>`;
     }
@@ -825,13 +826,12 @@ function renderObjectiveCard(obj, realIdx) {
   const d = getData();
   const log = getOrCreateTodayLog();
   const imgHtml = obj.photo ? `<div class="img-preview-circle" style="width:56px;height:56px;flex-shrink:0;"><img src="${obj.photo}"></div>` : `<div style="width:56px;height:56px;border-radius:50%;border:3px solid #000;background:#fff;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:22px;">🎯</div>`;
-  const condsHtml = (obj.conditions || []).map((cond, ci) => {
+  const condsHtml = (obj.conditions || []).map(function(cond, ci) {
     const isMet = evalCondition(cond, d, log);
-    return `<div class="obj-cond">
-      <div class="cond-check ${isMet?'met'}">${isMet?'✓':''}</div>
-      <span>${cond.description}</span>
-      ${cond.type==='manual'&&!obj.completed?`<button class="btn btn-sm btn-secondary" style="margin-left:auto;padding:2px 8px;font-size:10px;" onclick="toggleManualCond(${realIdx},${ci})">${cond.checked?'UNCHECK':'CHECK'}</button>`:''}
-    </div>`;
+    const metClass = isMet ? 'met' : '';
+    const metIcon = isMet ? '&#10003;' : '';
+    const manualBtn = (cond.type==='manual' && !obj.completed) ? '<button class="btn btn-sm btn-secondary" style="margin-left:auto;padding:2px 8px;font-size:10px;" onclick="toggleManualCond('+realIdx+','+ci+')">'+(cond.checked?'UNCHECK':'CHECK')+'</button>' : '';
+    return '<div class="obj-cond"><div class="cond-check '+metClass+'">'+metIcon+'</div><span>'+cond.description+'</span>'+manualBtn+'</div>';
   }).join('');
   const allMet = (obj.conditions||[]).every((c,ci) => evalCondition(c, d, log));
   return `<div class="obj-card ${obj.completed?'completed':''}">
