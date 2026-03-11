@@ -1236,9 +1236,9 @@ function openAddObjectiveModal(editIdx) {
     '<div class="form-group"><label class="form-label">CONDITIONS</label>' +
     '<div class="cond-builder"><div id="cond-list">' + existingConds + '</div>' +
     '<div class="flex-row mt8" style="flex-wrap:wrap;gap:6px;">' +
-    '<button class="btn btn-secondary btn-sm" onclick="addCondRow(\'manual\',\'' + inpOptions.replace(/'/g,'&#39;') + '\')">+ MANUAL CHECK</button>' +
-    '<button class="btn btn-secondary btn-sm" onclick="addCondRow(\'input_total\',\'' + inpOptions.replace(/'/g,'&#39;') + '\')">+ INPUT TOTAL</button>' +
-    '<button class="btn btn-secondary btn-sm" onclick="addCondRow(\'ep\',\'' + inpOptions.replace(/'/g,'&#39;') + '\')">+ XP TARGET</button>' +
+    '<button class="btn btn-secondary btn-sm" onclick="addCondRow(\'manual\')">+ MANUAL CHECK</button>' +
+    '<button class="btn btn-secondary btn-sm" onclick="addCondRow(\'input_total\')">+ INPUT TOTAL</button>' +
+    '<button class="btn btn-secondary btn-sm" onclick="addCondRow(\'ep\')">+ XP TARGET</button>' +
     '</div></div></div>' +
     '<div class="modal-actions">' +
     '<button class="btn btn-secondary" onclick="closeModal()">CANCEL</button>' +
@@ -1366,7 +1366,8 @@ function renderRankPage() {
       img +
       '<div class="grade-info">' +
         '<div class="grade-label" style="font-size:22px;line-height:1;">' + g.name + '</div>' +
-        '<div class="grade-req">' + (gi===0?'STARTING RANK':'EP REQUIRED: '+g.xpRequired) + '</div>' +
+        '<div class="grade-req">' + (gi===0?'STARTING RANK':'EP TO UNLOCK: '+g.xpRequired) + '</div>' +
+        (toArray(g.requiredMissions||[]).length > 0 ? '<div style="font-family:var(--font-mono);font-size:10px;color:var(--red);margin-top:2px;">MISSIONS REQUIRED: ' + toArray(g.requiredMissions||[]).map(mId=>{ const obj=(getData().objectives||[]).find(o=>o.id===mId); return obj?(obj.completed?'<span style="color:var(--green);">'+obj.name+'✓</span>':obj.name):'?'; }).join(', ') + '</div>' : '') +
         '<div class="grade-msg">"' + (g.message||'') + '"</div>' +
       '</div>' +
       '<div style="display:flex;flex-direction:column;gap:4px;">' +
@@ -1382,6 +1383,13 @@ function checkGradeUp() {
   if (nextIdx < d.grades.length) {
     const next = d.grades[nextIdx];
     if (d.totalXP >= next.xpRequired && !next.unlocked) {
+      // Check required missions
+      const reqMissions = toArray(next.requiredMissions || []);
+      const allMissionsMet = reqMissions.length === 0 || reqMissions.every(mId => {
+        const obj = (d.objectives||[]).find(o => o.id === mId);
+        return obj && obj.completed;
+      });
+      if (!allMissionsMet) return; // XP met but missions not done yet
       d.grades[nextIdx].unlocked = true;
       d.grades[nextIdx].unlockedDate = new Date().toISOString();
       d.currentGradeIndex = nextIdx;
@@ -1433,6 +1441,19 @@ function openAddGradeModal() {
 function openEditGradeModal(gi) {
   const d = getData();
   const g = d.grades[gi];
+  const reqMissions = toArray(g.requiredMissions || []);
+  const allObj = d.objectives || [];
+  // Build mission checkboxes (completed + active)
+  const missionChecks = allObj.length === 0
+    ? '<div style="font-family:var(--font-mono);font-size:11px;color:var(--text3);">No missions created yet.</div>'
+    : allObj.map((obj, oi) => {
+        const checked = reqMissions.includes(obj.id) ? 'checked' : '';
+        const completedLabel = obj.completed ? ' <span style="color:var(--green);font-size:10px;">[DONE]</span>' : '';
+        return '<label style="display:flex;align-items:center;gap:10px;padding:6px 0;cursor:pointer;border-bottom:1px solid var(--border);">' +
+          '<input type="checkbox" class="check-input" id="req-mission-' + obj.id + '" ' + checked + ' style="width:18px;height:18px;">' +
+          '<span style="font-family:var(--font-body);font-size:14px;color:var(--text);">' + obj.name + completedLabel + '</span>' +
+          '</label>';
+      }).join('');
   const html = '<div class="modal-overlay"><div class="modal">' +
     '<div class="modal-title">EDIT RANK: ' + g.name + '</div>' +
     '<div class="form-group"><label class="form-label">RANK PHOTO (400x400, WHITE BG)</label>' +
@@ -1440,9 +1461,11 @@ function openEditGradeModal(gi) {
     '<div id="grade-img-preview">' + (g.photo ? '<div class="img-preview-circle" style="margin-bottom:8px;"><img src="' + g.photo + '"></div>' : '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>') + '</div>' +
     '<div class="upload-hint">TAP TO UPLOAD / CHANGE IMAGE</div></div>' +
     '<input type="hidden" id="grade-img-data" value="' + (g.photo||'') + '"></div>' +
-    '' +
     '<div class="form-group"><label class="form-label">UNLOCK MESSAGE</label>' +
     '<textarea class="form-input" id="grade-msg">' + (g.message||'') + '</textarea></div>' +
+    '<div class="form-group"><label class="form-label">REQUIRED MISSIONS</label>' +
+    '<div style="font-family:var(--font-mono);font-size:10px;color:var(--text3);margin-bottom:8px;letter-spacing:1px;">CHECK THE MISSIONS THAT MUST BE COMPLETED TO UNLOCK THIS RANK</div>' +
+    '<div style="background:var(--bg3);border:1px solid var(--border);padding:10px 14px;max-height:200px;overflow-y:auto;">' + missionChecks + '</div></div>' +
     '<div class="modal-actions">' +
     '<button class="btn btn-secondary" onclick="closeModal()">CANCEL</button>' +
     '<button class="btn btn-primary" onclick="updateGrade(' + gi + ')">UPDATE</button>' +
@@ -1479,6 +1502,13 @@ function updateGrade(gi) {
   if (gi > 0 && xpEl) d.grades[gi].xpRequired = parseFloat(xpEl.value) || 0;
   if (photo) d.grades[gi].photo = photo;
   d.grades[gi].message = msg;
+  // Save required missions
+  const reqBoxes = document.querySelectorAll('[id^="req-mission-"]');
+  if (reqBoxes.length > 0) {
+    d.grades[gi].requiredMissions = Array.from(reqBoxes)
+      .filter(cb => cb.checked)
+      .map(cb => cb.id.replace('req-mission-',''));
+  }
   saveData(d);
   closeModal();
   renderRankPage();
@@ -1517,7 +1547,85 @@ function renderStats(days) {
 
   const cards = d.inputs.map((inp, idx) => {
     const isNumericStat = ['number','duration','rating','digital_product'].includes(inp.inputType);
-    if (!isNumericStat) return '';
+    const isCheckbox = inp.inputType === 'checkbox';
+    const isText = inp.inputType === 'text';
+    if (!isNumericStat && !isCheckbox && !isText) return '';
+
+    // ── CHECKBOX stats ──────────────────────────────────────
+    if (isCheckbox) {
+      const daysLogged = relevantLogs.filter(l => l.entries[inp.id] == 1 || l.entries[inp.id] === true);
+      const total = daysLogged.length;
+      const pct = relevantLogs.length > 0 ? Math.round(total / relevantLogs.length * 100) : 0;
+      // Streak
+      const allLogs = [...(d.logs||[])].sort((a,b)=>b.date.localeCompare(a.date));
+      let streak = 0;
+      for (const l of allLogs) {
+        if (l.entries[inp.id] == 1 || l.entries[inp.id] === true) streak++;
+        else break;
+      }
+      const barDays = days === 'all' ? Math.min(30, (d.logs||[]).length) : parseInt(days);
+      const barLogs = [...(d.logs||[])].sort((a,b)=>a.date.localeCompare(b.date)).slice(-barDays);
+      const barsHtml = barLogs.map(l => {
+        const done = l.entries[inp.id] == 1 || l.entries[inp.id] === true;
+        const isToday = l.date === new Date().toISOString().split('T')[0];
+        const dateStr = l.date.slice(5);
+        return '<div style="display:flex;flex-direction:column;align-items:center;gap:3px;flex:1;min-width:0;">' +
+          '<div style="width:18px;height:18px;border-radius:3px;background:' + (done?(isToday?'var(--accent)':'var(--accent3)'):'rgba(255,255,255,0.05)') + ';border:1px solid ' + (done?'var(--accent)':'var(--border)') + ';display:flex;align-items:center;justify-content:center;font-size:10px;">' + (done?'✓':'') + '</div>' +
+          '<div style="font-family:var(--font-mono);font-size:9px;color:var(--text3);writing-mode:vertical-lr;transform:rotate(180deg);height:28px;line-height:1;">' + dateStr + '</div>' +
+        '</div>';
+      }).join('');
+      const imgHtml2 = inp.photo
+        ? '<div style="width:56px;height:56px;border-radius:50%;overflow:hidden;border:2px solid rgba(74,158,255,0.4);background:#fff;flex-shrink:0;"><img src="' + inp.photo + '" style="width:100%;height:100%;object-fit:cover;display:block;"></div>'
+        : '<div style="width:56px;height:56px;border-radius:50%;border:2px solid rgba(74,158,255,0.3);background:var(--card2);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:22px;color:var(--accent);">' + inp.name[0] + '</div>';
+      const cardId2 = 'stat-card-' + idx;
+      return '<div id="' + cardId2 + '" style="background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);margin-bottom:10px;cursor:pointer;transition:border-color 0.2s;" onclick="toggleStatCard(this.id)">' +
+        '<div style="display:flex;align-items:center;gap:14px;padding:14px 16px;">' +
+          imgHtml2 +
+          '<div style="flex:1;min-width:0;">' +
+            '<div style="font-family:var(--font-body);font-size:19px;font-weight:700;color:#e8f4ff;">' + inp.name + '</div>' +
+            '<div style="font-family:var(--font-mono);font-size:12px;color:var(--text3);letter-spacing:1px;">' + (inp.category||'') + '</div>' +
+          '</div>' +
+          '<div style="display:flex;gap:12px;flex-shrink:0;">' +
+            '<div style="text-align:center;"><div style="font-family:var(--font-mono);font-size:9px;color:var(--text3);letter-spacing:2px;">DONE</div><div style="font-family:var(--font-display);font-size:22px;color:var(--accent);line-height:1;">' + total + '</div></div>' +
+            '<div style="text-align:center;"><div style="font-family:var(--font-mono);font-size:9px;color:var(--text3);letter-spacing:2px;">RATE</div><div style="font-family:var(--font-display);font-size:22px;color:var(--text2);line-height:1;">' + pct + '%</div></div>' +
+            '<div style="text-align:center;"><div style="font-family:var(--font-mono);font-size:9px;color:var(--text3);letter-spacing:2px;">STREAK</div><div style="font-family:var(--font-display);font-size:22px;color:var(--green);line-height:1;">' + streak + '</div></div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="stat-chart-section" style="display:none;padding:0 16px 16px;">' +
+          '<div style="border-top:1px solid var(--border);padding-top:12px;">' +
+            '<div style="display:flex;align-items:flex-end;gap:3px;height:60px;align-items:center;">' + barsHtml + '</div>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+    }
+
+    // ── TEXT stats ───────────────────────────────────────────
+    if (isText) {
+      const entries = relevantLogs.filter(l => l.entries[inp.id] && l.entries[inp.id].trim && l.entries[inp.id].trim() !== '');
+      const imgHtml3 = inp.photo
+        ? '<div style="width:56px;height:56px;border-radius:50%;overflow:hidden;border:2px solid rgba(74,158,255,0.4);background:#fff;flex-shrink:0;"><img src="' + inp.photo + '" style="width:100%;height:100%;object-fit:cover;display:block;"></div>'
+        : '<div style="width:56px;height:56px;border-radius:50%;border:2px solid rgba(74,158,255,0.3);background:var(--card2);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:22px;color:var(--accent);">' + inp.name[0] + '</div>';
+      const cardId3 = 'stat-card-' + idx;
+      const recentEntries = [...entries].sort((a,b)=>b.date.localeCompare(a.date)).slice(0,5)
+        .map(l => '<div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);"><div style="font-family:var(--font-mono);font-size:10px;color:var(--text3);flex-shrink:0;">' + l.date.slice(5) + '</div><div style="font-family:var(--font-body);font-size:14px;color:var(--text2);">' + (l.entries[inp.id]||'') + '</div></div>').join('');
+      return '<div id="' + cardId3 + '" style="background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);margin-bottom:10px;cursor:pointer;transition:border-color 0.2s;" onclick="toggleStatCard(this.id)">' +
+        '<div style="display:flex;align-items:center;gap:14px;padding:14px 16px;">' +
+          imgHtml3 +
+          '<div style="flex:1;min-width:0;">' +
+            '<div style="font-family:var(--font-body);font-size:19px;font-weight:700;color:#e8f4ff;">' + inp.name + '</div>' +
+            '<div style="font-family:var(--font-mono);font-size:12px;color:var(--text3);letter-spacing:1px;">' + (inp.category||'') + '</div>' +
+          '</div>' +
+          '<div style="text-align:center;flex-shrink:0;">' +
+            '<div style="font-family:var(--font-mono);font-size:9px;color:var(--text3);letter-spacing:2px;">LOGGED</div>' +
+            '<div style="font-family:var(--font-display);font-size:22px;color:var(--accent);line-height:1;">' + entries.length + '</div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="stat-chart-section" style="display:none;padding:0 16px 16px;">' +
+          '<div style="border-top:1px solid var(--border);padding-top:12px;font-family:var(--font-mono);font-size:11px;color:var(--text3);letter-spacing:2px;margin-bottom:8px;">LAST ENTRIES</div>' +
+          recentEntries +
+        '</div>' +
+      '</div>';
+    }
     const vals = relevantLogs.map(l => parseFloat(l.entries[inp.id]) || 0);
     const loggedTotal = vals.reduce((s,v)=>s+v,0);
     const total = days === 'all' ? (inp.initialValue||0) + loggedTotal : loggedTotal;
