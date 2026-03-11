@@ -31,22 +31,27 @@
 </script>
 <style>
   :root {
-    --bg: #0a0c0f;
-    --bg2: #0f1218;
-    --bg3: #141920;
-    --card: #161c24;
-    --card2: #1c2430;
-    --border: #2a3545;
-    --accent: #c8a84b;
-    --accent2: #e8c870;
-    --accent3: #8b6d1f;
+    --bg: #050810;
+    --bg2: #080c18;
+    --bg3: #0c1220;
+    --card: #0d1422;
+    --card2: #111a2e;
+    --border: #1e3050;
+    --accent: #4a9eff;
+    --accent2: #7ab8ff;
+    --accent3: #1a5fa0;
     --red: #c0392b;
-    --green: #27ae60;
+    --green: #00d4aa;
     --blue: #2980b9;
-    --text: #e8e0d0;
-    --text2: #a09880;
-    --text3: #5a5040;
-    --font-display: 'Bebas Neue', sans-serif;
+    --text: #cce0ff;
+    --text2: #7aA8d0;
+    --text3: #3a5878;
+    --glow:     rgba(74,158,255,0.25);
+  --glow2:    rgba(74,158,255,0.08);
+  --border2:  #2a4570;
+  --white:    #e8f4ff;
+  --steel:    #a8c8e8;
+  --font-display: 'Bebas Neue', sans-serif;
     --font-mono: 'Share Tech Mono', monospace;
     --font-body: 'Rajdhani', sans-serif;
   }
@@ -225,18 +230,233 @@
     .topbar-agent { display: block; }
     .page { padding: 80px 24px 80px; }
   }
+
+  /* === LOADING SCREEN === */
+  #loading-screen {
+    position: fixed; inset: 0;
+    background: var(--bg);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    z-index: 2000; gap: 28px;
+  }
+  .loader-logo {
+    font-family: var(--font-display); font-size: 72px;
+    color: var(--accent); letter-spacing: 14px;
+    text-shadow: 0 0 40px rgba(74,158,255,0.5), 0 0 80px rgba(74,158,255,0.2);
+    animation: logo-pulse 1.8s ease-in-out infinite;
+  }
+  @keyframes logo-pulse {
+    0%,100%{text-shadow:0 0 30px rgba(74,158,255,0.4),0 0 60px rgba(74,158,255,0.1);}
+    50%{text-shadow:0 0 60px rgba(74,158,255,0.8),0 0 120px rgba(74,158,255,0.3);}
+  }
+  .loader-lines { display:flex; flex-direction:column; gap:8px; width:260px; }
+  .loader-line { height:1px; background:var(--border); position:relative; overflow:hidden; }
+  .loader-line::after {
+    content:''; position:absolute; top:0; left:-100%; width:100%; height:100%;
+    background:linear-gradient(90deg,transparent,var(--accent2),transparent);
+    animation:line-sweep 1.2s ease-in-out forwards;
+  }
+  .loader-line:nth-child(1)::after{animation-delay:0.1s;}
+  .loader-line:nth-child(2)::after{animation-delay:0.35s;}
+  .loader-line:nth-child(3)::after{animation-delay:0.6s;}
+  @keyframes line-sweep{to{left:100%;}}
+  .loader-bar-wrap { width:260px; height:3px; background:var(--bg3); border:1px solid var(--border); overflow:hidden; }
+  .loader-bar-fill {
+    height:100%; width:0%;
+    background:linear-gradient(90deg,var(--accent3),var(--accent));
+    box-shadow:0 0 8px rgba(74,158,255,0.6);
+    animation:bar-fill 1.6s ease-out forwards;
+    animation-delay:0.5s;
+  }
+  @keyframes bar-fill{to{width:100%;}}
+  .loader-text {
+    font-family:var(--font-mono); font-size:11px; color:var(--text3); letter-spacing:3px;
+    animation:blink 1s step-end infinite;
+  }
+  @keyframes blink{0%,100%{opacity:1;}50%{opacity:0.3;}}
+
+  /* === LOGIN ENHANCEMENTS === */
+  .login-logo .org-name {
+    text-shadow: 0 0 30px rgba(74,158,255,0.4), 0 0 60px rgba(74,158,255,0.15);
+  }
+  .login-box {
+    box-shadow: 0 0 40px rgba(74,158,255,0.08), inset 0 1px 0 rgba(74,158,255,0.12);
+    position: relative;
+  }
+  .login-box::before {
+    content:''; position:absolute; top:0; left:20px; right:20px; height:1px;
+    background:linear-gradient(90deg,transparent,rgba(74,158,255,0.4),transparent);
+  }
+  .login-box .agent-motto {
+    font-family: var(--font-mono); font-size: 11px;
+    color: rgba(74,158,255,0.5); letter-spacing: 3px;
+    text-align: center; margin-bottom: 26px; margin-top: -16px;
+  }
+  .login-box input:focus { box-shadow: 0 0 16px rgba(74,158,255,0.2); }
+  .btn-login {
+    background: linear-gradient(135deg, #0f3a7a 0%, #1a5fa0 50%, #0f3a7a 100%);
+    color: var(--white); border: 1px solid var(--accent);
+    position: relative; overflow: hidden;
+  }
+  .btn-login:hover { box-shadow: 0 0 24px rgba(74,158,255,0.35); }
+
+  /* === TOPBAR GLOW === */
+  #topbar { box-shadow: 0 2px 20px rgba(0,0,0,0.6); }
+  #topbar::after {
+    content:''; position:absolute; bottom:0; left:0; right:0; height:1px;
+    background:linear-gradient(90deg,transparent,rgba(74,158,255,0.3),transparent);
+  }
+  .topbar-org { text-shadow: 0 0 16px rgba(74,158,255,0.4); }
+  .grade-badge {
+    background: linear-gradient(135deg, #0f3a7a, #1a5fa0);
+    color: var(--white); border: 1px solid var(--accent);
+    box-shadow: 0 0 10px rgba(74,158,255,0.25);
+  }
+  .topbar-pts { text-shadow: 0 0 10px rgba(74,158,255,0.4); font-size: 15px; }
+
+  /* Topbar rank image */
+  .topbar-rank-img {
+    width: 36px; height: 36px; border-radius: 50%;
+    border: 2px solid var(--accent);
+    overflow: hidden; background: #fff;
+    box-shadow: 0 0 10px rgba(74,158,255,0.3);
+    flex-shrink: 0;
+  }
+  .topbar-rank-img img { width:100%; height:100%; object-fit:cover; }
+  .topbar-rank-placeholder {
+    width:36px; height:36px; border-radius:50%;
+    border:2px solid var(--accent); background:var(--card);
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 0 8px rgba(74,158,255,0.2); flex-shrink:0;
+  }
+
+  /* === NAV === */
+  #bottom-nav { box-shadow: 0 -2px 20px rgba(0,0,0,0.5); }
+  #bottom-nav::before {
+    content:''; position:absolute; top:0; left:0; right:0; height:1px;
+    background:linear-gradient(90deg,transparent,rgba(74,158,255,0.3),transparent);
+  }
+  .nav-btn.active svg { filter: drop-shadow(0 0 4px var(--accent)); }
+  .nav-btn.active::after {
+    content:''; position:absolute; top:0; left:20%; right:20%; height:2px;
+    background:var(--accent); box-shadow:0 0 8px rgba(74,158,255,0.5);
+  }
+
+  /* === PAGE TRANSITIONS === */
+  .page { opacity:0; transform:translateY(8px); }
+  .page.active { animation: page-in 0.3s ease forwards; }
+  @keyframes page-in { to { opacity:1; transform:translateY(0); } }
+
+  /* === SECTION TITLES GLOW === */
+  .sec-title { text-shadow: 0 0 20px rgba(74,158,255,0.35); font-size: 36px; }
+
+  /* === CARD STYLES === */
+  .card { background: linear-gradient(135deg, var(--card) 0%, var(--card2) 100%); }
+  .card::before {
+    content:''; position:absolute; top:0; left:0; right:0; height:1px;
+    background:linear-gradient(90deg,transparent,rgba(74,158,255,0.2),transparent);
+  }
+
+  /* === BUTTONS === */
+  .btn-primary {
+    background: linear-gradient(135deg, #0f3a7a 0%, #1a5fa0 100%);
+    color: var(--white); border: 1px solid var(--accent);
+  }
+  .btn-primary:hover { box-shadow: 0 0 20px rgba(74,158,255,0.3); transform:translateY(-1px); }
+  .btn-secondary { border: 1px solid rgba(74,158,255,0.3); }
+  .btn-secondary:hover { border-color:var(--accent); background:rgba(74,158,255,0.08); }
+
+  /* === INPUTS - BIGGER CIRCLES === */
+  .input-item {
+    background: linear-gradient(135deg, var(--card) 0%, var(--card2) 100%);
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .input-item:hover { border-color: rgba(74,158,255,0.3); box-shadow:0 2px 16px rgba(74,158,255,0.05); }
+  .input-item-name { font-size: 18px; font-weight: 700; color: #e8f4ff; }
+  .input-item-cat { font-size: 12px; }
+  .input-item-pts { font-size: 13px; }
+  .num-btn:hover { border-color:var(--accent); color:var(--accent); background:rgba(74,158,255,0.08); }
+
+  /* === BIGGER ICONS IN OPS === */
+  .ops-icon { width:68px; height:68px; border-radius:50%; border:3px solid rgba(74,158,255,0.3); overflow:hidden; background:#fff; flex-shrink:0; }
+  .ops-icon img { width:100%; height:100%; object-fit:cover; }
+
+  /* === PROGRESS BAR === */
+  .progress-bar-fill {
+    background: linear-gradient(90deg, #0f3a7a, var(--accent));
+    box-shadow: 0 0 8px rgba(74,158,255,0.4);
+  }
+
+  /* === GRADE CARDS === */
+  .grade-card.current { box-shadow: 0 0 20px rgba(74,158,255,0.15), inset 0 0 20px rgba(74,158,255,0.03); }
+  .grade-label { text-shadow: 0 0 12px rgba(74,158,255,0.4); }
+
+  /* === XP FLASH = EP FLASH === */
+  .pts-flash {
+    background: linear-gradient(135deg, #0f3a7a, #1a5fa0);
+    border: 1px solid var(--accent); color: var(--white);
+    box-shadow: 0 0 20px rgba(74,158,255,0.3);
+  }
+
+  /* === MODAL === */
+  .modal { box-shadow: 0 0 40px rgba(74,158,255,0.1); animation: modal-in 0.25s ease; }
+  @keyframes modal-in { from{opacity:0;transform:translateY(12px) scale(0.98);} to{opacity:1;transform:translateY(0) scale(1);} }
+  .modal::before {
+    content:''; display:block; height:1px; margin-bottom:0;
+    background:linear-gradient(90deg,transparent,rgba(74,158,255,0.3),transparent);
+    margin-bottom:0;
+  }
+  .notif { border:1px solid var(--accent); box-shadow:0 0 16px rgba(74,158,255,0.2); }
+
+  /* === CONDITION BADGES === */
+  .cond-type-badge {
+    color:var(--accent); border:1px solid rgba(74,158,255,0.3);
+    background:rgba(74,158,255,0.06);
+  }
+
+  /* === DIGITAL PRODUCT === */
+  .sale-today { font-family:var(--font-mono); font-size:12px; color:#00d4aa; margin-top:3px; }
+  .pts-label { color:var(--text3); font-size:10px; display:block; letter-spacing:1px; font-family:var(--font-mono); }
+
+  /* === SCANLINE override for blue === */
+  body::before {
+    background:
+      repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(74,158,255,0.015) 3px,rgba(74,158,255,0.015) 4px),
+      repeating-linear-gradient(90deg,transparent,transparent 60px,rgba(74,158,255,0.01) 60px,rgba(74,158,255,0.01) 61px);
+  }
+
+  /* Login screen fade in */
+  @keyframes fade-in { to { opacity:1; } }
+  #login-screen { opacity:0; animation: fade-in 0.5s ease forwards 0.1s; }
+
+  /* === FORM INPUTS FOCUS GLOW === */
+  .form-input:focus { border-color:var(--accent); box-shadow:0 0 10px rgba(74,158,255,0.12); }
+
 </style>
 </head>
 <body>
 
+<!-- LOADING SCREEN -->
+<div id="loading-screen">
+  <div class="loader-logo">CIPHER</div>
+  <div class="loader-lines">
+    <div class="loader-line"></div>
+    <div class="loader-line"></div>
+    <div class="loader-line"></div>
+  </div>
+  <div class="loader-bar-wrap"><div class="loader-bar-fill" id="loader-bar"></div></div>
+  <div class="loader-text" id="loader-text">INITIALIZING SECURE CHANNEL...</div>
+</div>
+
 <!-- LOGIN -->
-<div id="login-screen">
+<div id="login-screen" class="hidden">
   <div class="login-logo">
     <div class="org-name">CIPHER</div>
     <div class="tagline">CLASSIFIED INTELLIGENCE PROTOCOL — HUMAN EVOLUTION REGISTRY</div>
   </div>
   <div class="login-box">
-    <div class="agent-name">// AGENT: THE SILENT POSTMAN //</div>
+    <div class="agent-name">THE SILENT POSTMAN</div>
+    <div class="agent-motto">Authenticity &nbsp;&middot;&nbsp; Integrity &nbsp;&middot;&nbsp; Honor</div>
     <label for="pw-input">CLEARANCE CODE</label>
     <div style="position:relative;">
       <input type="password" id="pw-input" autocomplete="off" placeholder="•••••" style="width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:var(--font-mono);font-size:18px;padding:12px 44px 12px 12px;letter-spacing:6px;text-align:center;">
@@ -253,16 +473,17 @@
   <div id="topbar">
     <div class="topbar-org">CIPHER</div>
     <div class="topbar-agent" id="topbar-agent">THE SILENT POSTMAN</div>
-    <div class="topbar-grade">
+    <div class="topbar-rank-badge">
+      <div id="topbar-rank-img-wrap"></div>
       <div class="grade-badge" id="topbar-grade-label">ALPHA</div>
     </div>
-    <div class="topbar-pts"><span>XP </span><span id="topbar-pts">0</span></div>
+    <div class="topbar-pts"><span class="pts-label">EVOLUTION PTS</span><span id="topbar-pts">0</span></div>
   </div>
 
   <!-- DAILY OPS -->
   <div class="page active" id="page-ops">
     <div class="sec-title">DAILY OPS</div>
-    <div class="sec-sub">// LOG TODAY'S OPERATIONS — RESETS DAILY //</div>
+    <div class="sec-sub">LOG TODAY'S OPERATIONS — RESETS DAILY</div>
     <div class="flex-between" style="margin-bottom:12px;">
       <div class="text-small" id="ops-date">—</div>
       <button class="btn btn-secondary btn-sm" onclick="openAddInputModal()">+ NEW INPUT</button>
@@ -274,7 +495,7 @@
   <!-- MISSIONS -->
   <div class="page" id="page-missions">
     <div class="sec-title">MISSIONS</div>
-    <div class="sec-sub">// ACTIVE OBJECTIVES & CONDITIONS //</div>
+    <div class="sec-sub">ACTIVE OBJECTIVES & CONDITIONS</div>
     <div class="flex-between" style="margin-bottom:12px;">
       <div></div>
       <button class="btn btn-secondary btn-sm" onclick="openAddObjectiveModal()">+ NEW MISSION</button>
@@ -286,7 +507,7 @@
   <!-- STATS -->
   <div class="page" id="page-stats">
     <div class="sec-title">INTELLIGENCE</div>
-    <div class="sec-sub">// PERFORMANCE STATISTICS //</div>
+    <div class="sec-sub">PERFORMANCE STATISTICS</div>
     <div class="tab-row">
       <button class="tab-btn active" onclick="setStatTab('7',this)">7 DAYS</button>
       <button class="tab-btn" onclick="setStatTab('30',this)">30 DAYS</button>
@@ -298,7 +519,7 @@
   <!-- ACHIEVEMENTS -->
   <div class="page" id="page-ach">
     <div class="sec-title">ACHIEVEMENTS</div>
-    <div class="sec-sub">// COMPLETED MISSIONS — FIELD RECORD //</div>
+    <div class="sec-sub">COMPLETED MISSIONS — FIELD RECORD</div>
     <div id="achievements-list"></div>
     <div id="no-ach-msg" class="text-small" style="text-align:center;padding:32px 0;">NO COMPLETED MISSIONS YET — STAY FOCUSED, AGENT</div>
   </div>
@@ -306,14 +527,14 @@
   <!-- RANK -->
   <div class="page" id="page-rank">
     <div class="sec-title">RANK STATUS</div>
-    <div class="sec-sub">// CLEARANCE LEVELS & EVOLUTION //</div>
+    <div class="sec-sub">CLEARANCE LEVELS & EVOLUTION</div>
     <div class="card" id="current-grade-display" style="border-color:var(--accent);margin-bottom:20px;">
       <div style="font-family:var(--font-mono);font-size:10px;color:var(--text3);letter-spacing:2px;margin-bottom:8px;">CURRENT RANK</div>
       <div id="rank-current-content"></div>
       <div class="mt8">
-        <div style="font-family:var(--font-mono);font-size:10px;color:var(--text3);margin-bottom:4px;">PROGRESS TO NEXT RANK</div>
+        <div style="font-family:var(--font-mono);font-size:10px;color:var(--text3);margin-bottom:4px;">EVOLUTION POINTS PROGRESS</div>
         <div class="progress-bar-wrap"><div class="progress-bar-fill" id="rank-progress-bar" style="width:0%"></div></div>
-        <div class="text-small" id="rank-progress-text">0 / 0 XP</div>
+        <div class="text-small" id="rank-progress-text">0 / 0 EP</div>
       </div>
     </div>
     <div class="flex-between" style="margin-bottom:12px;">
@@ -328,7 +549,7 @@
   <!-- CONFIG -->
   <div class="page" id="page-settings">
     <div class="sec-title">CONFIG</div>
-    <div class="sec-sub">// SYSTEM SETTINGS & MANAGEMENT //</div>
+    <div class="sec-sub">SYSTEM SETTINGS & MANAGEMENT</div>
 
     <div class="settings-section">
       <div class="settings-title">AGENT CREDENTIALS</div>
@@ -357,7 +578,8 @@
 
     <div class="settings-section">
       <div class="settings-title">DANGER ZONE</div>
-      <button class="btn btn-danger" onclick="if(confirm('Reset ALL data? This cannot be undone.')) resetAll()">RESET ALL DATA</button>
+      <p style="font-family:var(--font-mono);font-size:12px;color:var(--text2);margin-bottom:12px;">PASSWORD REQUIRED TO RESET ALL DATA</p>
+      <button class="btn btn-danger" onclick="confirmResetWithPassword()">RESET ALL DATA</button>
     </div>
   </div>
 
@@ -393,6 +615,20 @@
 <div id="modal-container"></div>
 
 <script>
+
+// === LOADING SCREEN ===
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    const ls = document.getElementById('loading-screen');
+    ls.style.transition = 'opacity 0.5s ease';
+    ls.style.opacity = '0';
+    setTimeout(() => {
+      ls.style.display = 'none';
+      document.getElementById('login-screen').classList.remove('hidden');
+    }, 500);
+  }, 2200);
+});
+
 // ============================================================
 // FIREBASE ARRAY FIX — KEY UTILITY
 // Firebase converts JS arrays to objects {0:{...},1:{...}}
@@ -538,14 +774,20 @@ function doLogin() {
     btn.disabled = false;
     const d = getData();
     if (pw === d.password) {
-      document.getElementById('login-screen').classList.add('hidden');
-      document.getElementById('app').style.display = 'block';
+      const ls = document.getElementById('login-screen');
+      ls.style.transition = 'opacity 0.4s ease';
+      ls.style.opacity = '0';
+      setTimeout(() => {
+        ls.classList.add('hidden');
+        ls.style.opacity = '1';
+        document.getElementById('app').style.display = 'block';
+      }, 400);
       document.getElementById('pw-input').value = '';
       document.getElementById('login-error').textContent = '';
       checkDailyReset();
       refreshAll();
     } else {
-      document.getElementById('login-error').textContent = '// ACCESS DENIED — INVALID CODE //';
+      document.getElementById('login-error').textContent = 'ACCESS DENIED — INVALID CODE';
       document.getElementById('pw-input').value = '';
     }
   });
@@ -571,9 +813,10 @@ function changePassword() {
 // NAVIGATION
 // ============================================================
 function showPage(name, btn) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(p => { p.classList.remove('active'); });
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('page-' + name).classList.add('active');
+  const pg = document.getElementById('page-' + name);
+  pg.classList.add('active');
   if (btn) btn.classList.add('active');
   if (name === 'stats') renderStats('7');
   if (name === 'rank') renderRankPage();
@@ -602,14 +845,22 @@ function refreshAll() {
   renderDailyInputs();
   renderMissions();
   renderSettings();
-  document.getElementById('ops-date').textContent = '// ' + new Date().toLocaleDateString('en-US', {weekday:'long',year:'numeric',month:'long',day:'numeric'}).toUpperCase() + ' //';
+  document.getElementById('ops-date').textContent = new Date().toLocaleDateString('en-US', {weekday:'long',year:'numeric',month:'long',day:'numeric'}).toUpperCase();
 }
 
 function updateTopBar() {
   const d = getData();
   const grade = d.grades[d.currentGradeIndex];
   document.getElementById('topbar-grade-label').textContent = grade ? grade.name : 'ALPHA';
-  document.getElementById('topbar-pts').textContent = d.totalXP;
+  document.getElementById('topbar-pts').textContent = d.totalXP || 0;
+  const wrap = document.getElementById('topbar-rank-img-wrap');
+  if (wrap) {
+    if (grade && grade.photo) {
+      wrap.innerHTML = '<div class="topbar-rank-img"><img src="' + grade.photo + '" alt="rank"></div>';
+    } else {
+      wrap.innerHTML = '<div class="topbar-rank-placeholder"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>';
+    }
+  }
 }
 
 // ============================================================
@@ -631,8 +882,8 @@ function renderDailyInputs() {
   list.innerHTML = d.inputs.map((inp, i) => {
     const val = log.entries[inp.id] !== undefined ? log.entries[inp.id] : (inp.initialValue || 0);
     const imgHtml = inp.photo
-      ? '<div class="img-preview-circle" style="width:50px;height:50px;flex-shrink:0"><img src="' + inp.photo + '" alt=""></div>'
-      : '<div style="width:50px;height:50px;border-radius:50%;border:3px solid #000;background:#fff;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:18px;color:#333">' + (inp.name[0]||'?') + '</div>';
+      ? '<div class="img-circle" style="width:68px;height:68px;flex-shrink:0;border:3px solid rgba(74,158,255,0.3);"><img src="' + inp.photo + '" alt=""></div>'
+      : '<div style="width:68px;height:68px;border-radius:50%;border:3px solid rgba(74,158,255,0.3);background:var(--card2);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:22px;color:var(--accent);">' + (inp.name[0]||'?') + '</div>';
 
     let control = '';
     if (inp.inputType === 'number') {
@@ -651,6 +902,18 @@ function renderDailyInputs() {
                 '<input class="num-input" style="width:90px;" type="number" value="' + (val||0) + '" placeholder="min" id="inp-val-' + inp.id + '" onchange="saveInputVal(' + i + ',this.value)">' +
                 '<button class="num-btn" onclick="adjustNum(' + i + ',1)">+</button>' +
                 '<span style="font-family:var(--font-mono);font-size:11px;color:var(--text3)">MIN</span>';
+    } else if (inp.inputType === 'digital_product') {
+      const unitsSold = log.entries[inp.id] !== undefined ? log.entries[inp.id] : 0;
+      const price = inp.digitalPrice || 0;
+      const revenue = (unitsSold * price).toFixed(2);
+      control = '<div style="text-align:right;">' +
+        '<div style="display:flex;align-items:center;gap:8px;">' +
+        '<button class="num-btn" onclick="adjustNum(' + i + ',-1)">−</button>' +
+        '<input class="num-input" type="number" value="' + unitsSold + '" id="inp-val-' + inp.id + '" onchange="saveInputVal(' + i + ',this.value)" style="width:70px;">' +
+        '<button class="num-btn" onclick="adjustNum(' + i + ',1)">+</button>' +
+        '</div>' +
+        '<div class="sale-today">$' + revenue + ' today</div>' +
+        '</div>';
     }
 
     const pts = calculatePoints(inp, val);
@@ -659,7 +922,8 @@ function renderDailyInputs() {
       '<div class="input-item-info">' +
         '<div class="input-item-name">' + inp.name + '</div>' +
         '<div class="input-item-cat">' + (inp.category || '') + '</div>' +
-        '<div class="input-item-pts">+' + pts + ' XP today</div>' +
+        (inp.inputType==='digital_product'?'<div style="font-family:var(--font-mono);font-size:11px;color:var(--text3);">$'+(inp.digitalPrice||0)+'/unit</div>':'') +
+      '<div class="input-item-pts">+' + pts + ' EP</div>' +
       '</div>' +
       '<div class="input-control">' + control + '</div>' +
     '</div>';
@@ -692,7 +956,7 @@ function saveInputVal(i, val) {
   const diff = newPts - oldPts;
   if (diff > 0) {
     d.totalXP = (d.totalXP || 0) + diff;
-    showFlash('+' + diff + ' XP');
+    showFlash('+' + diff + ' EP');
   } else if (diff < 0) {
     d.totalXP = Math.max(0, (d.totalXP || 0) + diff);
   }
@@ -766,13 +1030,16 @@ function openAddInputModal(editIdx) {
     '<div class="form-group"><label class="form-label">INPUT NAME</label>' +
     '<input class="form-input" id="inp-name" placeholder="e.g. Push-ups" value="' + (editing?editing.name:'') + '"></div>' +
     '<div class="form-group"><label class="form-label">INPUT TYPE</label>' +
-    '<select class="form-select" id="inp-type" onchange="updatePointsOptions()">' +
+    '<select class="form-select" id="inp-type" onchange="updateInputTypeUI()">' +
     '<option value="number" ' + (!editing||editing.inputType==='number'?'selected':'') + '>Number (count)</option>' +
     '<option value="checkbox" ' + (editing&&editing.inputType==='checkbox'?'selected':'') + '>Checkbox (yes/no)</option>' +
     '<option value="text" ' + (editing&&editing.inputType==='text'?'selected':'') + '>Short text</option>' +
     '<option value="rating" ' + (editing&&editing.inputType==='rating'?'selected':'') + '>Rating 1-10</option>' +
     '<option value="duration" ' + (editing&&editing.inputType==='duration'?'selected':'') + '>Duration (minutes)</option>' +
+    '<option value="digital_product" ' + (editing&&editing.inputType==='digital_product'?'selected':'') + '>Digital Product (sales)</option>' +
     '</select></div>' +
+    '<div class="form-group hidden" id="digital-price-group"><label class="form-label">PRICE PER UNIT ($)</label>' +
+    '<input class="form-input" id="inp-digital-price" type="number" step="0.01" placeholder="e.g. 27.00" value="' + (editing&&editing.digitalPrice?editing.digitalPrice:'') + '"></div>' +
     '<div class="form-group"><label class="form-label">CATEGORY</label>' +
     '<div style="display:flex;gap:8px;"><select class="form-select" id="inp-cat" style="flex:1">' + catOptions + '</select>' +
     '<button class="btn btn-secondary btn-sm" onclick="addCategoryPrompt()">+ NEW</button></div></div>' +
@@ -821,6 +1088,22 @@ function updatePtsThresholds() {
 
 function updatePointsOptions() { updatePtsThresholds(); }
 
+function updateInputTypeUI() {
+  const t = document.getElementById('inp-type');
+  if (!t) return;
+  const v = t.value;
+  const dg = document.getElementById('digital-price-group');
+  const iv = document.querySelector('[data-field="initial-value"]');
+  if (v === 'digital_product') {
+    if (dg) dg.classList.remove('hidden');
+  } else {
+    if (dg) dg.classList.add('hidden');
+  }
+  updatePtsThresholds();
+}
+
+
+
 async function handleInputImg(e) {
   const file = e.target.files[0]; if (!file) return;
   const data = await imageToDataURL(file);
@@ -863,9 +1146,10 @@ function saveInput(editIdx) {
     pointsConfig.amount = parseFloat(document.getElementById('pts-amount').value) || 0;
   }
   const d = getData();
+  const digitalPrice = type === 'digital_product' ? parseFloat(document.getElementById('inp-digital-price')?.value) || 0 : 0;
   const inp = {
     id: (editIdx !== null && editIdx !== undefined) ? d.inputs[editIdx].id : 'inp_'+Date.now(),
-    name, inputType: type, category: cat, initialValue: init, photo, pointsConfig
+    name, inputType: type, category: cat, initialValue: init, photo, pointsConfig, digitalPrice
   };
   if (editIdx !== null && editIdx !== undefined) { d.inputs[editIdx] = inp; }
   else { d.inputs.push(inp); }
@@ -873,7 +1157,7 @@ function saveInput(editIdx) {
   closeModal();
   renderDailyInputs();
   renderSettings();
-  showNotif('// INPUT SAVED //');
+  showNotif('INPUT SAVED');
 }
 
 // ============================================================
@@ -926,7 +1210,7 @@ function evalCondition(cond, d, log) {
     const total = (inp.initialValue || 0) + d.logs.reduce((s, l) => s + (parseFloat(l.entries[inp.id]) || 0), 0);
     return total >= cond.targetValue;
   }
-  if (cond.type === 'xp') return d.totalXP >= cond.targetValue;
+  if (cond.type === 'ep') return d.totalXP >= cond.targetValue;
   return false;
 }
 
@@ -942,7 +1226,7 @@ function completeObjective(objIdx) {
   d.objectives[objIdx].completed = true;
   d.objectives[objIdx].completedDate = new Date().toISOString();
   saveData(d);
-  showNotif('// MISSION COMPLETE — WELL DONE, AGENT //');
+  showNotif('MISSION COMPLETE — WELL DONE, AGENT');
   renderMissions();
   renderAchievements();
 }
@@ -976,7 +1260,7 @@ function openAddObjectiveModal(editIdx) {
     '<div class="flex-row mt8" style="flex-wrap:wrap;gap:6px;">' +
     '<button class="btn btn-secondary btn-sm" onclick="addCondRow(\'manual\',\'' + inpOptions.replace(/'/g,'&#39;') + '\')">+ MANUAL CHECK</button>' +
     '<button class="btn btn-secondary btn-sm" onclick="addCondRow(\'input_total\',\'' + inpOptions.replace(/'/g,'&#39;') + '\')">+ INPUT TOTAL</button>' +
-    '<button class="btn btn-secondary btn-sm" onclick="addCondRow(\'xp\',\'' + inpOptions.replace(/'/g,'&#39;') + '\')">+ XP TARGET</button>' +
+    '<button class="btn btn-secondary btn-sm" onclick="addCondRow(\'ep\',\'' + inpOptions.replace(/'/g,'&#39;') + '\')">+ XP TARGET</button>' +
     '</div></div></div>' +
     '<div class="modal-actions">' +
     '<button class="btn btn-secondary" onclick="closeModal()">CANCEL</button>' +
@@ -1000,14 +1284,23 @@ function renderCondBuildRow(cond, ci, inpOptions) {
       '<button class="btn-icon" onclick="removeCond(' + ci + ')">✕</button>' +
       '<input type="hidden" id="cond-type-' + ci + '" value="input_total">' +
       '<input type="hidden" id="cond-desc-' + ci + '" value=""></div>';
-  } else if (cond.type === 'xp') {
+  } else if (cond.type === 'ep') {
     return '<div class="cond-item-build" id="cond-row-' + ci + '"><span class="cond-type-badge">XP</span>' +
       '<span class="text-small">Reach</span>' +
       '<input class="form-input" id="cond-val-' + ci + '" type="number" value="' + (cond.targetValue||0) + '" style="width:80px;">' +
-      '<span class="text-small">XP</span>' +
+      '<span class="text-small">EP</span>' +
       '<input class="form-input" id="cond-desc-' + ci + '" value="' + (cond.description||'') + '" placeholder="Description" style="flex:1">' +
       '<button class="btn-icon" onclick="removeCond(' + ci + ')">✕</button>' +
-      '<input type="hidden" id="cond-type-' + ci + '" value="xp"></div>';
+      '<input type="hidden" id="cond-type-' + ci + '" value="ep"></div>';
+  } else if (cond.type === 'digital_revenue') {
+    const inpOpts = inpOptions; // will use all inputs, filter by digital
+    return '<div class="cond-item-build" id="cond-row-' + ci + '"><span class="cond-type-badge">REVENUE</span>' +
+      '<select class="form-select" id="cond-inp-' + ci + '" style="flex:1">' + inpOptions + '</select>' +
+      '<span class="text-small">≥ $</span>' +
+      '<input class="form-input" id="cond-val-' + ci + '" type="number" value="' + (cond.targetValue||0) + '" style="width:90px;">' +
+      '<button class="btn-icon" onclick="removeCond(' + ci + ')">✕</button>' +
+      '<input type="hidden" id="cond-type-' + ci + '" value="digital_revenue">' +
+      '<input type="hidden" id="cond-desc-' + ci + '" value=""></div>';
   }
   return '';
 }
@@ -1046,7 +1339,7 @@ function saveObjective(editIdx) {
       const inp = d.inputs.find(i => i.id === inpId);
       conditions.push({type:'input_total', inputId: inpId, targetValue: val, description: (inp?inp.name:'Input') + ' total ≥ ' + val});
     }
-    else if (type === 'xp') conditions.push({type:'xp', targetValue: val, description: desc || ('Reach ' + val + ' XP')});
+    else if (type === 'ep') conditions.push({type:'ep', targetValue: val, description: desc || ('Reach ' + val + ' EP')});
   });
   const d = getData();
   const obj = {
@@ -1058,7 +1351,7 @@ function saveObjective(editIdx) {
   saveData(d);
   closeModal();
   renderMissions();
-  showNotif('// MISSION CREATED //');
+  showNotif('MISSION CREATED');
 }
 
 // ============================================================
@@ -1079,7 +1372,7 @@ function renderRankPage() {
   if (next) {
     const pct = Math.min(100, Math.round((d.totalXP - (grade.xpRequired||0)) / (next.xpRequired - (grade.xpRequired||0)) * 100));
     document.getElementById('rank-progress-bar').style.width = Math.max(0,pct) + '%';
-    document.getElementById('rank-progress-text').textContent = d.totalXP + ' / ' + next.xpRequired + ' XP (' + Math.max(0,pct) + '%)';
+    document.getElementById('rank-progress-text').textContent = d.totalXP + ' / ' + next.xpRequired + ' EP (' + Math.max(0,pct) + '%)';
   } else {
     document.getElementById('rank-progress-bar').style.width = '100%';
     document.getElementById('rank-progress-text').textContent = 'MAX RANK ACHIEVED';
@@ -1094,7 +1387,7 @@ function renderRankPage() {
       img +
       '<div class="grade-info">' +
         '<div class="grade-label" style="font-size:22px;line-height:1;">' + g.name + '</div>' +
-        '<div class="grade-req">' + (gi===0?'STARTING RANK':'XP REQUIRED: '+g.xpRequired) + '</div>' +
+        '<div class="grade-req">' + (gi===0?'STARTING RANK':'EP REQUIRED: '+g.xpRequired) + '</div>' +
         '<div class="grade-msg">"' + (g.message||'') + '"</div>' +
       '</div>' +
       '<div style="display:flex;flex-direction:column;gap:4px;">' +
@@ -1136,7 +1429,7 @@ function openAddGradeModal() {
   const d = getData();
   const usedNames = d.grades.map(g => g.name);
   const available = GRADES_LIST.filter(g => !usedNames.includes(g));
-  if (available.length === 0) { showNotif('// ALL RANKS ALREADY CONFIGURED //'); return; }
+  if (available.length === 0) { showNotif('ALL RANKS ALREADY CONFIGURED'); return; }
   const nameOpts = available.map(n => '<option value="' + n + '">' + n + '</option>').join('');
   const html = '<div class="modal-overlay"><div class="modal">' +
     '<div class="modal-title">NEW RANK</div>' +
@@ -1196,7 +1489,7 @@ function saveNewGrade() {
   saveData(d);
   closeModal();
   renderRankPage();
-  showNotif('// RANK CREATED: ' + name + ' //');
+  showNotif('RANK CREATED: ' + name);
 }
 
 function updateGrade(gi) {
@@ -1209,7 +1502,7 @@ function updateGrade(gi) {
   saveData(d);
   closeModal();
   renderRankPage();
-  showNotif('// RANK UPDATED //');
+  showNotif('RANK UPDATED');
 }
 
 function deleteGrade(gi) {
@@ -1242,10 +1535,13 @@ function renderStats(days) {
   const cutoff = days === 'all' ? null : new Date(now - (parseInt(days) * 86400000));
   const relevantLogs = days === 'all' ? d.logs : (d.logs || []).filter(l => new Date(l.date) >= cutoff);
   const html = d.inputs.map(inp => {
-    if (inp.inputType !== 'number' && inp.inputType !== 'duration' && inp.inputType !== 'rating') return '';
+    const isNumericStat = ['number','duration','rating','digital_product'].includes(inp.inputType);
+    if (!isNumericStat) return '';
     const vals = relevantLogs.map(l => parseFloat(l.entries[inp.id]) || 0);
-    const total = vals.reduce((s,v)=>s+v,0);
-    const avg = vals.length > 0 ? (total/vals.length).toFixed(1) : 0;
+    const loggedTotal = vals.reduce((s,v)=>s+v,0);
+    // FIX #8: Include initialValue so cumulative total is accurate
+    const total = days === 'all' ? (inp.initialValue||0) + loggedTotal : loggedTotal;
+    const avg = vals.length > 0 ? (loggedTotal/vals.length).toFixed(1) : 0;
     const max = vals.length > 0 ? Math.max(...vals) : 0;
     const barDays = days === 'all' ? Math.min(30, relevantLogs.length) : parseInt(days);
     const barLogs = [...(d.logs||[])].sort((a,b)=>a.date.localeCompare(b.date)).slice(-barDays);
@@ -1257,8 +1553,12 @@ function renderStats(days) {
       return '<div class="bar-row"><div class="bar-label">' + dateStr + '</div><div class="bar-track"><div class="bar-fill" style="width:' + pct + '%"></div></div><div class="bar-val">' + v + '</div></div>';
     }).join('');
     const imgHtml = inp.photo ? '<div class="img-preview-circle" style="width:32px;height:32px;flex-shrink:0;"><img src="' + inp.photo + '"></div>' : '';
+    const revenueRow = inp.inputType === 'digital_product'
+      ? '<div style="font-family:var(--font-mono);font-size:13px;color:#00d4aa;margin-bottom:8px;">Cumulative Revenue: $' + (((inp.initialValue||0) + (d.logs||[]).reduce((s,l)=>s+(parseFloat(l.entries[inp.id])||0),0)) * (inp.digitalPrice||0)).toFixed(2) + '</div>'
+      : '';
     return '<div class="stat-card">' +
       '<div class="stat-name">' + imgHtml + inp.name + '<span class="text-small" style="margin-left:auto;">' + (inp.category||'') + '</span></div>' +
+      revenueRow +
       '<div class="flex-row" style="margin-bottom:10px;gap:16px;">' +
         '<div><div class="text-small">TOTAL</div><div style="font-family:var(--font-mono);color:var(--accent);font-size:18px;">' + total + '</div></div>' +
         '<div><div class="text-small">AVG/DAY</div><div style="font-family:var(--font-mono);color:var(--text2);font-size:18px;">' + avg + '</div></div>' +
@@ -1347,6 +1647,35 @@ function deleteObjective(i) {
   saveData(d);
   renderMissions();
   renderSettings();
+}
+
+
+// === PASSWORD-PROTECTED RESET ===
+function confirmResetWithPassword() {
+  const html = '<div class="modal-overlay"><div class="modal" style="max-width:380px;">' +
+    '<div class="modal-title" style="color:var(--red);letter-spacing:3px;">DANGER ZONE</div>' +
+    '<p style="font-family:var(--font-mono);font-size:13px;color:var(--text2);margin-bottom:20px;line-height:1.6;">This will permanently erase ALL data. Enter your clearance code to confirm.</p>' +
+    '<div class="form-group"><label class="form-label">CLEARANCE CODE</label>' +
+    '<input class="form-input" id="reset-pw-confirm" type="password" placeholder="•••••"></div>' +
+    '<div id="reset-error" style="font-family:var(--font-mono);font-size:12px;color:var(--red);min-height:18px;margin-bottom:8px;"></div>' +
+    '<div class="modal-actions">' +
+    '<button class="btn btn-secondary" onclick="closeModal()">CANCEL</button>' +
+    '<button class="btn btn-danger" onclick="executeReset()">CONFIRM RESET</button>' +
+    '</div></div></div>';
+  document.getElementById('modal-container').innerHTML = html;
+}
+
+function executeReset() {
+  const pw = document.getElementById('reset-pw-confirm').value;
+  const d = getData();
+  if (pw !== d.password) {
+    document.getElementById('reset-error').textContent = 'INVALID CLEARANCE CODE';
+    return;
+  }
+  closeModal();
+  _appData = getDefaultData();
+  fbSave(_appData);
+  location.reload();
 }
 
 function resetAll() {
