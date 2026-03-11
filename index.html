@@ -53,7 +53,6 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: var(--bg); color: var(--text); font-family: var(--font-body); min-height: 100vh; overflow-x: hidden; }
 
-  /* SCANLINE EFFECT */
   body::before {
     content: '';
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -61,7 +60,6 @@
     pointer-events: none; z-index: 9999;
   }
 
-  /* LOGIN SCREEN */
   #login-screen {
     position: fixed; inset: 0; background: var(--bg);
     display: flex; align-items: center; justify-content: center; z-index: 1000;
@@ -79,7 +77,6 @@
   .btn-login:hover { background: var(--accent2); }
   .login-error { font-family: var(--font-mono); font-size: 11px; color: var(--red); text-align: center; min-height: 16px; }
 
-  /* TOP BAR */
   #topbar {
     position: fixed; top: 0; left: 0; right: 0; height: 56px;
     background: var(--bg2); border-bottom: 1px solid var(--border);
@@ -92,7 +89,6 @@
   .topbar-pts span { color: var(--text2); font-size: 10px; }
   .topbar-agent { font-family: var(--font-mono); font-size: 10px; color: var(--text3); letter-spacing: 1px; display: none; }
 
-  /* BOTTOM NAV */
   #bottom-nav {
     position: fixed; bottom: 0; left: 0; right: 0; height: 60px;
     background: var(--bg2); border-top: 1px solid var(--border);
@@ -103,21 +99,17 @@
   .nav-btn.active { color: var(--accent); }
   .nav-btn:hover { color: var(--text2); }
 
-  /* MAIN CONTENT */
   #app { display: none; }
   .page { display: none; padding: 72px 16px 76px; max-width: 600px; margin: 0 auto; }
   .page.active { display: block; }
 
-  /* SECTION HEADERS */
   .sec-title { font-family: var(--font-display); font-size: 32px; color: var(--accent); letter-spacing: 4px; margin-bottom: 4px; }
   .sec-sub { font-family: var(--font-mono); font-size: 10px; color: var(--text3); letter-spacing: 2px; margin-bottom: 20px; }
 
-  /* CARDS */
   .card { background: var(--card); border: 1px solid var(--border); padding: 16px; margin-bottom: 12px; }
   .card-title { font-family: var(--font-display); font-size: 20px; letter-spacing: 2px; color: var(--text); }
   .card-sub { font-family: var(--font-mono); font-size: 10px; color: var(--text3); letter-spacing: 1px; }
 
-  /* BUTTONS */
   .btn { font-family: var(--font-display); font-size: 16px; letter-spacing: 2px; padding: 10px 20px; border: none; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 6px; }
   .btn-primary { background: var(--accent); color: var(--bg); }
   .btn-primary:hover { background: var(--accent2); }
@@ -130,7 +122,6 @@
   .btn-icon { background: none; border: none; cursor: pointer; padding: 6px; color: var(--text2); }
   .btn-icon:hover { color: var(--accent); }
 
-  /* FORMS */
   .form-group { margin-bottom: 16px; }
   .form-label { font-family: var(--font-mono); font-size: 10px; color: var(--text3); letter-spacing: 2px; display: block; margin-bottom: 6px; }
   .form-input { width: 100%; background: var(--bg); border: 1px solid var(--border); color: var(--text); font-family: var(--font-body); font-size: 15px; padding: 10px 12px; }
@@ -139,7 +130,6 @@
   .form-select:focus { outline: none; border-color: var(--accent); }
   textarea.form-input { resize: vertical; min-height: 80px; }
 
-  /* IMAGE UPLOAD */
   .img-upload-zone { border: 2px dashed var(--border); padding: 20px; text-align: center; cursor: pointer; transition: all 0.2s; position: relative; }
   .img-upload-zone:hover { border-color: var(--accent); }
   .img-upload-zone input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
@@ -148,7 +138,6 @@
   .img-preview-circle img { width: 100%; height: 100%; object-fit: cover; }
   .img-preview-circle-lg { width: 100px; height: 100px; }
 
-  /* DAILY INPUT ITEMS */
   .input-item { background: var(--card); border: 1px solid var(--border); padding: 14px; margin-bottom: 10px; display: flex; align-items: center; gap: 12px; }
   .input-item-info { flex: 1; }
   .input-item-name { font-family: var(--font-body); font-size: 16px; font-weight: 600; color: var(--text); }
@@ -162,15 +151,12 @@
   .text-input-sm { width: 120px; background: var(--bg); border: 1px solid var(--border); color: var(--text); font-family: var(--font-mono); font-size: 13px; padding: 6px 8px; }
   .save-log-btn { background: var(--accent); color: var(--bg); border: none; font-family: var(--font-display); font-size: 14px; letter-spacing: 2px; padding: 6px 14px; cursor: pointer; }
 
-  /* POINTS FLASH */
   .pts-flash { position: fixed; top: 70px; right: 16px; background: var(--accent); color: var(--bg); font-family: var(--font-display); font-size: 18px; letter-spacing: 2px; padding: 8px 16px; z-index: 9998; animation: flash-in-out 2s forwards; pointer-events: none; }
   @keyframes flash-in-out { 0%{opacity:0;transform:translateY(-10px)} 20%{opacity:1;transform:translateY(0)} 80%{opacity:1} 100%{opacity:0;transform:translateY(-10px)} }
 
-  /* PROGRESS BAR */
   .progress-bar-wrap { background: var(--bg); border: 1px solid var(--border); height: 10px; margin: 8px 0; }
   .progress-bar-fill { height: 100%; background: var(--accent); transition: width 0.5s; }
 
-  /* GRADE CARD */
   .grade-card { background: var(--card); border: 1px solid var(--border); padding: 20px; margin-bottom: 12px; display: flex; align-items: center; gap: 16px; }
   .grade-card.current { border-color: var(--accent); box-shadow: 0 0 16px rgba(200,168,75,0.2); }
   .grade-label { font-family: var(--font-display); font-size: 36px; color: var(--accent); letter-spacing: 2px; min-width: 80px; }
@@ -179,7 +165,6 @@
   .grade-req { font-family: var(--font-mono); font-size: 11px; color: var(--text2); }
   .grade-msg { font-family: var(--font-mono); font-size: 11px; color: var(--text3); font-style: italic; margin-top: 4px; }
 
-  /* OBJECTIVE CARD */
   .obj-card { background: var(--card); border: 1px solid var(--border); padding: 16px; margin-bottom: 10px; display: flex; align-items: flex-start; gap: 12px; }
   .obj-card.completed { border-color: var(--green); opacity: 0.7; }
   .obj-info { flex: 1; }
@@ -190,7 +175,6 @@
   .obj-cond .cond-check.met { background: var(--green); border-color: var(--green); color: white; font-size: 10px; }
   .completed-badge { font-family: var(--font-mono); font-size: 10px; color: var(--green); letter-spacing: 2px; border: 1px solid var(--green); padding: 2px 8px; }
 
-  /* STATS */
   .stat-card { background: var(--card); border: 1px solid var(--border); padding: 16px; margin-bottom: 10px; }
   .stat-name { font-family: var(--font-body); font-weight: 700; font-size: 15px; color: var(--text); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
   .bar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
@@ -202,31 +186,25 @@
   .tab-btn { flex: 1; border: 1px solid var(--border); background: var(--bg); color: var(--text3); font-family: var(--font-mono); font-size: 11px; letter-spacing: 1px; padding: 8px; cursor: pointer; }
   .tab-btn.active { background: var(--accent); color: var(--bg); border-color: var(--accent); }
 
-  /* ACHIEVEMENTS */
   .ach-card { background: var(--card); border: 1px solid var(--green); padding: 16px; margin-bottom: 10px; display: flex; align-items: center; gap: 12px; }
   .ach-date { font-family: var(--font-mono); font-size: 10px; color: var(--text3); margin-top: 4px; }
 
-  /* SETTINGS */
   .settings-section { margin-bottom: 24px; }
   .settings-title { font-family: var(--font-display); font-size: 18px; color: var(--accent); letter-spacing: 2px; margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
 
-  /* MODAL */
   .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 500; display: flex; align-items: center; justify-content: center; padding: 16px; overflow-y: auto; }
   .modal { background: var(--card); border: 1px solid var(--border); padding: 24px; width: 100%; max-width: 480px; max-height: 90vh; overflow-y: auto; }
   .modal-title { font-family: var(--font-display); font-size: 24px; color: var(--accent); letter-spacing: 3px; margin-bottom: 20px; }
   .modal-actions { display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end; }
 
-  /* NOTIFICATION */
   .notif { position: fixed; bottom: 70px; left: 50%; transform: translateX(-50%); background: var(--card); border: 1px solid var(--accent); color: var(--text); font-family: var(--font-mono); font-size: 12px; letter-spacing: 1px; padding: 10px 20px; z-index: 9999; animation: notif-in-out 3s forwards; white-space: nowrap; }
   @keyframes notif-in-out { 0%{opacity:0;transform:translateX(-50%) translateY(10px)} 15%{opacity:1;transform:translateX(-50%) translateY(0)} 80%{opacity:1} 100%{opacity:0} }
 
-  /* GRADE UNLOCK MODAL */
   .grade-unlock { text-align: center; padding: 20px 0; }
   .grade-unlock .big-grade { font-family: var(--font-display); font-size: 80px; color: var(--accent); letter-spacing: 4px; animation: pulse-grade 1s ease-in-out infinite alternate; }
   @keyframes pulse-grade { from{text-shadow: 0 0 10px rgba(200,168,75,0.3)} to{text-shadow: 0 0 30px rgba(200,168,75,0.8)} }
   .grade-unlock .unlock-msg { font-family: var(--font-mono); font-size: 13px; color: var(--text2); margin-top: 12px; line-height: 1.6; }
 
-  /* HELPER */
   .divider { border: none; border-top: 1px solid var(--border); margin: 16px 0; }
   .flex-row { display: flex; gap: 10px; align-items: center; }
   .flex-between { display: flex; justify-content: space-between; align-items: center; }
@@ -239,7 +217,6 @@
   .text-small { font-size: 11px; color: var(--text3); font-family: var(--font-mono); letter-spacing: 1px; }
   .hidden { display: none !important; }
 
-  /* CONDITIONS BUILDER */
   .cond-builder { background: var(--bg3); border: 1px solid var(--border); padding: 12px; margin-top: 8px; }
   .cond-item-build { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; flex-wrap: wrap; }
   .cond-type-badge { font-family: var(--font-mono); font-size: 10px; color: var(--text3); border: 1px solid var(--border); padding: 2px 6px; }
@@ -273,7 +250,6 @@
 
 <!-- APP -->
 <div id="app">
-  <!-- TOP BAR -->
   <div id="topbar">
     <div class="topbar-org">CIPHER</div>
     <div class="topbar-agent" id="topbar-agent">THE SILENT POSTMAN</div>
@@ -283,7 +259,6 @@
     <div class="topbar-pts"><span>XP </span><span id="topbar-pts">0</span></div>
   </div>
 
-  <!-- PAGES -->
   <!-- DAILY OPS -->
   <div class="page active" id="page-ops">
     <div class="sec-title">DAILY OPS</div>
@@ -332,8 +307,6 @@
   <div class="page" id="page-rank">
     <div class="sec-title">RANK STATUS</div>
     <div class="sec-sub">// CLEARANCE LEVELS & EVOLUTION //</div>
-
-    <!-- Current Grade -->
     <div class="card" id="current-grade-display" style="border-color:var(--accent);margin-bottom:20px;">
       <div style="font-family:var(--font-mono);font-size:10px;color:var(--text3);letter-spacing:2px;margin-bottom:8px;">CURRENT RANK</div>
       <div id="rank-current-content"></div>
@@ -343,18 +316,16 @@
         <div class="text-small" id="rank-progress-text">0 / 0 XP</div>
       </div>
     </div>
-
     <div class="flex-between" style="margin-bottom:12px;">
       <div class="text-small">ALL RANKS</div>
       <button class="btn btn-secondary btn-sm" onclick="openAddGradeModal()">+ NEW RANK</button>
     </div>
     <div id="grades-list"></div>
-
     <hr class="divider">
     <div style="font-family:var(--font-mono);font-size:10px;color:var(--text3);letter-spacing:2px;margin-bottom:12px;">RANK PHOTO GUIDE: 400x400px, white background, subject centered</div>
   </div>
 
-  <!-- SETTINGS -->
+  <!-- CONFIG -->
   <div class="page" id="page-settings">
     <div class="sec-title">CONFIG</div>
     <div class="sec-sub">// SYSTEM SETTINGS & MANAGEMENT //</div>
@@ -364,11 +335,11 @@
       <div class="form-group">
         <label class="form-label">NEW CLEARANCE CODE</label>
         <div class="text-small" style="margin-bottom:8px;">MINIMUM 3 CHARACTERS — ANY FORMAT YOU WANT</div>
-        <input class="form-input" id="new-pw-input" type="password" maxlength="5" placeholder="•••••">
+        <input class="form-input" id="new-pw-input" type="password" placeholder="•••••">
       </div>
       <div class="form-group">
         <label class="form-label">CONFIRM CODE</label>
-        <input class="form-input" id="confirm-pw-input" type="password" maxlength="5" placeholder="•••••">
+        <input class="form-input" id="confirm-pw-input" type="password" placeholder="•••••">
       </div>
       <div id="pw-change-msg" class="text-small" style="min-height:16px;margin-bottom:8px;"></div>
       <button class="btn btn-primary" onclick="changePassword()">UPDATE CLEARANCE CODE</button>
@@ -419,17 +390,55 @@
   </div>
 </div>
 
-<!-- MODALS CONTAINER -->
 <div id="modal-container"></div>
 
 <script>
+// ============================================================
+// FIREBASE ARRAY FIX — KEY UTILITY
+// Firebase converts JS arrays to objects {0:{...},1:{...}}
+// This function converts them back to proper arrays safely.
+// ============================================================
+function toArray(val) {
+  if (!val) return [];
+  if (Array.isArray(val)) return val;
+  // Firebase object with numeric keys
+  if (typeof val === 'object') {
+    return Object.keys(val).sort((a,b) => Number(a)-Number(b)).map(k => val[k]);
+  }
+  return [];
+}
+
+// Normalize all array fields in data after loading from Firebase
+function normalizeData(d) {
+  if (!d) return d;
+  d.inputs     = toArray(d.inputs);
+  d.objectives = toArray(d.objectives);
+  d.logs       = toArray(d.logs);
+  d.grades     = toArray(d.grades);
+  d.categories = toArray(d.categories);
+  // Normalize nested arrays inside logs
+  d.logs.forEach(log => {
+    if (log && !log.entries) log.entries = {};
+  });
+  // Normalize conditions inside objectives
+  d.objectives.forEach(obj => {
+    if (obj) obj.conditions = toArray(obj.conditions);
+  });
+  // Normalize thresholds inside input pointsConfig
+  d.inputs.forEach(inp => {
+    if (inp && inp.pointsConfig && inp.pointsConfig.thresholds) {
+      inp.pointsConfig.thresholds = toArray(inp.pointsConfig.thresholds);
+    }
+  });
+  return d;
+}
+
 // ============================================================
 // DATA LAYER
 // ============================================================
 const GRADES_LIST = ['ALPHA','BRAVO','CHARLIE','DELTA','ECHO','FOXTROT','GOLF','HOTEL','INDIA','JULIET','KILO','LIMA','MIKE','NOVEMBER','OSCAR','PAPA','QUEBEC','ROMEO','SIERRA','TANGO','UNIFORM','VICTOR','WHISKEY','X-RAY','YANKEE','ZULU'];
 const DEFAULT_CATS = ['Physical Training','Mental Training','Spiritual Training','Relationships','Finances','Nutrition','Sleep & Recovery','Skills & Learning','Creativity','Productivity'];
 
-// In-memory data store - synced with Firebase
 let _appData = null;
 let _saveTimeout = null;
 
@@ -439,7 +448,6 @@ function getData() {
 
 function saveData(d) {
   _appData = d;
-  // Debounce saves to avoid hammering Firebase
   if (_saveTimeout) clearTimeout(_saveTimeout);
   _saveTimeout = setTimeout(function() {
     fbSave(d);
@@ -466,8 +474,13 @@ function getDefaultData() {
 }
 
 function initData(callback) {
-  // Show loading
-  document.getElementById('login-screen').innerHTML += '<div id="load-msg" style="font-family:var(--font-mono);font-size:11px;color:var(--text3);letter-spacing:2px;margin-top:16px;">CONNECTING TO CIPHER NETWORK...</div>';
+  const loginScreen = document.getElementById('login-screen');
+  const loadDiv = document.createElement('div');
+  loadDiv.id = 'load-msg';
+  loadDiv.style.cssText = 'font-family:var(--font-mono);font-size:11px;color:var(--text3);letter-spacing:2px;margin-top:16px;';
+  loadDiv.textContent = 'CONNECTING TO CIPHER NETWORK...';
+  loginScreen.appendChild(loadDiv);
+
   fbLoad(function(data) {
     var loadMsg = document.getElementById('load-msg');
     if (loadMsg) loadMsg.remove();
@@ -475,7 +488,8 @@ function initData(callback) {
       _appData = getDefaultData();
       fbSave(_appData);
     } else {
-      _appData = data;
+      // *** THE FIX: normalize Firebase object-arrays back to real arrays ***
+      _appData = normalizeData(data);
     }
     if (callback) callback();
   });
@@ -494,8 +508,7 @@ function getOrCreateTodayLog() {
 }
 
 function todayStr() {
-  const now = new Date();
-  return now.toISOString().split('T')[0];
+  return new Date().toISOString().split('T')[0];
 }
 
 function imageToDataURL(file) {
@@ -606,35 +619,50 @@ function renderDailyInputs() {
   const d = getData();
   const list = document.getElementById('daily-inputs-list');
   const noMsg = document.getElementById('no-inputs-msg');
-  if (!d.inputs || d.inputs.length === 0) { list.innerHTML = ''; noMsg.classList.remove('hidden'); return; }
+
+  if (!d.inputs || d.inputs.length === 0) {
+    list.innerHTML = '';
+    noMsg.classList.remove('hidden');
+    return;
+  }
   noMsg.classList.add('hidden');
+
   const log = getOrCreateTodayLog();
   list.innerHTML = d.inputs.map((inp, i) => {
-    const val = log.entries[inp.id] !== undefined ? log.entries[inp.id] : inp.initialValue || 0;
-    const imgHtml = inp.photo ? `<div class="img-preview-circle" style="width:50px;height:50px;flex-shrink:0"><img src="${inp.photo}" alt=""></div>` : `<div style="width:50px;height:50px;border-radius:50%;border:3px solid #000;background:#fff;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:18px;color:#333">${inp.name[0]||'?'}</div>`;
+    const val = log.entries[inp.id] !== undefined ? log.entries[inp.id] : (inp.initialValue || 0);
+    const imgHtml = inp.photo
+      ? '<div class="img-preview-circle" style="width:50px;height:50px;flex-shrink:0"><img src="' + inp.photo + '" alt=""></div>'
+      : '<div style="width:50px;height:50px;border-radius:50%;border:3px solid #000;background:#fff;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:18px;color:#333">' + (inp.name[0]||'?') + '</div>';
+
     let control = '';
     if (inp.inputType === 'number') {
-      control = `<button class="num-btn" onclick="adjustNum(${i},-1)">−</button><input class="num-input" type="number" value="${val}" id="inp-val-${inp.id}" onchange="saveInputVal(${i},this.value)"><button class="num-btn" onclick="adjustNum(${i},1)">+</button>`;
+      control = '<button class="num-btn" onclick="adjustNum(' + i + ',-1)">−</button>' +
+                '<input class="num-input" type="number" value="' + val + '" id="inp-val-' + inp.id + '" onchange="saveInputVal(' + i + ',this.value)">' +
+                '<button class="num-btn" onclick="adjustNum(' + i + ',1)">+</button>';
     } else if (inp.inputType === 'checkbox') {
-      control = `<input type="checkbox" class="check-input" ${val?'checked':''} onchange="saveInputVal(${i},this.checked?1:0)">`;
+      control = '<input type="checkbox" class="check-input" ' + (val?'checked':'') + ' onchange="saveInputVal(' + i + ',this.checked?1:0)">';
     } else if (inp.inputType === 'text') {
-      control = `<input class="text-input-sm" type="text" value="${val||''}" placeholder="..." onchange="saveInputVal(${i},this.value)">`;
+      control = '<input class="text-input-sm" type="text" value="' + (val||'') + '" placeholder="..." onchange="saveInputVal(' + i + ',this.value)">';
     } else if (inp.inputType === 'rating') {
       var opts = [1,2,3,4,5,6,7,8,9,10].map(function(n){ return '<option value="'+n+'"'+(val==n?' selected':'')+'>'+n+'</option>'; }).join('');
       control = '<select class="form-select" style="width:80px;padding:6px 8px;font-size:13px;" onchange="saveInputVal('+i+',this.value)">'+opts+'</select>';
     } else if (inp.inputType === 'duration') {
-      control = `<input class="num-input" style="width:100px;" type="number" value="${val||0}" placeholder="min" id="inp-val-${inp.id}" onchange="saveInputVal(${i},this.value)"><span style="font-family:var(--font-mono);font-size:11px;color:var(--text3)">MIN</span>`;
+      control = '<button class="num-btn" onclick="adjustNum(' + i + ',-1)">−</button>' +
+                '<input class="num-input" style="width:90px;" type="number" value="' + (val||0) + '" placeholder="min" id="inp-val-' + inp.id + '" onchange="saveInputVal(' + i + ',this.value)">' +
+                '<button class="num-btn" onclick="adjustNum(' + i + ',1)">+</button>' +
+                '<span style="font-family:var(--font-mono);font-size:11px;color:var(--text3)">MIN</span>';
     }
+
     const pts = calculatePoints(inp, val);
-    return `<div class="input-item">
-      ${imgHtml}
-      <div class="input-item-info">
-        <div class="input-item-name">${inp.name}</div>
-        <div class="input-item-cat">${inp.category || ''}</div>
-        <div class="input-item-pts">+${pts} XP today</div>
-      </div>
-      <div class="input-control">${control}</div>
-    </div>`;
+    return '<div class="input-item">' +
+      imgHtml +
+      '<div class="input-item-info">' +
+        '<div class="input-item-name">' + inp.name + '</div>' +
+        '<div class="input-item-cat">' + (inp.category || '') + '</div>' +
+        '<div class="input-item-pts">+' + pts + ' XP today</div>' +
+      '</div>' +
+      '<div class="input-control">' + control + '</div>' +
+    '</div>';
   }).join('');
 }
 
@@ -642,7 +670,7 @@ function adjustNum(i, delta) {
   const d = getData();
   const inp = d.inputs[i];
   const log = getOrCreateTodayLog();
-  const curr = parseFloat(log.entries[inp.id] || inp.initialValue || 0);
+  const curr = parseFloat(log.entries[inp.id] !== undefined ? log.entries[inp.id] : (inp.initialValue || 0));
   const nv = Math.max(0, curr + delta);
   saveInputVal(i, nv);
   const el = document.getElementById('inp-val-' + inp.id);
@@ -656,8 +684,9 @@ function saveInputVal(i, val) {
   let log = d.logs.find(l => l.date === today);
   if (!log) { log = { date: today, entries: {} }; d.logs.push(log); }
   const oldVal = log.entries[inp.id];
-  log.entries[inp.id] = inp.inputType === 'number' || inp.inputType === 'duration' || inp.inputType === 'rating' ? parseFloat(val) || 0 : val;
-  // XP: only count new points when value increases
+  log.entries[inp.id] = (inp.inputType === 'number' || inp.inputType === 'duration' || inp.inputType === 'rating')
+    ? parseFloat(val) || 0
+    : val;
   const oldPts = calculatePoints(inp, oldVal !== undefined ? oldVal : (inp.initialValue || 0));
   const newPts = calculatePoints(inp, log.entries[inp.id]);
   const diff = newPts - oldPts;
@@ -681,10 +710,9 @@ function calculatePoints(inp, val) {
   if (pc.type === 'per_unit') return Math.floor(v * (pc.amount || 0));
   if (pc.type === 'threshold') {
     let pts = 0;
-    if (pc.thresholds) {
-      for (const t of pc.thresholds) {
-        if (v >= t.value) pts = t.points;
-      }
+    const thresholds = toArray(pc.thresholds);
+    for (const t of thresholds) {
+      if (v >= t.value) pts = t.points;
     }
     return pts;
   }
@@ -713,91 +741,70 @@ function showNotif(msg) {
 function openAddInputModal(editIdx) {
   const d = getData();
   const editing = editIdx !== undefined ? d.inputs[editIdx] : null;
-  const catOptions = d.categories.map(c => `<option value="${c}" ${editing&&editing.category===c?'selected':''}>${c}</option>`).join('');
-  const html = `
-  <div class="modal-overlay" id="modal-add-input">
-    <div class="modal">
-      <div class="modal-title">${editing ? 'EDIT INPUT' : 'NEW INPUT'}</div>
-      <div class="form-group">
-        <label class="form-label">ICON IMAGE (400x400, WHITE BG)</label>
-        <div class="img-upload-zone" id="input-img-zone">
-          <input type="file" accept="image/*" onchange="handleInputImg(event)">
-          <div id="input-img-preview">
-            ${editing&&editing.photo?`<div class="img-preview-circle" style="margin-bottom:8px;"><img src="${editing.photo}" id="input-img-thumb"></div>`:
-            `<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>`}
-          </div>
-          <div class="upload-hint">TAP TO UPLOAD IMAGE</div>
-        </div>
-        <input type="hidden" id="input-img-data" value="${editing&&editing.photo?editing.photo:''}">
-      </div>
-      <div class="form-group">
-        <label class="form-label">INPUT NAME</label>
-        <input class="form-input" id="inp-name" placeholder="e.g. Push-ups" value="${editing?editing.name:''}">
-      </div>
-      <div class="form-group">
-        <label class="form-label">INPUT TYPE</label>
-        <select class="form-select" id="inp-type" onchange="updatePointsOptions()">
-          <option value="number" ${!editing||editing.inputType==='number'?'selected':''}>Number (count)</option>
-          <option value="checkbox" ${editing&&editing.inputType==='checkbox'?'selected':''}>Checkbox (yes/no)</option>
-          <option value="text" ${editing&&editing.inputType==='text'?'selected':''}>Short text</option>
-          <option value="rating" ${editing&&editing.inputType==='rating'?'selected':''}>Rating 1-10</option>
-          <option value="duration" ${editing&&editing.inputType==='duration'?'selected':''}>Duration (minutes)</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label class="form-label">CATEGORY</label>
-        <div style="display:flex;gap:8px;">
-          <select class="form-select" id="inp-cat" style="flex:1">${catOptions}</select>
-          <button class="btn btn-secondary btn-sm" onclick="addCategoryPrompt()">+ NEW</button>
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="form-label">INITIAL VALUE (current accumulated value)</label>
-        <input class="form-input" id="inp-init" type="number" placeholder="0" value="${editing?editing.initialValue||'':'0'}">
-      </div>
-      <div class="form-group" id="pts-config-group">
-        <label class="form-label">POINTS CONFIG</label>
-        <select class="form-select" id="pts-type" onchange="updatePtsThresholds()">
-          <option value="fixed" ${editing&&editing.pointsConfig&&editing.pointsConfig.type==='fixed'?'selected':''}>Fixed (X pts if done)</option>
-          <option value="per_unit" ${editing&&editing.pointsConfig&&editing.pointsConfig.type==='per_unit'?'selected':''}>Per unit (X pts each unit)</option>
-          <option value="threshold" ${editing&&editing.pointsConfig&&editing.pointsConfig.type==='threshold'?'selected':''}>Thresholds (different pts at targets)</option>
-        </select>
-        <div class="mt8" id="pts-detail">
-          <input class="form-input" id="pts-amount" type="number" placeholder="Points amount" value="${editing&&editing.pointsConfig&&editing.pointsConfig.amount!==undefined?editing.pointsConfig.amount:10}">
-        </div>
-        <div class="mt8 hidden" id="pts-thresholds">
-          <div class="text-small" style="margin-bottom:6px;">THRESHOLDS (value → points)</div>
-          <div id="threshold-rows">
-            ${editing&&editing.pointsConfig&&editing.pointsConfig.thresholds?editing.pointsConfig.thresholds.map((t,ti)=>`
-            <div class="flex-row" style="margin-bottom:6px;" id="thresh-row-${ti}">
-              <input class="form-input" type="number" placeholder="Value" value="${t.value}" id="thresh-v-${ti}" style="flex:1">
-              <span class="text-small">→</span>
-              <input class="form-input" type="number" placeholder="Pts" value="${t.points}" id="thresh-p-${ti}" style="flex:1">
-              <button class="btn-icon" onclick="removeThreshRow(${ti})">✕</button>
-            </div>`).join(''):'<div class="flex-row" style="margin-bottom:6px;" id="thresh-row-0"><input class="form-input" type="number" placeholder="Value" id="thresh-v-0" style="flex:1"><span class="text-small">→</span><input class="form-input" type="number" placeholder="Pts" id="thresh-p-0" style="flex:1"><button class="btn-icon" onclick="removeThreshRow(0)">✕</button></div>'}
-          </div>
-          <button class="btn btn-secondary btn-sm" onclick="addThreshRow()">+ ADD THRESHOLD</button>
-        </div>
-      </div>
-      <div class="modal-actions">
-        <button class="btn btn-secondary" onclick="closeModal()">CANCEL</button>
-        <button class="btn btn-primary" onclick="saveInput(${editIdx !== undefined ? editIdx : 'null'})">${editing?'UPDATE':'CREATE'}</button>
-      </div>
-    </div>
-  </div>`;
+  const catOptions = d.categories.map(c => '<option value="' + c + '" ' + (editing&&editing.category===c?'selected':'') + '>' + c + '</option>').join('');
+  const existingThresholds = editing && editing.pointsConfig && editing.pointsConfig.thresholds
+    ? toArray(editing.pointsConfig.thresholds).map((t,ti) =>
+        '<div class="flex-row" style="margin-bottom:6px;" id="thresh-row-' + ti + '">' +
+        '<input class="form-input" type="number" placeholder="Value" value="' + t.value + '" id="thresh-v-' + ti + '" style="flex:1">' +
+        '<span class="text-small">→</span>' +
+        '<input class="form-input" type="number" placeholder="Pts" value="' + t.points + '" id="thresh-p-' + ti + '" style="flex:1">' +
+        '<button class="btn-icon" onclick="removeThreshRow(' + ti + ')">✕</button>' +
+        '</div>'
+      ).join('')
+    : '<div class="flex-row" style="margin-bottom:6px;" id="thresh-row-0"><input class="form-input" type="number" placeholder="Value" id="thresh-v-0" style="flex:1"><span class="text-small">→</span><input class="form-input" type="number" placeholder="Pts" id="thresh-p-0" style="flex:1"><button class="btn-icon" onclick="removeThreshRow(0)">✕</button></div>';
+
+  const html = '<div class="modal-overlay" id="modal-add-input"><div class="modal">' +
+    '<div class="modal-title">' + (editing ? 'EDIT INPUT' : 'NEW INPUT') + '</div>' +
+    '<div class="form-group"><label class="form-label">ICON IMAGE (400x400, WHITE BG)</label>' +
+    '<div class="img-upload-zone" id="input-img-zone">' +
+    '<input type="file" accept="image/*" onchange="handleInputImg(event)">' +
+    '<div id="input-img-preview">' +
+    (editing&&editing.photo ? '<div class="img-preview-circle" style="margin-bottom:8px;"><img src="' + editing.photo + '" id="input-img-thumb"></div>' :
+    '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>') +
+    '</div><div class="upload-hint">TAP TO UPLOAD IMAGE</div></div>' +
+    '<input type="hidden" id="input-img-data" value="' + (editing&&editing.photo?editing.photo:'') + '"></div>' +
+    '<div class="form-group"><label class="form-label">INPUT NAME</label>' +
+    '<input class="form-input" id="inp-name" placeholder="e.g. Push-ups" value="' + (editing?editing.name:'') + '"></div>' +
+    '<div class="form-group"><label class="form-label">INPUT TYPE</label>' +
+    '<select class="form-select" id="inp-type" onchange="updatePointsOptions()">' +
+    '<option value="number" ' + (!editing||editing.inputType==='number'?'selected':'') + '>Number (count)</option>' +
+    '<option value="checkbox" ' + (editing&&editing.inputType==='checkbox'?'selected':'') + '>Checkbox (yes/no)</option>' +
+    '<option value="text" ' + (editing&&editing.inputType==='text'?'selected':'') + '>Short text</option>' +
+    '<option value="rating" ' + (editing&&editing.inputType==='rating'?'selected':'') + '>Rating 1-10</option>' +
+    '<option value="duration" ' + (editing&&editing.inputType==='duration'?'selected':'') + '>Duration (minutes)</option>' +
+    '</select></div>' +
+    '<div class="form-group"><label class="form-label">CATEGORY</label>' +
+    '<div style="display:flex;gap:8px;"><select class="form-select" id="inp-cat" style="flex:1">' + catOptions + '</select>' +
+    '<button class="btn btn-secondary btn-sm" onclick="addCategoryPrompt()">+ NEW</button></div></div>' +
+    '<div class="form-group"><label class="form-label">INITIAL VALUE (current accumulated value)</label>' +
+    '<input class="form-input" id="inp-init" type="number" placeholder="0" value="' + (editing?editing.initialValue||'':'0') + '"></div>' +
+    '<div class="form-group" id="pts-config-group"><label class="form-label">POINTS CONFIG</label>' +
+    '<select class="form-select" id="pts-type" onchange="updatePtsThresholds()">' +
+    '<option value="fixed" ' + (editing&&editing.pointsConfig&&editing.pointsConfig.type==='fixed'?'selected':'') + '>Fixed (X pts if done)</option>' +
+    '<option value="per_unit" ' + (editing&&editing.pointsConfig&&editing.pointsConfig.type==='per_unit'?'selected':'') + '>Per unit (X pts each unit)</option>' +
+    '<option value="threshold" ' + (editing&&editing.pointsConfig&&editing.pointsConfig.type==='threshold'?'selected':'') + '>Thresholds (different pts at targets)</option>' +
+    '</select>' +
+    '<div class="mt8" id="pts-detail"><input class="form-input" id="pts-amount" type="number" placeholder="Points amount" value="' + (editing&&editing.pointsConfig&&editing.pointsConfig.amount!==undefined?editing.pointsConfig.amount:10) + '"></div>' +
+    '<div class="mt8 hidden" id="pts-thresholds"><div class="text-small" style="margin-bottom:6px;">THRESHOLDS (value → points)</div>' +
+    '<div id="threshold-rows">' + existingThresholds + '</div>' +
+    '<button class="btn btn-secondary btn-sm" onclick="addThreshRow()">+ ADD THRESHOLD</button></div></div>' +
+    '<div class="modal-actions">' +
+    '<button class="btn btn-secondary" onclick="closeModal()">CANCEL</button>' +
+    '<button class="btn btn-primary" onclick="saveInput(' + (editIdx !== undefined ? editIdx : 'null') + ')">' + (editing?'UPDATE':'CREATE') + '</button>' +
+    '</div></div></div>';
+
   document.getElementById('modal-container').innerHTML = html;
   updatePtsThresholds();
 }
 
-let _threshCount = 1;
 function addThreshRow() {
   const rows = document.getElementById('threshold-rows');
   const idx = Date.now();
   const div = document.createElement('div');
   div.className = 'flex-row';
   div.style.marginBottom = '6px';
-  div.id = 'thresh-row-'+idx;
-  div.innerHTML = `<input class="form-input" type="number" placeholder="Value" id="thresh-v-${idx}" style="flex:1"><span class="text-small">→</span><input class="form-input" type="number" placeholder="Pts" id="thresh-p-${idx}" style="flex:1"><button class="btn-icon" onclick="removeThreshRow('${idx}')">✕</button>`;
+  div.id = 'thresh-row-' + idx;
+  div.innerHTML = '<input class="form-input" type="number" placeholder="Value" id="thresh-v-' + idx + '" style="flex:1"><span class="text-small">→</span><input class="form-input" type="number" placeholder="Pts" id="thresh-p-' + idx + '" style="flex:1"><button class="btn-icon" onclick="removeThreshRow(\'' + idx + '\')">✕</button>';
   rows.appendChild(div);
 }
 function removeThreshRow(idx) { const el = document.getElementById('thresh-row-'+idx); if(el) el.remove(); }
@@ -818,7 +825,7 @@ async function handleInputImg(e) {
   const file = e.target.files[0]; if (!file) return;
   const data = await imageToDataURL(file);
   document.getElementById('input-img-data').value = data;
-  document.getElementById('input-img-preview').innerHTML = `<div class="img-preview-circle" style="margin-bottom:8px;"><img src="${data}" style="width:100%;height:100%;object-fit:cover;"></div>`;
+  document.getElementById('input-img-preview').innerHTML = '<div class="img-preview-circle" style="margin-bottom:8px;"><img src="' + data + '" style="width:100%;height:100%;object-fit:cover;"></div>';
 }
 
 function addCategoryPrompt() {
@@ -856,7 +863,10 @@ function saveInput(editIdx) {
     pointsConfig.amount = parseFloat(document.getElementById('pts-amount').value) || 0;
   }
   const d = getData();
-  const inp = { id: editIdx !== null && editIdx !== undefined ? d.inputs[editIdx].id : 'inp_'+Date.now(), name, inputType: type, category: cat, initialValue: init, photo, pointsConfig };
+  const inp = {
+    id: (editIdx !== null && editIdx !== undefined) ? d.inputs[editIdx].id : 'inp_'+Date.now(),
+    name, inputType: type, category: cat, initialValue: init, photo, pointsConfig
+  };
   if (editIdx !== null && editIdx !== undefined) { d.inputs[editIdx] = inp; }
   else { d.inputs.push(inp); }
   saveData(d);
@@ -876,38 +886,41 @@ function renderMissions() {
   const active = d.objectives ? d.objectives.filter(o => !o.completed) : [];
   if (active.length === 0) { list.innerHTML = ''; noMsg.classList.remove('hidden'); return; }
   noMsg.classList.add('hidden');
-  list.innerHTML = active.map((obj, i) => renderObjectiveCard(obj, d.objectives.indexOf(obj))).join('');
+  list.innerHTML = active.map(obj => renderObjectiveCard(obj, d.objectives.indexOf(obj))).join('');
 }
 
 function renderObjectiveCard(obj, realIdx) {
   const d = getData();
   const log = getOrCreateTodayLog();
-  const imgHtml = obj.photo ? `<div class="img-preview-circle" style="width:56px;height:56px;flex-shrink:0;"><img src="${obj.photo}"></div>` : `<div style="width:56px;height:56px;border-radius:50%;border:3px solid #000;background:#fff;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:22px;">🎯</div>`;
-  const condsHtml = (obj.conditions || []).map(function(cond, ci) {
+  const imgHtml = obj.photo
+    ? '<div class="img-preview-circle" style="width:56px;height:56px;flex-shrink:0;"><img src="' + obj.photo + '"></div>'
+    : '<div style="width:56px;height:56px;border-radius:50%;border:3px solid #000;background:#fff;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:22px;">🎯</div>';
+
+  const conditions = toArray(obj.conditions);
+  const condsHtml = conditions.map(function(cond, ci) {
     const isMet = evalCondition(cond, d, log);
     const metClass = isMet ? 'met' : '';
     const metIcon = isMet ? '&#10003;' : '';
-    const manualBtn = (cond.type==='manual' && !obj.completed) ? '<button class="btn btn-sm btn-secondary" style="margin-left:auto;padding:2px 8px;font-size:10px;" onclick="toggleManualCond('+realIdx+','+ci+')">'+(cond.checked?'UNCHECK':'CHECK')+'</button>' : '';
-    return '<div class="obj-cond"><div class="cond-check '+metClass+'">'+metIcon+'</div><span>'+cond.description+'</span>'+manualBtn+'</div>';
+    const manualBtn = (cond.type==='manual' && !obj.completed)
+      ? '<button class="btn btn-sm btn-secondary" style="margin-left:auto;padding:2px 8px;font-size:10px;" onclick="toggleManualCond(' + realIdx + ',' + ci + ')">' + (cond.checked?'UNCHECK':'CHECK') + '</button>'
+      : '';
+    return '<div class="obj-cond"><div class="cond-check ' + metClass + '">' + metIcon + '</div><span>' + cond.description + '</span>' + manualBtn + '</div>';
   }).join('');
-  const allMet = (obj.conditions||[]).every((c,ci) => evalCondition(c, d, log));
-  return `<div class="obj-card ${obj.completed?'completed':''}">
-    ${imgHtml}
-    <div class="obj-info">
-      <div class="flex-between">
-        <div class="obj-name">${obj.name}</div>
-        ${obj.completed?'<div class="completed-badge">COMPLETE</div>':''}
-      </div>
-      <div class="obj-conditions">${condsHtml}</div>
-      ${allMet && !obj.completed ? `<button class="btn btn-primary btn-sm mt8" onclick="completeObjective(${realIdx})">MARK COMPLETE</button>` : ''}
-    </div>
-  </div>`;
+
+  const allMet = conditions.length > 0 && conditions.every(function(c, ci) { return evalCondition(c, d, log); });
+  return '<div class="obj-card ' + (obj.completed?'completed':'') + '">' +
+    imgHtml +
+    '<div class="obj-info">' +
+      '<div class="flex-between"><div class="obj-name">' + obj.name + '</div>' +
+      (obj.completed ? '<div class="completed-badge">COMPLETE</div>' : '') + '</div>' +
+      '<div class="obj-conditions">' + condsHtml + '</div>' +
+      (allMet && !obj.completed ? '<button class="btn btn-primary btn-sm mt8" onclick="completeObjective(' + realIdx + ')">MARK COMPLETE</button>' : '') +
+    '</div></div>';
 }
 
 function evalCondition(cond, d, log) {
   if (cond.type === 'manual') return !!cond.checked;
   if (cond.type === 'input_total') {
-    // total across all logs
     const inp = d.inputs.find(i => i.id === cond.inputId);
     if (!inp) return false;
     const total = (inp.initialValue || 0) + d.logs.reduce((s, l) => s + (parseFloat(l.entries[inp.id]) || 0), 0);
@@ -935,81 +948,74 @@ function completeObjective(objIdx) {
 }
 
 function checkObjectivesAuto() {
-  const d = getData();
-  const log = getOrCreateTodayLog();
-  let changed = false;
-  (d.objectives||[]).forEach((obj,i) => {
-    if (!obj.completed) {
-      const allMet = (obj.conditions||[]).every(c => evalCondition(c, d, log));
-      if (allMet && obj.conditions && obj.conditions.length > 0) {
-        // just re-render to show button
-      }
-    }
-  });
   renderMissions();
 }
 
 function openAddObjectiveModal(editIdx) {
   const d = getData();
   const editing = editIdx !== undefined ? d.objectives[editIdx] : null;
-  const inpOptions = (d.inputs||[]).map(i => `<option value="${i.id}">${i.name}</option>`).join('');
-  const html = `
-  <div class="modal-overlay" id="modal-add-obj">
-    <div class="modal">
-      <div class="modal-title">${editing?'EDIT MISSION':'NEW MISSION'}</div>
-      <div class="form-group">
-        <label class="form-label">MISSION IMAGE (400x400, WHITE BG)</label>
-        <div class="img-upload-zone">
-          <input type="file" accept="image/*" onchange="handleObjImg(event)">
-          <div id="obj-img-preview">
-            ${editing&&editing.photo?`<div class="img-preview-circle" style="margin-bottom:8px;"><img src="${editing.photo}"></div>`:`<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>`}
-          </div>
-          <div class="upload-hint">TAP TO UPLOAD IMAGE</div>
-        </div>
-        <input type="hidden" id="obj-img-data" value="${editing&&editing.photo?editing.photo:''}">
-      </div>
-      <div class="form-group">
-        <label class="form-label">MISSION NAME</label>
-        <input class="form-input" id="obj-name" placeholder="e.g. Complete 5000 push-ups" value="${editing?editing.name:''}">
-      </div>
-      <div class="form-group">
-        <label class="form-label">CONDITIONS</label>
-        <div class="cond-builder">
-          <div id="cond-list">
-            ${editing&&editing.conditions?editing.conditions.map((c,ci)=>renderCondBuildRow(c,ci,inpOptions)).join(''):''}
-          </div>
-          <div class="flex-row mt8" style="flex-wrap:wrap;gap:6px;">
-            <button class="btn btn-secondary btn-sm" onclick="addCondRow('manual','${inpOptions}')">+ MANUAL CHECK</button>
-            <button class="btn btn-secondary btn-sm" onclick="addCondRow('input_total','${inpOptions}')">+ INPUT TOTAL</button>
-            <button class="btn btn-secondary btn-sm" onclick="addCondRow('xp','${inpOptions}')">+ XP TARGET</button>
-          </div>
-        </div>
-      </div>
-      <div class="modal-actions">
-        <button class="btn btn-secondary" onclick="closeModal()">CANCEL</button>
-        <button class="btn btn-primary" onclick="saveObjective(${editIdx !== undefined ? editIdx : 'null'})">${editing?'UPDATE':'CREATE'}</button>
-      </div>
-    </div>
-  </div>`;
+  const inpOptions = (d.inputs||[]).map(i => '<option value="' + i.id + '">' + i.name + '</option>').join('');
+
+  const existingConds = editing && editing.conditions
+    ? toArray(editing.conditions).map((c,ci) => renderCondBuildRow(c, ci, inpOptions)).join('')
+    : '';
+
+  const html = '<div class="modal-overlay" id="modal-add-obj"><div class="modal">' +
+    '<div class="modal-title">' + (editing?'EDIT MISSION':'NEW MISSION') + '</div>' +
+    '<div class="form-group"><label class="form-label">MISSION IMAGE (400x400, WHITE BG)</label>' +
+    '<div class="img-upload-zone"><input type="file" accept="image/*" onchange="handleObjImg(event)">' +
+    '<div id="obj-img-preview">' +
+    (editing&&editing.photo ? '<div class="img-preview-circle" style="margin-bottom:8px;"><img src="' + editing.photo + '"></div>' :
+    '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>') +
+    '</div><div class="upload-hint">TAP TO UPLOAD IMAGE</div></div>' +
+    '<input type="hidden" id="obj-img-data" value="' + (editing&&editing.photo?editing.photo:'') + '"></div>' +
+    '<div class="form-group"><label class="form-label">MISSION NAME</label>' +
+    '<input class="form-input" id="obj-name" placeholder="e.g. Complete 5000 push-ups" value="' + (editing?editing.name:'') + '"></div>' +
+    '<div class="form-group"><label class="form-label">CONDITIONS</label>' +
+    '<div class="cond-builder"><div id="cond-list">' + existingConds + '</div>' +
+    '<div class="flex-row mt8" style="flex-wrap:wrap;gap:6px;">' +
+    '<button class="btn btn-secondary btn-sm" onclick="addCondRow(\'manual\',\'' + inpOptions.replace(/'/g,'&#39;') + '\')">+ MANUAL CHECK</button>' +
+    '<button class="btn btn-secondary btn-sm" onclick="addCondRow(\'input_total\',\'' + inpOptions.replace(/'/g,'&#39;') + '\')">+ INPUT TOTAL</button>' +
+    '<button class="btn btn-secondary btn-sm" onclick="addCondRow(\'xp\',\'' + inpOptions.replace(/'/g,'&#39;') + '\')">+ XP TARGET</button>' +
+    '</div></div></div>' +
+    '<div class="modal-actions">' +
+    '<button class="btn btn-secondary" onclick="closeModal()">CANCEL</button>' +
+    '<button class="btn btn-primary" onclick="saveObjective(' + (editIdx !== undefined ? editIdx : 'null') + ')">' + (editing?'UPDATE':'CREATE') + '</button>' +
+    '</div></div></div>';
+
   document.getElementById('modal-container').innerHTML = html;
 }
 
 function renderCondBuildRow(cond, ci, inpOptions) {
   if (cond.type === 'manual') {
-    return `<div class="cond-item-build" id="cond-row-${ci}"><span class="cond-type-badge">MANUAL</span><input class="form-input" id="cond-desc-${ci}" value="${cond.description||''}" placeholder="Condition description" style="flex:1"><button class="btn-icon" onclick="removeCond(${ci})">✕</button><input type="hidden" id="cond-type-${ci}" value="manual"></div>`;
+    return '<div class="cond-item-build" id="cond-row-' + ci + '"><span class="cond-type-badge">MANUAL</span>' +
+      '<input class="form-input" id="cond-desc-' + ci + '" value="' + (cond.description||'') + '" placeholder="Condition description" style="flex:1">' +
+      '<button class="btn-icon" onclick="removeCond(' + ci + ')">✕</button>' +
+      '<input type="hidden" id="cond-type-' + ci + '" value="manual"></div>';
   } else if (cond.type === 'input_total') {
-    return `<div class="cond-item-build" id="cond-row-${ci}"><span class="cond-type-badge">TOTAL</span><select class="form-select" id="cond-inp-${ci}" style="flex:1">${inpOptions}</select><span class="text-small">≥</span><input class="form-input" id="cond-val-${ci}" type="number" value="${cond.targetValue||0}" style="width:80px;"><button class="btn-icon" onclick="removeCond(${ci})">✕</button><input type="hidden" id="cond-type-${ci}" value="input_total"><input type="hidden" id="cond-desc-${ci}" value=""></div>`;
+    return '<div class="cond-item-build" id="cond-row-' + ci + '"><span class="cond-type-badge">TOTAL</span>' +
+      '<select class="form-select" id="cond-inp-' + ci + '" style="flex:1">' + inpOptions + '</select>' +
+      '<span class="text-small">≥</span>' +
+      '<input class="form-input" id="cond-val-' + ci + '" type="number" value="' + (cond.targetValue||0) + '" style="width:80px;">' +
+      '<button class="btn-icon" onclick="removeCond(' + ci + ')">✕</button>' +
+      '<input type="hidden" id="cond-type-' + ci + '" value="input_total">' +
+      '<input type="hidden" id="cond-desc-' + ci + '" value=""></div>';
   } else if (cond.type === 'xp') {
-    return `<div class="cond-item-build" id="cond-row-${ci}"><span class="cond-type-badge">XP</span><span class="text-small">Reach</span><input class="form-input" id="cond-val-${ci}" type="number" value="${cond.targetValue||0}" style="width:80px;"><span class="text-small">XP</span><input class="form-input" id="cond-desc-${ci}" value="${cond.description||''}" placeholder="Description" style="flex:1"><button class="btn-icon" onclick="removeCond(${ci})">✕</button><input type="hidden" id="cond-type-${ci}" value="xp"></div>`;
+    return '<div class="cond-item-build" id="cond-row-' + ci + '"><span class="cond-type-badge">XP</span>' +
+      '<span class="text-small">Reach</span>' +
+      '<input class="form-input" id="cond-val-' + ci + '" type="number" value="' + (cond.targetValue||0) + '" style="width:80px;">' +
+      '<span class="text-small">XP</span>' +
+      '<input class="form-input" id="cond-desc-' + ci + '" value="' + (cond.description||'') + '" placeholder="Description" style="flex:1">' +
+      '<button class="btn-icon" onclick="removeCond(' + ci + ')">✕</button>' +
+      '<input type="hidden" id="cond-type-' + ci + '" value="xp"></div>';
   }
   return '';
 }
 
-let _condCount = 0;
 function addCondRow(type, inpOptions) {
   const ci = 'c' + Date.now();
   const div = document.createElement('div');
-  div.innerHTML = renderCondBuildRow({type, description:'', targetValue:0}, ci, inpOptions);
+  div.innerHTML = renderCondBuildRow({type: type, description:'', targetValue:0}, ci, inpOptions);
   document.getElementById('cond-list').appendChild(div.firstChild);
 }
 function removeCond(ci) { const el = document.getElementById('cond-row-'+ci); if(el) el.remove(); }
@@ -1018,7 +1024,7 @@ async function handleObjImg(e) {
   const file = e.target.files[0]; if (!file) return;
   const data = await imageToDataURL(file);
   document.getElementById('obj-img-data').value = data;
-  document.getElementById('obj-img-preview').innerHTML = `<div class="img-preview-circle" style="margin-bottom:8px;"><img src="${data}"></div>`;
+  document.getElementById('obj-img-preview').innerHTML = '<div class="img-preview-circle" style="margin-bottom:8px;"><img src="' + data + '"></div>';
 }
 
 function saveObjective(editIdx) {
@@ -1038,12 +1044,15 @@ function saveObjective(editIdx) {
     if (type === 'manual') conditions.push({type:'manual', description: desc, checked: false});
     else if (type === 'input_total') {
       const inp = d.inputs.find(i => i.id === inpId);
-      conditions.push({type:'input_total', inputId: inpId, targetValue: val, description: `${inp?inp.name:'Input'} total ≥ ${val}`});
+      conditions.push({type:'input_total', inputId: inpId, targetValue: val, description: (inp?inp.name:'Input') + ' total ≥ ' + val});
     }
-    else if (type === 'xp') conditions.push({type:'xp', targetValue: val, description: desc || `Reach ${val} XP`});
+    else if (type === 'xp') conditions.push({type:'xp', targetValue: val, description: desc || ('Reach ' + val + ' XP')});
   });
   const d = getData();
-  const obj = { id: editIdx!==null&&editIdx!==undefined ? d.objectives[editIdx].id : 'obj_'+Date.now(), name, photo, conditions, completed: false };
+  const obj = {
+    id: (editIdx!==null&&editIdx!==undefined) ? d.objectives[editIdx].id : 'obj_'+Date.now(),
+    name, photo, conditions, completed: false
+  };
   if (editIdx!==null&&editIdx!==undefined) d.objectives[editIdx] = obj;
   else { if (!d.objectives) d.objectives=[]; d.objectives.push(obj); }
   saveData(d);
@@ -1059,39 +1068,39 @@ function renderRankPage() {
   const d = getData();
   const grade = d.grades[d.currentGradeIndex];
   const next = d.grades[d.currentGradeIndex + 1];
-  // Current grade
-  const imgHtml = grade && grade.photo ? `<div class="img-preview-circle img-preview-circle-lg" style="float:left;margin-right:16px;"><img src="${grade.photo}"></div>` : '';
-  document.getElementById('rank-current-content').innerHTML = `
-    ${imgHtml}
-    <div class="grade-label">${grade?grade.name:'ALPHA'}</div>
-    <div class="grade-name">CIPHER ORGANIZATION</div>
-    <div class="grade-msg">"${grade&&grade.message?grade.message:''}"</div>
-    <div style="clear:both"></div>
-  `;
+  const imgHtml = grade && grade.photo ? '<div class="img-preview-circle img-preview-circle-lg" style="float:left;margin-right:16px;"><img src="' + grade.photo + '"></div>' : '';
+  document.getElementById('rank-current-content').innerHTML =
+    imgHtml +
+    '<div class="grade-label">' + (grade?grade.name:'ALPHA') + '</div>' +
+    '<div class="grade-name">CIPHER ORGANIZATION</div>' +
+    '<div class="grade-msg">"' + (grade&&grade.message?grade.message:'') + '"</div>' +
+    '<div style="clear:both"></div>';
+
   if (next) {
     const pct = Math.min(100, Math.round((d.totalXP - (grade.xpRequired||0)) / (next.xpRequired - (grade.xpRequired||0)) * 100));
     document.getElementById('rank-progress-bar').style.width = Math.max(0,pct) + '%';
-    document.getElementById('rank-progress-text').textContent = `${d.totalXP} / ${next.xpRequired} XP (${Math.max(0,pct)}%)`;
+    document.getElementById('rank-progress-text').textContent = d.totalXP + ' / ' + next.xpRequired + ' XP (' + Math.max(0,pct) + '%)';
   } else {
     document.getElementById('rank-progress-bar').style.width = '100%';
     document.getElementById('rank-progress-text').textContent = 'MAX RANK ACHIEVED';
   }
-  // All grades
+
   const list = document.getElementById('grades-list');
   list.innerHTML = d.grades.map((g, gi) => {
-    const img = g.photo ? `<div class="img-preview-circle" style="width:56px;height:56px;flex-shrink:0;"><img src="${g.photo}"></div>` : `<div style="width:56px;height:56px;border-radius:50%;border:3px solid #000;background:#fff;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:11px;color:#333;">${g.name[0]}</div>`;
-    return `<div class="grade-card ${gi===d.currentGradeIndex?'current':''}">
-      ${img}
-      <div class="grade-info">
-        <div class="grade-label" style="font-size:22px;line-height:1;">${g.name}</div>
-        <div class="grade-req">${gi===0?'STARTING RANK':'XP REQUIRED: '+g.xpRequired}</div>
-        <div class="grade-msg">"${g.message||''}"</div>
-      </div>
-      <div style="display:flex;flex-direction:column;gap:4px;">
-        <button class="btn btn-secondary btn-sm" onclick="openEditGradeModal(${gi})">EDIT</button>
-        ${gi>0&&!g.unlocked?`<button class="btn btn-danger btn-sm" onclick="deleteGrade(${gi})">DEL</button>`:''}
-      </div>
-    </div>`;
+    const img = g.photo
+      ? '<div class="img-preview-circle" style="width:56px;height:56px;flex-shrink:0;"><img src="' + g.photo + '"></div>'
+      : '<div style="width:56px;height:56px;border-radius:50%;border:3px solid #000;background:#fff;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:11px;color:#333;">' + g.name[0] + '</div>';
+    return '<div class="grade-card ' + (gi===d.currentGradeIndex?'current':'') + '">' +
+      img +
+      '<div class="grade-info">' +
+        '<div class="grade-label" style="font-size:22px;line-height:1;">' + g.name + '</div>' +
+        '<div class="grade-req">' + (gi===0?'STARTING RANK':'XP REQUIRED: '+g.xpRequired) + '</div>' +
+        '<div class="grade-msg">"' + (g.message||'') + '"</div>' +
+      '</div>' +
+      '<div style="display:flex;flex-direction:column;gap:4px;">' +
+        '<button class="btn btn-secondary btn-sm" onclick="openEditGradeModal(' + gi + ')">EDIT</button>' +
+        (gi>0&&!g.unlocked ? '<button class="btn btn-danger btn-sm" onclick="deleteGrade(' + gi + ')">DEL</button>' : '') +
+      '</div></div>';
   }).join('');
 }
 
@@ -1112,17 +1121,14 @@ function checkGradeUp() {
 }
 
 function showGradeUnlockModal(grade) {
-  const html = `<div class="modal-overlay">
-    <div class="modal" style="text-align:center;">
-      <div class="grade-unlock">
-        <div style="font-family:var(--font-mono);font-size:10px;color:var(--text3);letter-spacing:3px;margin-bottom:16px;">RANK UP — CIPHER ORGANIZATION</div>
-        ${grade.photo?`<div class="img-preview-circle img-preview-circle-lg" style="margin:0 auto 16px;"><img src="${grade.photo}"></div>`:''}
-        <div class="big-grade">${grade.name}</div>
-        <div class="unlock-msg">${grade.message||'Rank achieved. The organization acknowledges your progress.'}</div>
-        <button class="btn btn-primary btn-full mt16" onclick="closeModal()">ACKNOWLEDGED</button>
-      </div>
-    </div>
-  </div>`;
+  const html = '<div class="modal-overlay"><div class="modal" style="text-align:center;">' +
+    '<div class="grade-unlock">' +
+    '<div style="font-family:var(--font-mono);font-size:10px;color:var(--text3);letter-spacing:3px;margin-bottom:16px;">RANK UP — CIPHER ORGANIZATION</div>' +
+    (grade.photo ? '<div class="img-preview-circle img-preview-circle-lg" style="margin:0 auto 16px;"><img src="' + grade.photo + '"></div>' : '') +
+    '<div class="big-grade">' + grade.name + '</div>' +
+    '<div class="unlock-msg">' + (grade.message||'Rank achieved. The organization acknowledges your progress.') + '</div>' +
+    '<button class="btn btn-primary btn-full mt16" onclick="closeModal()">ACKNOWLEDGED</button>' +
+    '</div></div></div>';
   document.getElementById('modal-container').innerHTML = html;
 }
 
@@ -1131,58 +1137,44 @@ function openAddGradeModal() {
   const usedNames = d.grades.map(g => g.name);
   const available = GRADES_LIST.filter(g => !usedNames.includes(g));
   if (available.length === 0) { showNotif('// ALL RANKS ALREADY CONFIGURED //'); return; }
-  const nameOpts = available.map(n => `<option value="${n}">${n}</option>`).join('');
-  const html = `<div class="modal-overlay"><div class="modal">
-    <div class="modal-title">NEW RANK</div>
-    <div class="form-group">
-      <label class="form-label">RANK DESIGNATION</label>
-      <select class="form-select" id="grade-name">${nameOpts}</select>
-    </div>
-    <div class="form-group">
-      <label class="form-label">RANK PHOTO (400x400, WHITE BG)</label>
-      <div class="img-upload-zone"><input type="file" accept="image/*" onchange="handleGradeImg(event)">
-      <div id="grade-img-preview"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
-      <div class="upload-hint">TAP TO UPLOAD IMAGE</div></div>
-      <input type="hidden" id="grade-img-data" value="">
-    </div>
-    <div class="form-group">
-      <label class="form-label">XP REQUIRED TO UNLOCK</label>
-      <input class="form-input" id="grade-xp" type="number" placeholder="e.g. 500">
-    </div>
-    <div class="form-group">
-      <label class="form-label">UNLOCK MESSAGE (personalized congratulation)</label>
-      <textarea class="form-input" id="grade-msg" placeholder="Write your personalized congratulation message..."></textarea>
-    </div>
-    <div class="modal-actions">
-      <button class="btn btn-secondary" onclick="closeModal()">CANCEL</button>
-      <button class="btn btn-primary" onclick="saveNewGrade()">CREATE RANK</button>
-    </div>
-  </div></div>`;
+  const nameOpts = available.map(n => '<option value="' + n + '">' + n + '</option>').join('');
+  const html = '<div class="modal-overlay"><div class="modal">' +
+    '<div class="modal-title">NEW RANK</div>' +
+    '<div class="form-group"><label class="form-label">RANK DESIGNATION</label>' +
+    '<select class="form-select" id="grade-name">' + nameOpts + '</select></div>' +
+    '<div class="form-group"><label class="form-label">RANK PHOTO (400x400, WHITE BG)</label>' +
+    '<div class="img-upload-zone"><input type="file" accept="image/*" onchange="handleGradeImg(event)">' +
+    '<div id="grade-img-preview"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>' +
+    '<div class="upload-hint">TAP TO UPLOAD IMAGE</div></div>' +
+    '<input type="hidden" id="grade-img-data" value=""></div>' +
+    '<div class="form-group"><label class="form-label">XP REQUIRED TO UNLOCK</label>' +
+    '<input class="form-input" id="grade-xp" type="number" placeholder="e.g. 500"></div>' +
+    '<div class="form-group"><label class="form-label">UNLOCK MESSAGE (personalized congratulation)</label>' +
+    '<textarea class="form-input" id="grade-msg" placeholder="Write your personalized congratulation message..."></textarea></div>' +
+    '<div class="modal-actions">' +
+    '<button class="btn btn-secondary" onclick="closeModal()">CANCEL</button>' +
+    '<button class="btn btn-primary" onclick="saveNewGrade()">CREATE RANK</button>' +
+    '</div></div></div>';
   document.getElementById('modal-container').innerHTML = html;
 }
 
 function openEditGradeModal(gi) {
   const d = getData();
   const g = d.grades[gi];
-  const html = `<div class="modal-overlay"><div class="modal">
-    <div class="modal-title">EDIT RANK: ${g.name}</div>
-    <div class="form-group">
-      <label class="form-label">RANK PHOTO (400x400, WHITE BG)</label>
-      <div class="img-upload-zone"><input type="file" accept="image/*" onchange="handleGradeImg(event)">
-      <div id="grade-img-preview">${g.photo?`<div class="img-preview-circle" style="margin-bottom:8px;"><img src="${g.photo}"></div>`:`<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>`}</div>
-      <div class="upload-hint">TAP TO UPLOAD / CHANGE IMAGE</div></div>
-      <input type="hidden" id="grade-img-data" value="${g.photo||''}">
-    </div>
-    ${gi>0?`<div class="form-group"><label class="form-label">XP REQUIRED</label><input class="form-input" id="grade-xp" type="number" value="${g.xpRequired||0}"></div>`:''}
-    <div class="form-group">
-      <label class="form-label">UNLOCK MESSAGE</label>
-      <textarea class="form-input" id="grade-msg">${g.message||''}</textarea>
-    </div>
-    <div class="modal-actions">
-      <button class="btn btn-secondary" onclick="closeModal()">CANCEL</button>
-      <button class="btn btn-primary" onclick="updateGrade(${gi})">UPDATE</button>
-    </div>
-  </div></div>`;
+  const html = '<div class="modal-overlay"><div class="modal">' +
+    '<div class="modal-title">EDIT RANK: ' + g.name + '</div>' +
+    '<div class="form-group"><label class="form-label">RANK PHOTO (400x400, WHITE BG)</label>' +
+    '<div class="img-upload-zone"><input type="file" accept="image/*" onchange="handleGradeImg(event)">' +
+    '<div id="grade-img-preview">' + (g.photo ? '<div class="img-preview-circle" style="margin-bottom:8px;"><img src="' + g.photo + '"></div>' : '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>') + '</div>' +
+    '<div class="upload-hint">TAP TO UPLOAD / CHANGE IMAGE</div></div>' +
+    '<input type="hidden" id="grade-img-data" value="' + (g.photo||'') + '"></div>' +
+    (gi>0 ? '<div class="form-group"><label class="form-label">XP REQUIRED</label><input class="form-input" id="grade-xp" type="number" value="' + (g.xpRequired||0) + '"></div>' : '') +
+    '<div class="form-group"><label class="form-label">UNLOCK MESSAGE</label>' +
+    '<textarea class="form-input" id="grade-msg">' + (g.message||'') + '</textarea></div>' +
+    '<div class="modal-actions">' +
+    '<button class="btn btn-secondary" onclick="closeModal()">CANCEL</button>' +
+    '<button class="btn btn-primary" onclick="updateGrade(' + gi + ')">UPDATE</button>' +
+    '</div></div></div>';
   document.getElementById('modal-container').innerHTML = html;
 }
 
@@ -1190,7 +1182,7 @@ async function handleGradeImg(e) {
   const file = e.target.files[0]; if (!file) return;
   const data = await imageToDataURL(file);
   document.getElementById('grade-img-data').value = data;
-  document.getElementById('grade-img-preview').innerHTML = `<div class="img-preview-circle" style="margin-bottom:8px;"><img src="${data}"></div>`;
+  document.getElementById('grade-img-preview').innerHTML = '<div class="img-preview-circle" style="margin-bottom:8px;"><img src="' + data + '"></div>';
 }
 
 function saveNewGrade() {
@@ -1242,7 +1234,10 @@ function setStatTab(days, btn) {
 function renderStats(days) {
   const d = getData();
   const container = document.getElementById('stats-container');
-  if (!d.inputs || d.inputs.length === 0) { container.innerHTML = '<div class="text-small" style="text-align:center;padding:32px 0;">NO INPUTS CONFIGURED YET</div>'; return; }
+  if (!d.inputs || d.inputs.length === 0) {
+    container.innerHTML = '<div class="text-small" style="text-align:center;padding:32px 0;">NO INPUTS CONFIGURED YET</div>';
+    return;
+  }
   const now = new Date();
   const cutoff = days === 'all' ? null : new Date(now - (parseInt(days) * 86400000));
   const relevantLogs = days === 'all' ? d.logs : (d.logs || []).filter(l => new Date(l.date) >= cutoff);
@@ -1252,7 +1247,6 @@ function renderStats(days) {
     const total = vals.reduce((s,v)=>s+v,0);
     const avg = vals.length > 0 ? (total/vals.length).toFixed(1) : 0;
     const max = vals.length > 0 ? Math.max(...vals) : 0;
-    // Create bars for last N days
     const barDays = days === 'all' ? Math.min(30, relevantLogs.length) : parseInt(days);
     const barLogs = [...(d.logs||[])].sort((a,b)=>a.date.localeCompare(b.date)).slice(-barDays);
     const maxVal = Math.max(...barLogs.map(l=>parseFloat(l.entries[inp.id])||0), 1);
@@ -1260,18 +1254,16 @@ function renderStats(days) {
       const v = parseFloat(l.entries[inp.id]) || 0;
       const pct = (v/maxVal*100).toFixed(0);
       const dateStr = l.date.slice(5);
-      return `<div class="bar-row"><div class="bar-label">${dateStr}</div><div class="bar-track"><div class="bar-fill" style="width:${pct}%"></div></div><div class="bar-val">${v}</div></div>`;
+      return '<div class="bar-row"><div class="bar-label">' + dateStr + '</div><div class="bar-track"><div class="bar-fill" style="width:' + pct + '%"></div></div><div class="bar-val">' + v + '</div></div>';
     }).join('');
-    const imgHtml = inp.photo ? `<div class="img-preview-circle" style="width:32px;height:32px;flex-shrink:0;"><img src="${inp.photo}"></div>` : '';
-    return `<div class="stat-card">
-      <div class="stat-name">${imgHtml}${inp.name} <span class="text-small" style="margin-left:auto;">${inp.category||''}</span></div>
-      <div class="flex-row" style="margin-bottom:10px;gap:16px;">
-        <div><div class="text-small">TOTAL</div><div style="font-family:var(--font-mono);color:var(--accent);font-size:18px;">${total}</div></div>
-        <div><div class="text-small">AVG/DAY</div><div style="font-family:var(--font-mono);color:var(--text2);font-size:18px;">${avg}</div></div>
-        <div><div class="text-small">BEST DAY</div><div style="font-family:var(--font-mono);color:var(--text2);font-size:18px;">${max}</div></div>
-      </div>
-      ${barsHtml}
-    </div>`;
+    const imgHtml = inp.photo ? '<div class="img-preview-circle" style="width:32px;height:32px;flex-shrink:0;"><img src="' + inp.photo + '"></div>' : '';
+    return '<div class="stat-card">' +
+      '<div class="stat-name">' + imgHtml + inp.name + '<span class="text-small" style="margin-left:auto;">' + (inp.category||'') + '</span></div>' +
+      '<div class="flex-row" style="margin-bottom:10px;gap:16px;">' +
+        '<div><div class="text-small">TOTAL</div><div style="font-family:var(--font-mono);color:var(--accent);font-size:18px;">' + total + '</div></div>' +
+        '<div><div class="text-small">AVG/DAY</div><div style="font-family:var(--font-mono);color:var(--text2);font-size:18px;">' + avg + '</div></div>' +
+        '<div><div class="text-small">BEST DAY</div><div style="font-family:var(--font-mono);color:var(--text2);font-size:18px;">' + max + '</div></div>' +
+      '</div>' + barsHtml + '</div>';
   }).filter(Boolean).join('');
   container.innerHTML = html || '<div class="text-small" style="text-align:center;padding:32px 0;">NO NUMERIC STATS AVAILABLE</div>';
 }
@@ -1287,14 +1279,13 @@ function renderAchievements() {
   if (completed.length === 0) { list.innerHTML = ''; noMsg.classList.remove('hidden'); return; }
   noMsg.classList.add('hidden');
   list.innerHTML = completed.map(obj => {
-    const img = obj.photo ? `<div class="img-preview-circle" style="width:56px;height:56px;flex-shrink:0;"><img src="${obj.photo}"></div>` : `<div style="width:56px;height:56px;border-radius:50%;border:3px solid #000;background:#fff;display:flex;align-items:center;justify-content:center;font-size:24px;">🏆</div>`;
-    return `<div class="ach-card">
-      ${img}
-      <div>
-        <div class="obj-name">${obj.name}</div>
-        <div class="ach-date">// COMPLETED: ${obj.completedDate ? new Date(obj.completedDate).toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'}).toUpperCase() : 'UNKNOWN'} //</div>
-      </div>
-    </div>`;
+    const img = obj.photo
+      ? '<div class="img-preview-circle" style="width:56px;height:56px;flex-shrink:0;"><img src="' + obj.photo + '"></div>'
+      : '<div style="width:56px;height:56px;border-radius:50%;border:3px solid #000;background:#fff;display:flex;align-items:center;justify-content:center;font-size:24px;">🏆</div>';
+    return '<div class="ach-card">' + img +
+      '<div><div class="obj-name">' + obj.name + '</div>' +
+      '<div class="ach-date">// COMPLETED: ' + (obj.completedDate ? new Date(obj.completedDate).toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'}).toUpperCase() : 'UNKNOWN') + ' //</div>' +
+      '</div></div>';
   }).join('');
 }
 
@@ -1305,37 +1296,36 @@ function renderSettings() {
   const d = getData();
   const mi = document.getElementById('manage-inputs-list');
   if (mi) {
-    if (!d.inputs || d.inputs.length === 0) { mi.innerHTML = '<div class="text-small">No inputs configured.</div>'; }
-    else {
-      mi.innerHTML = d.inputs.map((inp, i) => `<div class="flex-between" style="padding:8px 0;border-bottom:1px solid var(--border);">
-        <div style="display:flex;align-items:center;gap:8px;">
-          ${inp.photo?`<div class="img-preview-circle" style="width:32px;height:32px;"><img src="${inp.photo}"></div>`:''}
-          <div>
-            <div style="font-family:var(--font-body);font-size:14px;font-weight:600;">${inp.name}</div>
-            <div class="text-small">${inp.inputType} · ${inp.category||''}</div>
-          </div>
-        </div>
-        <div style="display:flex;gap:6px;">
-          <button class="btn btn-secondary btn-sm" onclick="openAddInputModal(${i})">EDIT</button>
-          <button class="btn btn-danger btn-sm" onclick="deleteInput(${i})">DEL</button>
-        </div>
-      </div>`).join('');
+    if (!d.inputs || d.inputs.length === 0) {
+      mi.innerHTML = '<div class="text-small">No inputs configured.</div>';
+    } else {
+      mi.innerHTML = d.inputs.map((inp, i) =>
+        '<div class="flex-between" style="padding:8px 0;border-bottom:1px solid var(--border);">' +
+        '<div style="display:flex;align-items:center;gap:8px;">' +
+        (inp.photo ? '<div class="img-preview-circle" style="width:32px;height:32px;"><img src="' + inp.photo + '"></div>' : '') +
+        '<div><div style="font-family:var(--font-body);font-size:14px;font-weight:600;">' + inp.name + '</div>' +
+        '<div class="text-small">' + inp.inputType + ' · ' + (inp.category||'') + '</div></div></div>' +
+        '<div style="display:flex;gap:6px;">' +
+        '<button class="btn btn-secondary btn-sm" onclick="openAddInputModal(' + i + ')">EDIT</button>' +
+        '<button class="btn btn-danger btn-sm" onclick="deleteInput(' + i + ')">DEL</button>' +
+        '</div></div>'
+      ).join('');
     }
   }
   const mm = document.getElementById('manage-missions-list');
   if (mm) {
     const active = (d.objectives||[]).filter(o=>!o.completed);
-    if (active.length === 0) { mm.innerHTML = '<div class="text-small">No active missions.</div>'; }
-    else {
+    if (active.length === 0) {
+      mm.innerHTML = '<div class="text-small">No active missions.</div>';
+    } else {
       mm.innerHTML = active.map(obj => {
         const realIdx = d.objectives.indexOf(obj);
-        return `<div class="flex-between" style="padding:8px 0;border-bottom:1px solid var(--border);">
-          <div style="font-family:var(--font-body);font-size:14px;font-weight:600;">${obj.name}</div>
-          <div style="display:flex;gap:6px;">
-            <button class="btn btn-secondary btn-sm" onclick="openAddObjectiveModal(${realIdx})">EDIT</button>
-            <button class="btn btn-danger btn-sm" onclick="deleteObjective(${realIdx})">DEL</button>
-          </div>
-        </div>`;
+        return '<div class="flex-between" style="padding:8px 0;border-bottom:1px solid var(--border);">' +
+          '<div style="font-family:var(--font-body);font-size:14px;font-weight:600;">' + obj.name + '</div>' +
+          '<div style="display:flex;gap:6px;">' +
+          '<button class="btn btn-secondary btn-sm" onclick="openAddObjectiveModal(' + realIdx + ')">EDIT</button>' +
+          '<button class="btn btn-danger btn-sm" onclick="deleteObjective(' + realIdx + ')">DEL</button>' +
+          '</div></div>';
       }).join('');
     }
   }
@@ -1369,11 +1359,6 @@ function resetAll() {
 // MODAL UTILS
 // ============================================================
 function closeModal() { document.getElementById('modal-container').innerHTML = ''; }
-
-// ============================================================
-// INIT
-// ============================================================
-// Data loaded on login click via initData(callback)
 </script>
 </body>
 </html>
