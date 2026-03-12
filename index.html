@@ -45,7 +45,7 @@
     --blue: #2980b9;
     --text: #cce0ff;
     --text2: #7aA8d0;
-    --text3: #3a5878;
+    --text3: #8aacca;
     --glow:     rgba(74,158,255,0.25);
   --glow2:    rgba(74,158,255,0.08);
   --border2:  #2a4570;
@@ -76,7 +76,7 @@
   .login-logo .tagline { font-family: var(--font-mono); font-size: 13px; color: var(--text2); letter-spacing: 5px; margin-top: 10px; }
   .login-box { background: var(--card); border: 1px solid var(--border); padding: 36px 44px; width: min(500px, 92vw); }
   .login-box .agent-name { font-family: var(--font-display); font-size: 28px; color: var(--accent2); letter-spacing: 5px; text-align: center; margin-bottom: 6px; }
-  .login-box .agent-motto { font-family: var(--font-mono); font-size: 13px; color: rgba(74,158,255,0.55); letter-spacing: 2px; text-align: center; margin-bottom: 0; white-space: nowrap; }
+  .login-box .agent-motto { font-family: var(--font-mono); font-size: 13px; color: var(--text2); letter-spacing: 2px; text-align: center; margin-bottom: 0; white-space: nowrap; }
   .login-box hr { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
   .login-box label { font-family: var(--font-mono); font-size: 11px; color: var(--text3); letter-spacing: 3px; display: block; margin-bottom: 8px; }
   .login-box input { width: 100%; background: var(--bg); border: 1px solid var(--border); color: var(--text); font-family: var(--font-mono); font-size: 22px; padding: 14px; letter-spacing: 8px; text-align: center; }
@@ -402,6 +402,16 @@
   @keyframes fade-in { to { opacity:1; } }
   #login-screen { opacity:0; animation: fade-in 0.5s ease forwards 0.1s; }
 
+  /* === NUMPAD === */
+  .numpad-btn {
+    background: var(--card2); border: 1px solid var(--border2, #2a4570);
+    color: var(--text); font-family: var(--font-mono); font-size: 20px;
+    padding: 14px 0; cursor: pointer; transition: all 0.15s;
+    border-radius: 2px; letter-spacing: 1px;
+  }
+  .numpad-btn:hover, .numpad-btn:active { background: var(--accent3); border-color: var(--accent); color: var(--white, #e8f4ff); }
+  .numpad-btn:active { transform: scale(0.95); }
+
   /* === FORM INPUTS FOCUS GLOW === */
   .form-input:focus { border-color:var(--accent); box-shadow:0 0 10px rgba(74,158,255,0.12); }
 
@@ -430,14 +440,28 @@
   <div class="login-box">
     <div class="agent-name">THE SILENT POSTMAN</div>
     <div class="agent-motto">Authenticity &nbsp;&middot;&nbsp; Integrity &nbsp;&middot;&nbsp; Honor</div>
-    <hr>
     <label for="pw-input">CLEARANCE CODE</label>
     <div style="position:relative;">
-      <input type="password" id="pw-input" autocomplete="off" placeholder="•••••" style="width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:var(--font-mono);font-size:18px;padding:12px 44px 12px 12px;letter-spacing:6px;text-align:center;">
+      <input type="password" id="pw-input" autocomplete="off" placeholder="• • • •" style="width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:var(--font-mono);font-size:24px;padding:14px 44px 14px 12px;letter-spacing:10px;text-align:center;pointer-events:none;" readonly>
       <button type="button" onclick="toggleShowPw()" id="show-pw-btn" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--text3);font-size:18px;padding:4px;">👁</button>
     </div>
+    <!-- NUMPAD -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px;" id="numpad">
+      <button class="numpad-btn" onclick="numpadPress('1')">1</button>
+      <button class="numpad-btn" onclick="numpadPress('2')">2</button>
+      <button class="numpad-btn" onclick="numpadPress('3')">3</button>
+      <button class="numpad-btn" onclick="numpadPress('4')">4</button>
+      <button class="numpad-btn" onclick="numpadPress('5')">5</button>
+      <button class="numpad-btn" onclick="numpadPress('6')">6</button>
+      <button class="numpad-btn" onclick="numpadPress('7')">7</button>
+      <button class="numpad-btn" onclick="numpadPress('8')">8</button>
+      <button class="numpad-btn" onclick="numpadPress('9')">9</button>
+      <button class="numpad-btn" onclick="numpadClear()" style="background:rgba(192,57,43,0.15);border-color:rgba(192,57,43,0.4);color:var(--red);">CLR</button>
+      <button class="numpad-btn" onclick="numpadPress('0')">0</button>
+      <button class="numpad-btn" onclick="numpadDel()" style="background:rgba(74,158,255,0.08);color:var(--text2);">⌫</button>
+    </div>
     <div class="login-error" id="login-error"></div>
-    <button class="btn-login" onclick="doLogin()">ACCESS GRANTED</button>
+    <button class="btn-login" onclick="doLogin()" style="margin-top:10px;">ACCESS GRANTED</button>
   </div>
   <div class="text-small" style="color:var(--text3)">CIPHER ORGANIZATION — CLEARANCE LEVEL RESTRICTED</div>
 </div>
@@ -485,9 +509,9 @@
     <div class="sec-title">INTELLIGENCE</div>
     <div class="sec-sub">PERFORMANCE STATISTICS</div>
     <div class="tab-row">
-      <button class="tab-btn active" onclick="setStatTab('7',this)">7 DAYS</button>
+      <button class="tab-btn" onclick="setStatTab('7',this)">7 DAYS</button>
       <button class="tab-btn" onclick="setStatTab('30',this)">30 DAYS</button>
-      <button class="tab-btn" onclick="setStatTab('all',this)">TOTAL</button>
+      <button class="tab-btn active" onclick="setStatTab('all',this)">TOTAL</button>
     </div>
     <div id="stats-container"></div>
   </div>
@@ -733,15 +757,36 @@ function imageToDataURL(file) {
 }
 
 // ============================================================
+// NUMPAD
+// ============================================================
+let _numpadVal = '';
+
+function numpadPress(digit) {
+  if (_numpadVal.length >= 4) return;
+  _numpadVal += digit;
+  updateNumpadDisplay();
+  if (_numpadVal.length === 4) setTimeout(doLogin, 200);
+}
+function numpadDel() { _numpadVal = _numpadVal.slice(0,-1); updateNumpadDisplay(); }
+function numpadClear() { _numpadVal = ''; updateNumpadDisplay(); }
+function updateNumpadDisplay() {
+  const inp = document.getElementById('pw-input');
+  if (!inp) return;
+  inp.value = inp.type === 'text' ? _numpadVal : '•'.repeat(_numpadVal.length);
+}
+
+// ============================================================
 // AUTH
 // ============================================================
 function toggleShowPw() {
   const inp = document.getElementById('pw-input');
-  inp.type = inp.type === 'password' ? 'text' : 'password';
+  if (inp.type === 'password') { inp.type = 'text'; inp.value = _numpadVal; }
+  else { inp.type = 'password'; inp.value = '•'.repeat(_numpadVal.length); }
 }
 
 function doLogin() {
-  const pw = document.getElementById('pw-input').value;
+  const pw = _numpadVal || document.getElementById('pw-input').value;
+  if (!pw) return;
   const btn = document.querySelector('.btn-login');
   btn.textContent = 'CONNECTING...';
   btn.disabled = true;
@@ -758,18 +803,19 @@ function doLogin() {
         ls.style.opacity = '1';
         document.getElementById('app').style.display = 'block';
       }, 400);
-      document.getElementById('pw-input').value = '';
+      _numpadVal = '';
+      updateNumpadDisplay();
       document.getElementById('login-error').textContent = '';
       checkDailyReset();
       recalcTotalXP(); // recalculate EP from logs in case of data drift
       refreshAll();
     } else {
       document.getElementById('login-error').textContent = 'ACCESS DENIED — INVALID CODE';
-      document.getElementById('pw-input').value = '';
+      _numpadVal = '';
+      updateNumpadDisplay();
     }
   });
 }
-document.getElementById('pw-input').addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
 
 function changePassword() {
   const d = getData();
@@ -795,7 +841,7 @@ function showPage(name, btn) {
   const pg = document.getElementById('page-' + name);
   pg.classList.add('active');
   if (btn) btn.classList.add('active');
-  if (name === 'stats') renderStats('7');
+  if (name === 'stats') renderStats('all');
   if (name === 'rank') renderRankPage();
   if (name === 'settings') renderSettings();
   if (name === 'ach') renderAchievements();
@@ -808,13 +854,23 @@ function showPage(name, btn) {
 function recalcTotalXP() {
   const d = getData();
   let total = 0;
-  (d.logs || []).forEach(log => {
-    (d.inputs || []).forEach(inp => {
-      const val = log.entries ? log.entries[inp.id] : undefined;
-      if (val !== undefined && val !== null) {
-        total += calculatePoints(inp, val);
-      }
-    });
+  (d.inputs || []).forEach(inp => {
+    if (!inp.pointsConfig) return;
+    const isCumulative = ['number','duration','rating','digital_product'].includes(inp.inputType);
+    if (isCumulative) {
+      // EP based on grand cumulative total (initialValue + all logged days)
+      const loggedSum = (d.logs || []).reduce((s, log) => s + (parseFloat(log.entries && log.entries[inp.id]) || 0), 0);
+      const grandTotal = (inp.initialValue || 0) + loggedSum;
+      total += calculatePoints(inp, grandTotal);
+    } else {
+      // checkbox / text: EP per day
+      (d.logs || []).forEach(log => {
+        const val = log.entries ? log.entries[inp.id] : undefined;
+        if (val !== undefined && val !== null) {
+          total += calculatePoints(inp, val);
+        }
+      });
+    }
   });
   if (total !== d.totalXP) {
     d.totalXP = total;
@@ -876,7 +932,15 @@ function renderDailyInputs() {
   noMsg.classList.add('hidden');
 
   const log = getOrCreateTodayLog();
-  list.innerHTML = d.inputs.map((inp, i) => {
+  // Sort inputs: by category alphabetically, then by name alphabetically within
+  const sortedInputs = d.inputs.map((inp, i) => ({ inp, i }))
+    .sort((a, b) => {
+      const ca = (a.inp.category || 'ZZZ').toLowerCase();
+      const cb = (b.inp.category || 'ZZZ').toLowerCase();
+      if (ca !== cb) return ca < cb ? -1 : 1;
+      return a.inp.name.toLowerCase() < b.inp.name.toLowerCase() ? -1 : 1;
+    });
+  list.innerHTML = sortedInputs.map(({ inp, i }) => {
     const val = log.entries[inp.id] !== undefined ? log.entries[inp.id] : (inp.initialValue || 0);
     const imgHtml = inp.photo
       ? '<div style="width:72px;height:72px;border-radius:50%;overflow:hidden;border:2px solid rgba(74,158,255,0.45);flex-shrink:0;background:#fff;box-shadow:0 0 10px rgba(74,158,255,0.15);"><img src="' + inp.photo + '" alt="" style="width:100%;height:100%;object-fit:cover;display:block;"></div>'
@@ -913,7 +977,16 @@ function renderDailyInputs() {
         '</div>';
     }
 
-    const pts = calculatePoints(inp, val);
+    // For cumulative inputs, show EP based on grand total
+    const isCumulative = ['number','duration','rating','digital_product'].includes(inp.inputType);
+    let pts;
+    if (isCumulative) {
+      const loggedSum = d.logs.reduce((s, l) => s + (parseFloat(l.entries[inp.id]) || 0), 0);
+      const grandTotal = (inp.initialValue || 0) + loggedSum;
+      pts = calculatePoints(inp, grandTotal);
+    } else {
+      pts = calculatePoints(inp, val);
+    }
     return '<div class="input-item">' +
       imgHtml +
       '<div class="input-item-info">' +
@@ -945,12 +1018,23 @@ function saveInputVal(i, val) {
   let log = d.logs.find(l => l.date === today);
   if (!log) { log = { date: today, entries: {} }; d.logs.push(log); }
   const oldVal = log.entries[inp.id];
-  log.entries[inp.id] = (inp.inputType === 'number' || inp.inputType === 'duration' || inp.inputType === 'rating')
+  log.entries[inp.id] = (inp.inputType === 'number' || inp.inputType === 'duration' || inp.inputType === 'rating' || inp.inputType === 'digital_product')
     ? parseFloat(val) || 0
     : val;
-  const oldPts = calculatePoints(inp, oldVal !== undefined ? oldVal : (inp.initialValue || 0));
-  const newPts = calculatePoints(inp, log.entries[inp.id]);
-  const diff = newPts - oldPts;
+  // For numeric/cumulative inputs, compute diff based on grand total change
+  const isCumulative = ['number','duration','rating','digital_product'].includes(inp.inputType);
+  let diff = 0;
+  if (isCumulative) {
+    const oldLoggedSum = (d.logs).reduce((s, l) => l.date === today ? s + (parseFloat(oldVal) || 0) : s + (parseFloat(l.entries[inp.id]) || 0), 0);
+    const newLoggedSum = (d.logs).reduce((s, l) => s + (parseFloat(l.entries[inp.id]) || 0), 0);
+    const oldGrand = (inp.initialValue || 0) + (oldLoggedSum);
+    const newGrand = (inp.initialValue || 0) + newLoggedSum;
+    diff = calculatePoints(inp, newGrand) - calculatePoints(inp, oldGrand);
+  } else {
+    const oldPts = calculatePoints(inp, oldVal !== undefined ? oldVal : 0);
+    const newPts = calculatePoints(inp, log.entries[inp.id]);
+    diff = newPts - oldPts;
+  }
   if (diff > 0) {
     d.totalXP = (d.totalXP || 0) + diff;
     showFlash('+' + diff + ' EP');
@@ -1052,13 +1136,13 @@ function openAddInputModal(editIdx) {
     '<div class="mt8 hidden" id="pts-thresholds"><div class="text-small" style="margin-bottom:6px;">THRESHOLDS (value → points)</div>' +
     '<div id="threshold-rows">' + existingThresholds + '</div>' +
     '<button class="btn btn-secondary btn-sm" onclick="addThreshRow()">+ ADD THRESHOLD</button></div></div>' +
-    '<div class="form-group hidden" id="streak-toggle-group" style="background:var(--bg3);border:1px solid var(--border);padding:12px;">' +
+    '<div class="form-group hidden" id="streak-toggle-group" style="background:var(--card2);border:1px solid var(--border);padding:12px;">' +
     '<label class="form-label" style="margin-bottom:8px;">INTEL STATS OPTIONS</label>' +
     '<div style="display:flex;align-items:center;gap:10px;">' +
-    '<input type="checkbox" id="inp-show-streak" style="width:20px;height:20px;accent-color:var(--accent);cursor:pointer;" ' + (!editing || editing.showStreak !== false ? 'checked' : '') + '>' +
+    '<input type="checkbox" id="inp-show-streak" style="width:20px;height:20px;accent-color:var(--accent);" ' + ((editing&&editing.showStreak===false)?'':'checked') + '>' +
     '<div><div style="font-family:var(--font-body);font-size:14px;color:var(--text);">Show STREAK in Intel</div>' +
-    '<div style="font-family:var(--font-mono);font-size:10px;color:var(--text3);margin-top:2px;">Enable for daily habits (journaling, etc.) — disable for occasional activities</div></div>' +
-    '</div></div>' +
+    '<div style="font-family:var(--font-mono);font-size:10px;color:var(--text3);margin-top:2px;">Enable for daily habits. Disable for occasional activities.</div>' +
+    '</div></div></div>' +
     '<div class="modal-actions">' +
     '<button class="btn btn-secondary" onclick="closeModal()">CANCEL</button>' +
     '<button class="btn btn-primary" onclick="saveInput(' + (editIdx !== undefined ? editIdx : 'null') + ')">' + (editing?'UPDATE':'CREATE') + '</button>' +
@@ -1098,16 +1182,16 @@ function updateInputTypeUI() {
   if (!t) return;
   const v = t.value;
   const dg = document.getElementById('digital-price-group');
-  const streakGroup = document.getElementById('streak-toggle-group');
+  const stg = document.getElementById('streak-toggle-group');
   if (v === 'digital_product') {
     if (dg) dg.classList.remove('hidden');
   } else {
     if (dg) dg.classList.add('hidden');
   }
   if (v === 'checkbox') {
-    if (streakGroup) streakGroup.classList.remove('hidden');
+    if (stg) stg.classList.remove('hidden');
   } else {
-    if (streakGroup) streakGroup.classList.add('hidden');
+    if (stg) stg.classList.add('hidden');
   }
   updatePtsThresholds();
 }
@@ -1158,12 +1242,11 @@ function saveInput(editIdx) {
   const d = getData();
   const digitalPrice = type === 'digital_product' ? parseFloat(document.getElementById('inp-digital-price')?.value) || 0 : 0;
   const showStreakEl = document.getElementById('inp-show-streak');
-  const showStreak = type === 'checkbox' ? (showStreakEl ? showStreakEl.checked : true) : undefined;
   const inp = {
     id: (editIdx !== null && editIdx !== undefined) ? d.inputs[editIdx].id : 'inp_'+Date.now(),
     name, inputType: type, category: cat, initialValue: init, photo, pointsConfig, digitalPrice
   };
-  if (type === 'checkbox') inp.showStreak = showStreak;
+  if (type === 'checkbox' && showStreakEl) inp.showStreak = showStreakEl.checked;
   if (editIdx !== null && editIdx !== undefined) { d.inputs[editIdx] = inp; }
   else { d.inputs.push(inp); }
   saveData(d);
@@ -1286,47 +1369,30 @@ function openAddObjectiveModal(editIdx) {
 }
 
 function renderCondBuildRow(cond, ci, inpOptions) {
-  const hdr = function(badge) {
-    return '<div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">' +
-      '<span class="cond-type-badge" style="white-space:nowrap;">' + badge + '</span>' +
-      '<button type="button" class="btn-icon" onclick="removeCond(\'' + ci + '\')" style="margin-left:auto;line-height:1;">✕</button>' +
-      '</div>';
-  };
+  const ciStr = "'" + ci + "'";
   if (cond.type === 'manual') {
     return '<div class="cond-item-build" id="cond-row-' + ci + '" style="flex-direction:column;align-items:stretch;">' +
-      hdr('MANUAL CHECK') +
-      '<input class="form-input" id="cond-desc-' + ci + '" value="' + (cond.description||'') + '" placeholder="Condition description" style="width:100%">' +
+      '<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;"><span class="cond-type-badge">MANUAL</span><button class="btn-icon" style="margin-left:auto;" onclick="removeCond(' + ciStr + ')">✕</button></div>' +
+      '<input class="form-input" id="cond-desc-' + ci + '" value="' + (cond.description||'') + '" placeholder="Condition description">' +
       '<input type="hidden" id="cond-type-' + ci + '" value="manual"></div>';
   } else if (cond.type === 'input_total') {
     return '<div class="cond-item-build" id="cond-row-' + ci + '" style="flex-direction:column;align-items:stretch;">' +
-      hdr('INPUT TOTAL') +
-      '<select class="form-select" id="cond-inp-' + ci + '" style="width:100%;margin-bottom:6px;">' + inpOptions + '</select>' +
-      '<div style="display:flex;align-items:center;gap:6px;">' +
-      '<span class="text-small" style="white-space:nowrap;flex-shrink:0;">TOTAL ≥</span>' +
-      '<input class="form-input" id="cond-val-' + ci + '" type="number" value="' + (cond.targetValue||0) + '" style="flex:1">' +
-      '</div>' +
-      '<input type="hidden" id="cond-type-' + ci + '" value="input_total">' +
-      '<input type="hidden" id="cond-desc-' + ci + '" value=""></div>';
+      '<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;"><span class="cond-type-badge">TOTAL</span><button class="btn-icon" style="margin-left:auto;" onclick="removeCond(' + ciStr + ')">✕</button></div>' +
+      '<select class="form-select" id="cond-inp-' + ci + '">' + inpOptions + '</select>' +
+      '<div style="display:flex;align-items:center;gap:8px;margin-top:6px;"><span class="text-small">≥</span><input class="form-input" id="cond-val-' + ci + '" type="number" value="' + (cond.targetValue||0) + '" style="flex:1;"></div>' +
+      '<input type="hidden" id="cond-type-' + ci + '" value="input_total"><input type="hidden" id="cond-desc-' + ci + '" value=""></div>';
   } else if (cond.type === 'ep') {
     return '<div class="cond-item-build" id="cond-row-' + ci + '" style="flex-direction:column;align-items:stretch;">' +
-      hdr('EP TARGET') +
-      '<div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">' +
-      '<span class="text-small" style="white-space:nowrap;flex-shrink:0;">REACH</span>' +
-      '<input class="form-input" id="cond-val-' + ci + '" type="number" value="' + (cond.targetValue||0) + '" style="flex:1">' +
-      '<span class="text-small" style="flex-shrink:0;">EP</span>' +
-      '</div>' +
-      '<input class="form-input" id="cond-desc-' + ci + '" value="' + (cond.description||'') + '" placeholder="Description (optional)" style="width:100%">' +
+      '<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;"><span class="cond-type-badge">EP TARGET</span><button class="btn-icon" style="margin-left:auto;" onclick="removeCond(' + ciStr + ')">✕</button></div>' +
+      '<div style="display:flex;align-items:center;gap:8px;"><span class="text-small">Reach</span><input class="form-input" id="cond-val-' + ci + '" type="number" value="' + (cond.targetValue||0) + '" style="flex:1;"><span class="text-small">EP</span></div>' +
+      '<input class="form-input" id="cond-desc-' + ci + '" value="' + (cond.description||'') + '" placeholder="Description" style="margin-top:6px;">' +
       '<input type="hidden" id="cond-type-' + ci + '" value="ep"></div>';
   } else if (cond.type === 'digital_revenue') {
     return '<div class="cond-item-build" id="cond-row-' + ci + '" style="flex-direction:column;align-items:stretch;">' +
-      hdr('REVENUE') +
-      '<select class="form-select" id="cond-inp-' + ci + '" style="width:100%;margin-bottom:6px;">' + inpOptions + '</select>' +
-      '<div style="display:flex;align-items:center;gap:6px;">' +
-      '<span class="text-small" style="white-space:nowrap;flex-shrink:0;">REVENUE ≥ $</span>' +
-      '<input class="form-input" id="cond-val-' + ci + '" type="number" value="' + (cond.targetValue||0) + '" style="flex:1">' +
-      '</div>' +
-      '<input type="hidden" id="cond-type-' + ci + '" value="digital_revenue">' +
-      '<input type="hidden" id="cond-desc-' + ci + '" value=""></div>';
+      '<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;"><span class="cond-type-badge">REVENUE</span><button class="btn-icon" style="margin-left:auto;" onclick="removeCond(' + ciStr + ')">✕</button></div>' +
+      '<select class="form-select" id="cond-inp-' + ci + '">' + inpOptions + '</select>' +
+      '<div style="display:flex;align-items:center;gap:8px;margin-top:6px;"><span class="text-small">≥ $</span><input class="form-input" id="cond-val-' + ci + '" type="number" value="' + (cond.targetValue||0) + '" style="flex:1;"></div>' +
+      '<input type="hidden" id="cond-type-' + ci + '" value="digital_revenue"><input type="hidden" id="cond-desc-' + ci + '" value=""></div>';
   }
   return '';
 }
@@ -1591,98 +1657,82 @@ function renderStats(days) {
   const cutoff = days === 'all' ? null : new Date(now - (parseInt(days) * 86400000));
   const relevantLogs = days === 'all' ? d.logs : (d.logs || []).filter(l => new Date(l.date) >= cutoff);
 
-  // Build card HTML per input
-  function buildCard(inp, idx) {
+  // Sort inputs: alphabetical category, then alphabetical name
+  const sortedInputs = d.inputs.map((inp, idx) => ({ inp, idx }))
+    .sort((a, b) => {
+      const ca = (a.inp.category || 'ZZZ').toLowerCase();
+      const cb = (b.inp.category || 'ZZZ').toLowerCase();
+      if (ca !== cb) return ca < cb ? -1 : 1;
+      return a.inp.name.toLowerCase() < b.inp.name.toLowerCase() ? -1 : 1;
+    });
+
+  // Build cards grouped by category
+  const catGroups = {};
+  sortedInputs.forEach(({ inp, idx }) => {
     const isNumericStat = ['number','duration','rating','digital_product'].includes(inp.inputType);
     const isCheckbox = inp.inputType === 'checkbox';
     const isText = inp.inputType === 'text';
-    if (!isNumericStat && !isCheckbox && !isText) return { html: '', usage: 0 };
+    if (!isNumericStat && !isCheckbox && !isText) return;
 
-    // ── CHECKBOX stats ──────────────────────────────────────
+    const cat = inp.category || 'Other';
+    if (!catGroups[cat]) catGroups[cat] = [];
+
+    const imgHtml = inp.photo
+      ? '<div style="width:56px;height:56px;border-radius:50%;overflow:hidden;border:2px solid rgba(74,158,255,0.4);background:#fff;flex-shrink:0;"><img src="' + inp.photo + '" style="width:100%;height:100%;object-fit:cover;display:block;"></div>'
+      : '<div style="width:56px;height:56px;border-radius:50%;border:2px solid rgba(74,158,255,0.3);background:var(--card2);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:22px;color:var(--accent);">' + (inp.name[0]||'?') + '</div>';
+    const cardId = 'stat-card-' + idx;
+
     if (isCheckbox) {
       const daysLogged = relevantLogs.filter(l => l.entries[inp.id] == 1 || l.entries[inp.id] === true);
       const total = daysLogged.length;
       const pct = relevantLogs.length > 0 ? Math.round(total / relevantLogs.length * 100) : 0;
       const allLogs = [...(d.logs||[])].sort((a,b)=>b.date.localeCompare(a.date));
       let streak = 0;
-      for (const l of allLogs) {
-        if (l.entries[inp.id] == 1 || l.entries[inp.id] === true) streak++;
-        else break;
-      }
+      for (const l of allLogs) { if (l.entries[inp.id] == 1 || l.entries[inp.id] === true) streak++; else break; }
       const barDays = days === 'all' ? Math.min(30, (d.logs||[]).length) : parseInt(days);
       const barLogs = [...(d.logs||[])].sort((a,b)=>a.date.localeCompare(b.date)).slice(-barDays);
       const barsHtml = barLogs.map(l => {
         const done = l.entries[inp.id] == 1 || l.entries[inp.id] === true;
-        const isToday = l.date === new Date().toISOString().split('T')[0];
-        const dateStr = l.date.slice(5);
+        const isToday = l.date === todayStr();
         return '<div style="display:flex;flex-direction:column;align-items:center;gap:3px;flex:1;min-width:0;">' +
           '<div style="width:18px;height:18px;border-radius:3px;background:' + (done?(isToday?'var(--accent)':'var(--accent3)'):'rgba(255,255,255,0.05)') + ';border:1px solid ' + (done?'var(--accent)':'var(--border)') + ';display:flex;align-items:center;justify-content:center;font-size:10px;">' + (done?'✓':'') + '</div>' +
-          '<div style="font-family:var(--font-mono);font-size:9px;color:var(--text3);writing-mode:vertical-lr;transform:rotate(180deg);height:28px;line-height:1;">' + dateStr + '</div>' +
+          '<div style="font-family:var(--font-mono);font-size:9px;color:var(--text3);writing-mode:vertical-lr;transform:rotate(180deg);height:28px;line-height:1;">' + l.date.slice(5) + '</div>' +
         '</div>';
       }).join('');
-      const imgHtml2 = inp.photo
-        ? '<div style="width:56px;height:56px;border-radius:50%;overflow:hidden;border:2px solid rgba(74,158,255,0.4);background:#fff;flex-shrink:0;"><img src="' + inp.photo + '" style="width:100%;height:100%;object-fit:cover;display:block;"></div>'
-        : '<div style="width:56px;height:56px;border-radius:50%;border:2px solid rgba(74,158,255,0.3);background:var(--card2);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:22px;color:var(--accent);">' + inp.name[0] + '</div>';
-      const cardId2 = 'stat-card-' + idx;
-      const showStreak = inp.showStreak !== false; // default true unless explicitly false
-      const statPills = showStreak
-        ? '<div style="text-align:center;"><div style="font-family:var(--font-mono);font-size:9px;color:var(--text3);letter-spacing:2px;">DONE</div><div style="font-family:var(--font-display);font-size:22px;color:var(--accent);line-height:1;">' + total + '</div></div>' +
-          '<div style="text-align:center;"><div style="font-family:var(--font-mono);font-size:9px;color:var(--text3);letter-spacing:2px;">RATE</div><div style="font-family:var(--font-display);font-size:22px;color:var(--text2);line-height:1;">' + pct + '%</div></div>' +
-          '<div style="text-align:center;"><div style="font-family:var(--font-mono);font-size:9px;color:var(--text3);letter-spacing:2px;">STREAK</div><div style="font-family:var(--font-display);font-size:22px;color:var(--green);line-height:1;">' + streak + '</div></div>'
-        : '<div style="text-align:center;"><div style="font-family:var(--font-mono);font-size:9px;color:var(--text3);letter-spacing:2px;">DONE</div><div style="font-family:var(--font-display);font-size:22px;color:var(--accent);line-height:1;">' + total + '</div></div>' +
-          '<div style="text-align:center;"><div style="font-family:var(--font-mono);font-size:9px;color:var(--text3);letter-spacing:2px;">RATE</div><div style="font-family:var(--font-display);font-size:22px;color:var(--text2);line-height:1;">' + pct + '%</div></div>';
-      const html = '<div id="' + cardId2 + '" style="background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);margin-bottom:10px;cursor:pointer;transition:border-color 0.2s;" onclick="toggleStatCard(this.id)">' +
-        '<div style="display:flex;align-items:center;gap:14px;padding:14px 16px;">' +
-          imgHtml2 +
-          '<div style="flex:1;min-width:0;">' +
-            '<div style="font-family:var(--font-body);font-size:19px;font-weight:700;color:#e8f4ff;">' + inp.name + '</div>' +
-            '<div style="font-family:var(--font-mono);font-size:12px;color:var(--text3);letter-spacing:1px;">' + (inp.category||'') + '</div>' +
-          '</div>' +
-          '<div style="display:flex;gap:12px;flex-shrink:0;">' + statPills + '</div>' +
-        '</div>' +
-        '<div class="stat-chart-section" style="display:none;padding:0 16px 16px;">' +
-          '<div style="border-top:1px solid var(--border);padding-top:12px;">' +
-            '<div style="display:flex;align-items:flex-end;gap:3px;height:60px;align-items:center;">' + barsHtml + '</div>' +
+      const showStreak = inp.showStreak !== false;
+      catGroups[cat].push('<div id="' + cardId + '" style="background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--accent);margin-bottom:10px;cursor:pointer;" onclick="toggleStatCard(this.id)">' +
+        '<div style="display:flex;align-items:center;gap:14px;padding:14px 16px;">' + imgHtml +
+          '<div style="flex:1;min-width:0;"><div style="font-family:var(--font-body);font-size:19px;font-weight:700;color:#e8f4ff;">' + inp.name + '</div></div>' +
+          '<div style="display:flex;gap:12px;flex-shrink:0;">' +
+            '<div style="text-align:center;"><div style="font-family:var(--font-mono);font-size:9px;color:var(--text3);letter-spacing:2px;">DONE</div><div style="font-family:var(--font-display);font-size:22px;color:var(--accent);line-height:1;">' + total + '</div></div>' +
+            '<div style="text-align:center;"><div style="font-family:var(--font-mono);font-size:9px;color:var(--text3);letter-spacing:2px;">RATE</div><div style="font-family:var(--font-display);font-size:22px;color:var(--text2);line-height:1;">' + pct + '%</div></div>' +
+            (showStreak ? '<div style="text-align:center;"><div style="font-family:var(--font-mono);font-size:9px;color:var(--text3);letter-spacing:2px;">STREAK</div><div style="font-family:var(--font-display);font-size:22px;color:var(--green);line-height:1;">' + streak + '</div></div>' : '') +
           '</div>' +
         '</div>' +
-      '</div>';
-      return { html, usage: total };
+        '<div class="stat-chart-section" style="display:block;padding:0 16px 16px;"><div style="border-top:1px solid var(--border);padding-top:12px;"><div style="display:flex;align-items:flex-end;gap:3px;height:60px;align-items:center;">' + barsHtml + '</div></div></div>' +
+      '</div>');
+      return;
     }
 
-    // ── TEXT stats ───────────────────────────────────────────
     if (isText) {
-      const entries = relevantLogs.filter(l => l.entries[inp.id] && l.entries[inp.id].trim && l.entries[inp.id].trim() !== '');
-      const imgHtml3 = inp.photo
-        ? '<div style="width:56px;height:56px;border-radius:50%;overflow:hidden;border:2px solid rgba(74,158,255,0.4);background:#fff;flex-shrink:0;"><img src="' + inp.photo + '" style="width:100%;height:100%;object-fit:cover;display:block;"></div>'
-        : '<div style="width:56px;height:56px;border-radius:50%;border:2px solid rgba(74,158,255,0.3);background:var(--card2);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:22px;color:var(--accent);">' + inp.name[0] + '</div>';
-      const cardId3 = 'stat-card-' + idx;
+      const entries = relevantLogs.filter(l => l.entries[inp.id] && String(l.entries[inp.id]).trim() !== '');
       const recentEntries = [...entries].sort((a,b)=>b.date.localeCompare(a.date)).slice(0,5)
         .map(l => '<div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);"><div style="font-family:var(--font-mono);font-size:10px;color:var(--text3);flex-shrink:0;">' + l.date.slice(5) + '</div><div style="font-family:var(--font-body);font-size:14px;color:var(--text2);">' + (l.entries[inp.id]||'') + '</div></div>').join('');
-      const html = '<div id="' + cardId3 + '" style="background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);margin-bottom:10px;cursor:pointer;transition:border-color 0.2s;" onclick="toggleStatCard(this.id)">' +
-        '<div style="display:flex;align-items:center;gap:14px;padding:14px 16px;">' +
-          imgHtml3 +
-          '<div style="flex:1;min-width:0;">' +
-            '<div style="font-family:var(--font-body);font-size:19px;font-weight:700;color:#e8f4ff;">' + inp.name + '</div>' +
-            '<div style="font-family:var(--font-mono);font-size:12px;color:var(--text3);letter-spacing:1px;">' + (inp.category||'') + '</div>' +
-          '</div>' +
-          '<div style="text-align:center;flex-shrink:0;">' +
-            '<div style="font-family:var(--font-mono);font-size:9px;color:var(--text3);letter-spacing:2px;">LOGGED</div>' +
-            '<div style="font-family:var(--font-display);font-size:22px;color:var(--accent);line-height:1;">' + entries.length + '</div>' +
-          '</div>' +
+      catGroups[cat].push('<div id="' + cardId + '" style="background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--accent);margin-bottom:10px;cursor:pointer;" onclick="toggleStatCard(this.id)">' +
+        '<div style="display:flex;align-items:center;gap:14px;padding:14px 16px;">' + imgHtml +
+          '<div style="flex:1;min-width:0;"><div style="font-family:var(--font-body);font-size:19px;font-weight:700;color:#e8f4ff;">' + inp.name + '</div></div>' +
+          '<div style="text-align:center;flex-shrink:0;"><div style="font-family:var(--font-mono);font-size:9px;color:var(--text3);letter-spacing:2px;">LOGGED</div><div style="font-family:var(--font-display);font-size:22px;color:var(--accent);line-height:1;">' + entries.length + '</div></div>' +
         '</div>' +
-        '<div class="stat-chart-section" style="display:none;padding:0 16px 16px;">' +
-          '<div style="border-top:1px solid var(--border);padding-top:12px;font-family:var(--font-mono);font-size:11px;color:var(--text3);letter-spacing:2px;margin-bottom:8px;">LAST ENTRIES</div>' +
-          recentEntries +
-        '</div>' +
-      '</div>';
-      return { html, usage: entries.length };
+        '<div class="stat-chart-section" style="display:block;padding:0 16px 16px;"><div style="border-top:1px solid var(--border);padding-top:12px;font-family:var(--font-mono);font-size:11px;color:var(--text3);letter-spacing:2px;margin-bottom:8px;">LAST ENTRIES</div>' + recentEntries + '</div>' +
+      '</div>');
+      return;
     }
 
-    // ── NUMERIC stats ────────────────────────────────────────
+    // Numeric
     const vals = relevantLogs.map(l => parseFloat(l.entries[inp.id]) || 0);
     const activeDayVals = vals.filter(v => v > 0);
     const loggedTotal = vals.reduce((s,v)=>s+v,0);
-    const total = days === 'all' ? (inp.initialValue||0) + loggedTotal : loggedTotal;
+    const grandTotal = days === 'all' ? (inp.initialValue||0) + loggedTotal : loggedTotal;
     const avg = activeDayVals.length > 0 ? (loggedTotal/activeDayVals.length).toFixed(1) : 0;
     const best = vals.length > 0 ? Math.max(...vals) : 0;
     const barDays = days === 'all' ? Math.min(30, (d.logs||[]).length) : parseInt(days);
@@ -1690,95 +1740,51 @@ function renderStats(days) {
     const maxVal = Math.max(...barLogs.map(l=>parseFloat(l.entries[inp.id])||0), 1);
     const barsHtml = barLogs.map(l => {
       const v = parseFloat(l.entries[inp.id]) || 0;
-      const pct = Math.round(v/maxVal*100);
-      const dateStr = l.date.slice(5);
-      const isToday = l.date === new Date().toISOString().split('T')[0];
+      const isToday = l.date === todayStr();
       return '<div style="display:flex;flex-direction:column;align-items:center;gap:3px;flex:1;min-width:0;">' +
-        '<div style="font-family:var(--font-mono);font-size:10px;color:var(--text3);">' + v + '</div>' +
-        '<div style="flex:1;width:100%;display:flex;align-items:flex-end;">' +
-        '<div style="width:100%;background:' + (isToday?'var(--accent)':'var(--accent3)') + ';height:' + Math.max(pct,2) + '%;min-height:3px;border-radius:2px 2px 0 0;transition:height 0.5s;box-shadow:' + (isToday?'0 0 8px rgba(74,158,255,0.5)':'none') + ';"></div></div>' +
-        '<div style="font-family:var(--font-mono);font-size:9px;color:var(--text3);writing-mode:vertical-lr;transform:rotate(180deg);height:28px;line-height:1;">' + dateStr + '</div>' +
+        '<div style="font-family:var(--font-mono);font-size:10px;color:var(--text2);">' + v + '</div>' +
+        '<div style="flex:1;width:100%;display:flex;align-items:flex-end;"><div style="width:100%;background:' + (isToday?'var(--accent)':'var(--accent3)') + ';height:' + Math.max(Math.round(v/maxVal*100),2) + '%;min-height:3px;border-radius:2px 2px 0 0;"></div></div>' +
+        '<div style="font-family:var(--font-mono);font-size:9px;color:var(--text3);writing-mode:vertical-lr;transform:rotate(180deg);height:28px;line-height:1;">' + l.date.slice(5) + '</div>' +
       '</div>';
     }).join('');
     const revenueExtra = inp.inputType === 'digital_product'
-      ? '<div style="font-family:var(--font-mono);font-size:13px;color:var(--green);margin-top:4px;">REVENUE: $' + (total * (inp.digitalPrice||0)).toFixed(2) + '</div>'
-      : '';
-    const imgHtml = inp.photo
-      ? '<div style="width:56px;height:56px;border-radius:50%;overflow:hidden;border:2px solid rgba(74,158,255,0.4);background:#fff;flex-shrink:0;"><img src="' + inp.photo + '" style="width:100%;height:100%;object-fit:cover;display:block;"></div>'
-      : '<div style="width:56px;height:56px;border-radius:50%;border:2px solid rgba(74,158,255,0.3);background:var(--card2);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:22px;color:var(--accent);">' + inp.name[0] + '</div>';
-    const cardId = 'stat-card-' + idx;
-    const html = '<div id="' + cardId + '" style="background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);margin-bottom:10px;cursor:pointer;transition:border-color 0.2s;" onclick="toggleStatCard(this.id)">' +
-      '<div style="display:flex;align-items:center;gap:14px;padding:14px 16px;">' +
-        imgHtml +
-        '<div style="flex:1;min-width:0;">' +
-          '<div style="font-family:var(--font-body);font-size:19px;font-weight:700;color:#e8f4ff;">' + inp.name + '</div>' +
-          '<div style="font-family:var(--font-mono);font-size:12px;color:var(--text3);letter-spacing:1px;">' + (inp.category||'') + '</div>' +
-          revenueExtra +
-        '</div>' +
-        '<div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0;">' +
-          '<div style="display:flex;gap:12px;">' +
-            '<div style="text-align:center;"><div style="font-family:var(--font-mono);font-size:9px;color:var(--text3);letter-spacing:2px;">TOTAL</div><div style="font-family:var(--font-display);font-size:22px;color:var(--accent);line-height:1;">' + total + '</div></div>' +
-            '<div style="text-align:center;"><div style="font-family:var(--font-mono);font-size:9px;color:var(--text3);letter-spacing:2px;">AVG</div><div style="font-family:var(--font-display);font-size:22px;color:var(--text2);line-height:1;">' + avg + '</div></div>' +
-            '<div style="text-align:center;"><div style="font-family:var(--font-mono);font-size:9px;color:var(--text3);letter-spacing:2px;">BEST</div><div style="font-family:var(--font-display);font-size:22px;color:var(--text2);line-height:1;">' + best + '</div></div>' +
-          '</div>' +
-          '<div style="font-family:var(--font-mono);font-size:10px;color:var(--text3);">▼ CHART</div>' +
+      ? '<div style="font-family:var(--font-mono);font-size:13px;color:var(--green);">REVENUE: $' + (grandTotal * (inp.digitalPrice||0)).toFixed(2) + '</div>' : '';
+    catGroups[cat].push('<div id="' + cardId + '" style="background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--accent);margin-bottom:10px;cursor:pointer;" onclick="toggleStatCard(this.id)">' +
+      '<div style="display:flex;align-items:center;gap:14px;padding:14px 16px;">' + imgHtml +
+        '<div style="flex:1;min-width:0;"><div style="font-family:var(--font-body);font-size:19px;font-weight:700;color:#e8f4ff;">' + inp.name + '</div>' + revenueExtra + '</div>' +
+        '<div style="display:flex;gap:12px;flex-shrink:0;">' +
+          '<div style="text-align:center;"><div style="font-family:var(--font-mono);font-size:9px;color:var(--text3);letter-spacing:2px;">TOTAL</div><div style="font-family:var(--font-display);font-size:22px;color:var(--accent);line-height:1;">' + grandTotal + '</div></div>' +
+          '<div style="text-align:center;"><div style="font-family:var(--font-mono);font-size:9px;color:var(--text3);letter-spacing:2px;">AVG</div><div style="font-family:var(--font-display);font-size:22px;color:var(--text2);line-height:1;">' + avg + '</div></div>' +
+          '<div style="text-align:center;"><div style="font-family:var(--font-mono);font-size:9px;color:var(--text3);letter-spacing:2px;">BEST</div><div style="font-family:var(--font-display);font-size:22px;color:var(--text2);line-height:1;">' + best + '</div></div>' +
         '</div>' +
       '</div>' +
-      '<div class="stat-chart-section" style="display:none;padding:0 16px 16px;">' +
-        '<div style="border-top:1px solid var(--border);padding-top:12px;">' +
-          '<div style="display:flex;align-items:flex-end;gap:3px;height:80px;">' + barsHtml + '</div>' +
-        '</div>' +
-      '</div>' +
-    '</div>';
-    return { html, usage: loggedTotal };
-  }
-
-  // Group inputs by category, sort by total usage desc
-  const catUsage = {}; // category -> total usage
-  const catCards = {}; // category -> [{html, usage}]
-  d.inputs.forEach((inp, idx) => {
-    const cat = inp.category || 'Uncategorized';
-    const result = buildCard(inp, idx);
-    if (!result.html) return;
-    if (!catCards[cat]) { catCards[cat] = []; catUsage[cat] = 0; }
-    catCards[cat].push(result);
-    catUsage[cat] += result.usage;
+      '<div class="stat-chart-section" style="display:block;padding:0 16px 16px;"><div style="border-top:1px solid var(--border);padding-top:12px;"><div style="display:flex;align-items:flex-end;gap:3px;height:80px;">' + barsHtml + '</div></div></div>' +
+    '</div>');
   });
 
-  // Sort categories by total usage desc
-  const sortedCats = Object.keys(catCards).sort((a,b) => catUsage[b] - catUsage[a]);
-
+  const sortedCats = Object.keys(catGroups).sort((a,b) => a.toLowerCase() < b.toLowerCase() ? -1 : 1);
   if (sortedCats.length === 0) {
-    container.innerHTML = '<div style="font-family:var(--font-mono);font-size:13px;color:var(--text3);text-align:center;padding:40px 0;">NO NUMERIC STATS AVAILABLE</div>';
+    container.innerHTML = '<div style="font-family:var(--font-mono);font-size:13px;color:var(--text3);text-align:center;padding:40px 0;">NO STATS AVAILABLE</div>';
     return;
   }
-
-  let html = '';
-  sortedCats.forEach(cat => {
-    const items = catCards[cat];
-    // Sort items within category by usage desc
-    items.sort((a,b) => b.usage - a.usage);
-    html += '<div style="margin-bottom:20px;">' +
-      '<div style="font-family:var(--font-mono);font-size:11px;color:var(--accent);letter-spacing:3px;margin-bottom:8px;padding:4px 0;border-bottom:1px solid var(--border);">' + cat.toUpperCase() + '</div>' +
-      items.map(i => i.html).join('') +
-      '</div>';
-  });
-  container.innerHTML = html;
+  container.innerHTML = sortedCats.map(cat =>
+    '<div style="margin-bottom:24px;">' +
+    '<div style="font-family:var(--font-mono);font-size:11px;color:#e8f4ff;letter-spacing:3px;margin-bottom:10px;padding:6px 0 6px 10px;border-bottom:1px solid var(--border);border-left:3px solid var(--accent);">' + cat.toUpperCase() + '</div>' +
+    catGroups[cat].join('') +
+    '</div>'
+  ).join('');
 }
 
 function toggleStatCard(cardId) {
   const card = document.getElementById(cardId);
   if (!card) return;
   const chart = card.querySelector('.stat-chart-section');
-  const lbl = card.querySelector('[style*="▼ CHART"]') || card.querySelector('[style*="▲ CHART"]');
   if (chart.style.display === 'none') {
     chart.style.display = 'block';
     card.style.borderColor = 'var(--accent)';
-    if (lbl) lbl.textContent = '▲ CHART';
   } else {
     chart.style.display = 'none';
     card.style.borderColor = 'var(--border)';
-    if (lbl) lbl.textContent = '▼ CHART';
   }
 }
 
