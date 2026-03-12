@@ -316,8 +316,12 @@
     background: linear-gradient(135deg, #0f3a7a, #1a5fa0);
     color: var(--white); border: 1px solid var(--accent);
     box-shadow: 0 0 10px rgba(74,158,255,0.25);
+    font-size: 13px; padding: 3px 8px; letter-spacing: 2px;
   }
-  .topbar-pts { text-shadow: 0 0 10px rgba(74,158,255,0.4); font-size: 15px; }
+  .topbar-rank-badge { display: flex; align-items: center; gap: 8px; }
+  .topbar-rank-info { display: flex; flex-direction: column; align-items: flex-start; gap: 1px; }
+  .topbar-pts { font-family: var(--font-mono); font-size: 11px; color: var(--accent); white-space: nowrap; }
+  .topbar-pts .pts-label { color: var(--text3); font-size: 10px; }
 
   /* Topbar rank image */
   .topbar-rank-img {
@@ -505,9 +509,11 @@
     <div class="topbar-agent" id="topbar-agent">THE SILENT POSTMAN</div>
     <div class="topbar-rank-badge">
       <div id="topbar-rank-img-wrap"></div>
-      <div class="grade-badge" id="topbar-grade-label">ALPHA</div>
+      <div class="topbar-rank-info">
+        <div class="grade-badge" id="topbar-grade-label">ALPHA</div>
+        <div class="topbar-pts"><span class="pts-label">EP &nbsp;</span><span id="topbar-pts">0</span></div>
+      </div>
     </div>
-    <div class="topbar-pts"><span class="pts-label">EVOLUTION PTS</span><span id="topbar-pts">0</span></div>
   </div>
 
   <!-- DAILY OPS -->
@@ -953,6 +959,10 @@ function checkDailyReset() {
 // REFRESH ALL
 // ============================================================
 function refreshAll() {
+  // Always recalc XP on load to keep it accurate
+  const d = getData();
+  const correct = recalcTotalXP(d);
+  if (d.totalXP !== correct) { d.totalXP = correct; saveData(d); }
   updateTopBar();
   renderDailyInputs();
   renderMissions();
@@ -1059,23 +1069,44 @@ function saveInputVal(i, val) {
   const today = todayStr();
   let log = d.logs.find(l => l.date === today);
   if (!log) { log = { date: today, entries: {} }; d.logs.push(log); }
-  const oldVal = log.entries[inp.id];
+  const oldPts = calculatePoints(inp, log.entries[inp.id] !== undefined ? log.entries[inp.id] : 0);
   log.entries[inp.id] = (inp.inputType === 'number' || inp.inputType === 'duration' || inp.inputType === 'rating')
     ? parseFloat(val) || 0
     : val;
-  const oldPts = calculatePoints(inp, oldVal !== undefined ? oldVal : (inp.initialValue || 0));
   const newPts = calculatePoints(inp, log.entries[inp.id]);
   const diff = newPts - oldPts;
-  if (diff > 0) {
-    d.totalXP = (d.totalXP || 0) + diff;
-    showFlash('+' + diff + ' EP');
-  } else if (diff < 0) {
-    d.totalXP = Math.max(0, (d.totalXP || 0) + diff);
-  }
+  // Recalculate total XP from all logs to stay accurate
+  d.totalXP = recalcTotalXP(d);
+  if (diff > 0) showFlash('+' + diff + ' EP');
   saveData(d);
   updateTopBar();
   checkGradeUp();
   checkObjectivesAuto();
+}
+
+// Recalculate total XP from scratch using all logs + initialValues
+function recalcTotalXP(d) {
+  let total = 0;
+  (d.inputs || []).forEach(inp => {
+    if (!inp.pointsConfig) return;
+    if (inp.inputType === 'number' || inp.inputType === 'duration' || inp.inputType === 'rating' || inp.inputType === 'digital_product') {
+      // Grand total = initialValue + sum of all daily logs
+      const loggedTotal = (d.logs || []).reduce((s, log) => s + (parseFloat(log.entries[inp.id]) || 0), 0);
+      const grandTotal = (inp.initialValue || 0) + loggedTotal;
+      total += calculatePoints(inp, grandTotal);
+    } else if (inp.inputType === 'checkbox') {
+      (d.logs || []).forEach(log => {
+        const v = log.entries[inp.id] ? 1 : 0;
+        total += calculatePoints(inp, v);
+      });
+    } else if (inp.inputType === 'text') {
+      (d.logs || []).forEach(log => {
+        const v = log.entries[inp.id] ? 1 : 0;
+        total += calculatePoints(inp, v);
+      });
+    }
+  });
+  return total;
 }
 
 function calculatePoints(inp, val) {
