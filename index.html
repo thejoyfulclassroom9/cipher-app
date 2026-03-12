@@ -67,35 +67,38 @@
 
   #login-screen {
     position: fixed; inset: 0; background: var(--bg);
-    display: flex; align-items: center; justify-content: flex-start; z-index: 1000;
-    flex-direction: column; gap: 20px;
-    overflow-y: auto; padding: 40px 16px 24px;
-  }
-  @media (min-height: 700px) {
-    #login-screen { justify-content: center; padding: 20px 16px; }
+    display: flex; align-items: center; justify-content: center; z-index: 1000;
+    flex-direction: column; gap: 28px;
+    background-image: radial-gradient(ellipse at 50% 0%, rgba(74,158,255,0.07) 0%, transparent 65%);
   }
   .login-logo { text-align: center; }
-  .login-logo .org-name { font-family: var(--font-display); font-size: 56px; color: var(--accent); letter-spacing: 8px; line-height: 1; }
-  .login-logo .tagline { font-family: var(--font-mono); font-size: 11px; color: var(--text3); letter-spacing: 4px; margin-top: 4px; }
-  .login-box { background: var(--card); border: 1px solid var(--border); padding: 28px 24px; width: 100%; max-width: 340px; }
-  .login-box .agent-name { font-family: var(--font-mono); font-size: 12px; color: var(--text2); letter-spacing: 2px; text-align: center; margin-bottom: 24px; }
-  .login-box label { font-family: var(--font-mono); font-size: 10px; color: var(--text3); letter-spacing: 2px; display: block; margin-bottom: 6px; }
-  .login-box input { width: 100%; background: var(--bg); border: 1px solid var(--border); color: var(--text); font-family: var(--font-mono); font-size: 18px; padding: 12px; letter-spacing: 6px; text-align: center; }
-  .login-box input:focus { outline: none; border-color: var(--accent); }
-  .btn-login { width: 100%; margin-top: 16px; background: var(--accent); color: var(--bg); font-family: var(--font-display); font-size: 22px; letter-spacing: 4px; border: none; padding: 14px; cursor: pointer; transition: all 0.2s; }
-  .btn-login:hover { background: var(--accent2); }
-  .login-error { font-family: var(--font-mono); font-size: 11px; color: var(--red); text-align: center; min-height: 16px; }
+  .login-logo .org-name { font-family: var(--font-display); font-size: 96px; color: var(--accent); letter-spacing: 18px; line-height: 1; }
+  .login-logo .tagline { font-family: var(--font-mono); font-size: 13px; color: var(--text2); letter-spacing: 5px; margin-top: 10px; }
+  .login-box { background: var(--card); border: 1px solid var(--border); padding: 36px 44px; width: min(500px, 92vw); }
+  .login-box .agent-name { font-family: var(--font-display); font-size: 28px; color: var(--accent2); letter-spacing: 5px; text-align: center; margin-bottom: 6px; }
+  .login-box .agent-motto { font-family: var(--font-mono); font-size: 13px; color: rgba(74,158,255,0.55); letter-spacing: 2px; text-align: center; margin-bottom: 0; white-space: nowrap; }
+  .login-box hr { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
+  .login-box label { font-family: var(--font-mono); font-size: 11px; color: var(--text3); letter-spacing: 3px; display: block; margin-bottom: 8px; }
+  .login-box input { width: 100%; background: var(--bg); border: 1px solid var(--border); color: var(--text); font-family: var(--font-mono); font-size: 22px; padding: 14px; letter-spacing: 8px; text-align: center; }
+  .login-box input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 16px rgba(74,158,255,0.15); }
+  .btn-login { width: 100%; margin-top: 20px; background: linear-gradient(135deg,#0f3a7a,#1a5fa0); color: #e8f4ff; font-family: var(--font-display); font-size: 26px; letter-spacing: 5px; border: 1px solid var(--accent); padding: 18px; cursor: pointer; transition: all 0.2s; }
+  .btn-login:hover { box-shadow: 0 0 24px rgba(74,158,255,0.35); color: #fff; }
+  .login-error { font-family: var(--font-mono); font-size: 13px; color: var(--red); text-align: center; min-height: 18px; margin-top: 8px; }
 
   #topbar {
-    position: fixed; top: 0; left: 0; right: 0; height: 56px;
+    position: fixed; top: 0; left: 0; right: 0; height: 60px;
     background: var(--bg2); border-bottom: 1px solid var(--border);
-    display: flex; align-items: center; padding: 0 16px; z-index: 100; gap: 12px;
+    display: flex; align-items: center; padding: 0 20px; z-index: 100; gap: 14px; position: relative;
   }
-  .topbar-org { font-family: var(--font-display); font-size: 22px; color: var(--accent); letter-spacing: 4px; flex: 1; }
+  .topbar-org { font-family: var(--font-display); font-size: 24px; color: var(--accent); letter-spacing: 5px; flex: 1; text-shadow: 0 0 16px rgba(74,158,255,0.4); }
   .topbar-grade { display: flex; align-items: center; gap: 8px; }
   .grade-badge { background: var(--accent); color: var(--bg); font-family: var(--font-display); font-size: 14px; letter-spacing: 2px; padding: 4px 10px; }
-  .topbar-pts { font-family: var(--font-mono); font-size: 13px; color: var(--accent); }
-  .topbar-pts span { color: var(--text2); font-size: 10px; }
+  .topbar-rank-info { display: flex; flex-direction: column; align-items: flex-end; }
+  .topbar-rank-label { font-family: var(--font-display); font-size: 22px; color: var(--accent); letter-spacing: 3px; line-height: 1; text-shadow: 0 0 12px rgba(74,158,255,0.4); }
+  .topbar-rank-sub { font-family: var(--font-mono); font-size: 9px; color: var(--text3); letter-spacing: 3px; text-transform: uppercase; }
+  .topbar-divider { width: 1px; height: 28px; background: var(--border2); }
+  .topbar-pts { font-family: var(--font-mono); font-size: 20px; color: var(--accent); display: flex; flex-direction: column; align-items: flex-end; text-shadow: 0 0 10px rgba(74,158,255,0.4); }
+  .pts-label { color: var(--text3); font-size: 9px; display: block; letter-spacing: 2px; font-family: var(--font-mono); line-height: 1; margin-bottom: 1px; }
   .topbar-agent { font-family: var(--font-mono); font-size: 10px; color: var(--text3); letter-spacing: 1px; display: none; }
 
   #bottom-nav {
@@ -147,14 +150,14 @@
   .img-preview-circle img { width: 100%; height: 100%; object-fit: cover; }
   .img-preview-circle-lg { width: 100px; height: 100px; }
 
-  .input-item { background: var(--card); border: 1px solid var(--border); padding: 14px; margin-bottom: 10px; display: flex; align-items: center; gap: 12px; overflow: hidden; }
-  .input-item-info { flex: 1; min-width: 0; }
-  .input-item-name { font-family: var(--font-body); font-size: 16px; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .input-item-cat { font-family: var(--font-mono); font-size: 10px; color: var(--text3); letter-spacing: 1px; }
-  .input-item-pts { font-family: var(--font-mono); font-size: 11px; color: var(--accent); }
-  .input-control { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
-  .num-input { width: 64px; background: var(--bg); border: 1px solid var(--border); color: var(--text); font-family: var(--font-mono); font-size: 15px; padding: 6px 4px; text-align: center; }
-  .num-btn { width: 32px; height: 32px; min-width: 32px; background: var(--bg3); border: 1px solid var(--border); color: var(--text); font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); flex-shrink: 0; }
+  .input-item { background: var(--card); border: 1px solid var(--border); padding: 16px; margin-bottom: 10px; display: flex; align-items: center; gap: 14px; overflow: hidden; }
+  .input-item-info { flex: 1; }
+  .input-item-name { font-family: var(--font-body); font-size: 19px; font-weight: 700; color: #e8f4ff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .input-item-cat { font-family: var(--font-mono); font-size: 13px; color: var(--text2); letter-spacing: 1px; margin-top: 2px; }
+  .input-item-pts { font-family: var(--font-mono); font-size: 14px; color: var(--accent); font-weight: 600; margin-top: 4px; }
+  .input-control { display: flex; align-items: center; gap: 8px; }
+  .num-input { width: 80px; background: var(--bg); border: 1px solid var(--border); color: var(--text); font-family: var(--font-mono); font-size: 16px; padding: 6px 8px; text-align: center; }
+  .num-btn { width: 32px; height: 32px; background: var(--bg3); border: 1px solid var(--border); color: var(--text); font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); }
   .num-btn:hover { border-color: var(--accent); color: var(--accent); }
   .check-input { width: 24px; height: 24px; accent-color: var(--accent); cursor: pointer; }
   .text-input-sm { width: 120px; background: var(--bg); border: 1px solid var(--border); color: var(--text); font-family: var(--font-mono); font-size: 13px; padding: 6px 8px; }
@@ -281,29 +284,16 @@
 
   /* === LOGIN ENHANCEMENTS === */
   .login-logo .org-name {
-    text-shadow: 0 0 30px rgba(74,158,255,0.4), 0 0 60px rgba(74,158,255,0.15);
+    text-shadow: 0 0 40px rgba(74,158,255,0.5), 0 0 80px rgba(74,158,255,0.2);
   }
   .login-box {
-    box-shadow: 0 0 40px rgba(74,158,255,0.08), inset 0 1px 0 rgba(74,158,255,0.12);
+    box-shadow: 0 0 60px rgba(74,158,255,0.1), inset 0 1px 0 rgba(74,158,255,0.15);
     position: relative;
   }
   .login-box::before {
     content:''; position:absolute; top:0; left:20px; right:20px; height:1px;
-    background:linear-gradient(90deg,transparent,rgba(74,158,255,0.4),transparent);
+    background:linear-gradient(90deg,transparent,rgba(74,158,255,0.5),transparent);
   }
-  .login-box .agent-motto {
-    font-family: var(--font-mono); font-size: 11px;
-    color: rgba(74,158,255,0.5); letter-spacing: 3px;
-    text-align: center; margin-bottom: 26px; margin-top: -16px;
-    width: 100%; display: block; white-space: normal; word-break: break-word;
-  }
-  .login-box input:focus { box-shadow: 0 0 16px rgba(74,158,255,0.2); }
-  .btn-login {
-    background: linear-gradient(135deg, #0f3a7a 0%, #1a5fa0 50%, #0f3a7a 100%);
-    color: var(--white); border: 1px solid var(--accent);
-    position: relative; overflow: hidden;
-  }
-  .btn-login:hover { box-shadow: 0 0 24px rgba(74,158,255,0.35); }
 
   /* === TOPBAR GLOW === */
   #topbar { box-shadow: 0 2px 20px rgba(0,0,0,0.6); }
@@ -311,33 +301,7 @@
     content:''; position:absolute; bottom:0; left:0; right:0; height:1px;
     background:linear-gradient(90deg,transparent,rgba(74,158,255,0.3),transparent);
   }
-  .topbar-org { text-shadow: 0 0 16px rgba(74,158,255,0.4); }
-  .grade-badge {
-    background: linear-gradient(135deg, #0f3a7a, #1a5fa0);
-    color: var(--white); border: 1px solid var(--accent);
-    box-shadow: 0 0 10px rgba(74,158,255,0.25);
-    font-size: 13px; padding: 3px 8px; letter-spacing: 2px;
-  }
-  .topbar-rank-badge { display: flex; align-items: center; gap: 8px; }
-  .topbar-rank-info { display: flex; flex-direction: column; align-items: flex-start; gap: 1px; }
-  .topbar-pts { font-family: var(--font-mono); font-size: 11px; color: var(--accent); white-space: nowrap; }
-  .topbar-pts .pts-label { color: var(--text3); font-size: 10px; }
-
-  /* Topbar rank image */
-  .topbar-rank-img {
-    width: 36px; height: 36px; border-radius: 50%;
-    border: 2px solid var(--accent);
-    overflow: hidden; background: #fff;
-    box-shadow: 0 0 10px rgba(74,158,255,0.3);
-    flex-shrink: 0;
-  }
-  .topbar-rank-img img { width:100%; height:100%; object-fit:cover; }
-  .topbar-rank-placeholder {
-    width:36px; height:36px; border-radius:50%;
-    border:2px solid var(--accent); background:var(--card);
-    display:flex; align-items:center; justify-content:center;
-    box-shadow:0 0 8px rgba(74,158,255,0.2); flex-shrink:0;
-  }
+  .topbar-rank-label { text-shadow: 0 0 12px rgba(74,158,255,0.4); }
 
   /* === NAV === */
   #bottom-nav { box-shadow: 0 -2px 20px rgba(0,0,0,0.5); }
@@ -438,16 +402,6 @@
   @keyframes fade-in { to { opacity:1; } }
   #login-screen { opacity:0; animation: fade-in 0.5s ease forwards 0.1s; }
 
-  /* NUMPAD */
-  .numpad-btn {
-    background: var(--card2); border: 1px solid var(--border2);
-    color: var(--text); font-family: var(--font-mono); font-size: 20px;
-    padding: 14px 0; cursor: pointer; transition: all 0.15s;
-    border-radius: 2px; letter-spacing: 1px;
-  }
-  .numpad-btn:hover, .numpad-btn:active { background: var(--accent3); border-color: var(--accent); color: var(--white); }
-  .numpad-btn:active { transform: scale(0.95); }
-
   /* === FORM INPUTS FOCUS GLOW === */
   .form-input:focus { border-color:var(--accent); box-shadow:0 0 10px rgba(74,158,255,0.12); }
 
@@ -476,28 +430,14 @@
   <div class="login-box">
     <div class="agent-name">THE SILENT POSTMAN</div>
     <div class="agent-motto">Authenticity &nbsp;&middot;&nbsp; Integrity &nbsp;&middot;&nbsp; Honor</div>
+    <hr>
     <label for="pw-input">CLEARANCE CODE</label>
     <div style="position:relative;">
-      <input type="password" id="pw-input" autocomplete="off" placeholder="• • • •" style="width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:var(--font-mono);font-size:24px;padding:14px 44px 14px 12px;letter-spacing:10px;text-align:center;pointer-events:none;" readonly>
+      <input type="password" id="pw-input" autocomplete="off" placeholder="•••••" style="width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:var(--font-mono);font-size:18px;padding:12px 44px 12px 12px;letter-spacing:6px;text-align:center;">
       <button type="button" onclick="toggleShowPw()" id="show-pw-btn" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--text3);font-size:18px;padding:4px;">👁</button>
     </div>
-    <!-- NUMPAD -->
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px;" id="numpad">
-      <button class="numpad-btn" onclick="numpadPress('1')">1</button>
-      <button class="numpad-btn" onclick="numpadPress('2')">2</button>
-      <button class="numpad-btn" onclick="numpadPress('3')">3</button>
-      <button class="numpad-btn" onclick="numpadPress('4')">4</button>
-      <button class="numpad-btn" onclick="numpadPress('5')">5</button>
-      <button class="numpad-btn" onclick="numpadPress('6')">6</button>
-      <button class="numpad-btn" onclick="numpadPress('7')">7</button>
-      <button class="numpad-btn" onclick="numpadPress('8')">8</button>
-      <button class="numpad-btn" onclick="numpadPress('9')">9</button>
-      <button class="numpad-btn numpad-clear" onclick="numpadClear()" style="background:rgba(192,57,43,0.15);border-color:rgba(192,57,43,0.4);color:var(--red);">CLR</button>
-      <button class="numpad-btn" onclick="numpadPress('0')">0</button>
-      <button class="numpad-btn numpad-del" onclick="numpadDel()" style="background:rgba(74,158,255,0.08);color:var(--text2);">⌫</button>
-    </div>
     <div class="login-error" id="login-error"></div>
-    <button class="btn-login" onclick="doLogin()" style="margin-top:10px;">ACCESS GRANTED</button>
+    <button class="btn-login" onclick="doLogin()">ACCESS GRANTED</button>
   </div>
   <div class="text-small" style="color:var(--text3)">CIPHER ORGANIZATION — CLEARANCE LEVEL RESTRICTED</div>
 </div>
@@ -507,13 +447,13 @@
   <div id="topbar">
     <div class="topbar-org">CIPHER</div>
     <div class="topbar-agent" id="topbar-agent">THE SILENT POSTMAN</div>
-    <div class="topbar-rank-badge">
-      <div id="topbar-rank-img-wrap"></div>
-      <div class="topbar-rank-info">
-        <div class="grade-badge" id="topbar-grade-label">ALPHA</div>
-        <div class="topbar-pts"><span class="pts-label">EP &nbsp;</span><span id="topbar-pts">0</span></div>
-      </div>
+    <div id="topbar-rank-img-wrap" style="flex-shrink:0;"></div>
+    <div class="topbar-rank-info">
+      <div class="topbar-rank-label" id="topbar-grade-label">ALPHA</div>
+      <div class="topbar-rank-sub">RANK</div>
     </div>
+    <div class="topbar-divider"></div>
+    <div class="topbar-pts"><span class="pts-label">EP</span><span id="topbar-pts">0</span></div>
   </div>
 
   <!-- DAILY OPS -->
@@ -545,9 +485,9 @@
     <div class="sec-title">INTELLIGENCE</div>
     <div class="sec-sub">PERFORMANCE STATISTICS</div>
     <div class="tab-row">
-      <button class="tab-btn active" data-days="7" onclick="setStatTab('7',this)">7 DAYS</button>
-      <button class="tab-btn" data-days="30" onclick="setStatTab('30',this)">30 DAYS</button>
-      <button class="tab-btn" data-days="all" onclick="setStatTab('all',this)">TOTAL</button>
+      <button class="tab-btn active" onclick="setStatTab('7',this)">7 DAYS</button>
+      <button class="tab-btn" onclick="setStatTab('30',this)">30 DAYS</button>
+      <button class="tab-btn" onclick="setStatTab('all',this)">TOTAL</button>
     </div>
     <div id="stats-container"></div>
   </div>
@@ -579,7 +519,7 @@
     </div>
     <div id="grades-list"></div>
     <hr class="divider">
-    <div style="font-family:var(--font-mono);font-size:10px;color:var(--text3);letter-spacing:2px;margin-bottom:12px;">RANK PHOTO GUIDE: 400x400px, white background, subject centered</div>
+    <div style="font-family:var(--font-mono);font-size:10px;color:var(--text3);letter-spacing:2px;margin-bottom:12px;">RANK PHOTO GUIDE: 400x400px, black background, subject centered</div>
   </div>
 
   <!-- CONFIG -->
@@ -590,27 +530,15 @@
     <div class="settings-section">
       <div class="settings-title">AGENT CREDENTIALS</div>
       <div class="form-group">
-        <label class="form-label">NEW CLEARANCE CODE (4 DIGITS)</label>
-        <div style="position:relative;margin-bottom:8px;">
-          <input class="form-input" id="new-pw-input" type="password" placeholder="• • • •" style="letter-spacing:8px;text-align:center;font-size:20px;pointer-events:none;" readonly>
-          <button type="button" onclick="toggleShowNewPw()" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--text3);font-size:16px;">👁</button>
-        </div>
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;max-width:280px;">
-          <button class="numpad-btn" onclick="newPwPress('1')">1</button>
-          <button class="numpad-btn" onclick="newPwPress('2')">2</button>
-          <button class="numpad-btn" onclick="newPwPress('3')">3</button>
-          <button class="numpad-btn" onclick="newPwPress('4')">4</button>
-          <button class="numpad-btn" onclick="newPwPress('5')">5</button>
-          <button class="numpad-btn" onclick="newPwPress('6')">6</button>
-          <button class="numpad-btn" onclick="newPwPress('7')">7</button>
-          <button class="numpad-btn" onclick="newPwPress('8')">8</button>
-          <button class="numpad-btn" onclick="newPwPress('9')">9</button>
-          <button class="numpad-btn" onclick="newPwClear()" style="background:rgba(192,57,43,0.15);border-color:rgba(192,57,43,0.4);color:var(--red);font-size:14px;">CLR</button>
-          <button class="numpad-btn" onclick="newPwPress('0')">0</button>
-          <button class="numpad-btn" onclick="newPwDel()" style="color:var(--text2);font-size:16px;">⌫</button>
-        </div>
+        <label class="form-label">NEW CLEARANCE CODE</label>
+        <div class="text-small" style="margin-bottom:8px;">MINIMUM 3 CHARACTERS — ANY FORMAT YOU WANT</div>
+        <input class="form-input" id="new-pw-input" type="password" placeholder="•••••">
       </div>
-      <div id="pw-change-msg" class="text-small" style="min-height:16px;margin-bottom:8px;margin-top:8px;"></div>
+      <div class="form-group">
+        <label class="form-label">CONFIRM CODE</label>
+        <input class="form-input" id="confirm-pw-input" type="password" placeholder="•••••">
+      </div>
+      <div id="pw-change-msg" class="text-small" style="min-height:16px;margin-bottom:8px;"></div>
       <button class="btn btn-primary" onclick="changePassword()">UPDATE CLEARANCE CODE</button>
     </div>
 
@@ -740,7 +668,7 @@ function saveData(d) {
 
 function getDefaultData() {
   return {
-    password: '1717',
+    password: 'Cipher1',
     totalXP: 0,
     currentGradeIndex: 0,
     grades: [
@@ -759,13 +687,11 @@ function getDefaultData() {
 
 function initData(callback) {
   const loginScreen = document.getElementById('login-screen');
-  if (!document.getElementById('load-msg')) {
-    const loadDiv = document.createElement('div');
-    loadDiv.id = 'load-msg';
-    loadDiv.style.cssText = 'font-family:var(--font-mono);font-size:11px;color:var(--text3);letter-spacing:2px;margin-top:16px;';
-    loadDiv.textContent = 'CONNECTING TO CIPHER NETWORK...';
-    loginScreen.appendChild(loadDiv);
-  }
+  const loadDiv = document.createElement('div');
+  loadDiv.id = 'load-msg';
+  loadDiv.style.cssText = 'font-family:var(--font-mono);font-size:11px;color:var(--text3);letter-spacing:2px;margin-top:16px;';
+  loadDiv.textContent = 'CONNECTING TO CIPHER NETWORK...';
+  loginScreen.appendChild(loadDiv);
 
   fbLoad(function(data) {
     var loadMsg = document.getElementById('load-msg');
@@ -776,11 +702,6 @@ function initData(callback) {
     } else {
       // *** THE FIX: normalize Firebase object-arrays back to real arrays ***
       _appData = normalizeData(data);
-      // *** MIGRATION: update old default password to new 4-digit code ***
-      if (_appData.password === 'Cipher1') {
-        _appData.password = '1717';
-        fbSave(_appData);
-      }
     }
     if (callback) callback();
   });
@@ -812,53 +733,15 @@ function imageToDataURL(file) {
 }
 
 // ============================================================
-// NUMPAD
-// ============================================================
-let _numpadVal = '';
-
-function numpadPress(digit) {
-  if (_numpadVal.length >= 4) return; // max 4 digits
-  _numpadVal += digit;
-  updateNumpadDisplay();
-  if (_numpadVal.length === 4) {
-    setTimeout(doLogin, 200); // auto-submit after 4 digits
-  }
-}
-
-function numpadDel() {
-  _numpadVal = _numpadVal.slice(0, -1);
-  updateNumpadDisplay();
-}
-
-function numpadClear() {
-  _numpadVal = '';
-  updateNumpadDisplay();
-}
-
-function updateNumpadDisplay() {
-  const inp = document.getElementById('pw-input');
-  if (!inp) return;
-  const shown = document.getElementById('show-pw-btn') && inp.type === 'text';
-  inp.value = shown ? _numpadVal : '•'.repeat(_numpadVal.length);
-}
-
-// ============================================================
 // AUTH
 // ============================================================
 function toggleShowPw() {
   const inp = document.getElementById('pw-input');
-  if (inp.type === 'password') {
-    inp.type = 'text';
-    inp.value = _numpadVal;
-  } else {
-    inp.type = 'password';
-    inp.value = '•'.repeat(_numpadVal.length);
-  }
+  inp.type = inp.type === 'password' ? 'text' : 'password';
 }
 
 function doLogin() {
-  const pw = _numpadVal;
-  if (!pw) return;
+  const pw = document.getElementById('pw-input').value;
   const btn = document.querySelector('.btn-login');
   btn.textContent = 'CONNECTING...';
   btn.disabled = true;
@@ -875,50 +758,32 @@ function doLogin() {
         ls.style.opacity = '1';
         document.getElementById('app').style.display = 'block';
       }, 400);
-      _numpadVal = '';
-      updateNumpadDisplay();
+      document.getElementById('pw-input').value = '';
       document.getElementById('login-error').textContent = '';
       checkDailyReset();
+      recalcTotalXP(); // recalculate EP from logs in case of data drift
       refreshAll();
     } else {
       document.getElementById('login-error').textContent = 'ACCESS DENIED — INVALID CODE';
-      _numpadVal = '';
-      updateNumpadDisplay();
+      document.getElementById('pw-input').value = '';
     }
   });
 }
-
-let _newPwVal = '';
-
-function newPwPress(digit) {
-  if (_newPwVal.length >= 4) return;
-  _newPwVal += digit;
-  updateNewPwDisplay();
-}
-function newPwDel() { _newPwVal = _newPwVal.slice(0,-1); updateNewPwDisplay(); }
-function newPwClear() { _newPwVal = ''; updateNewPwDisplay(); }
-function updateNewPwDisplay() {
-  const inp = document.getElementById('new-pw-input');
-  if (!inp) return;
-  inp.value = inp.type === 'text' ? _newPwVal : '•'.repeat(_newPwVal.length);
-}
-function toggleShowNewPw() {
-  const inp = document.getElementById('new-pw-input');
-  if (!inp) return;
-  inp.type = inp.type === 'password' ? 'text' : 'password';
-  inp.value = inp.type === 'text' ? _newPwVal : '•'.repeat(_newPwVal.length);
-}
+document.getElementById('pw-input').addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
 
 function changePassword() {
-  const msg = document.getElementById('pw-change-msg');
-  if (_newPwVal.length < 4) { msg.style.color='var(--red)'; msg.textContent='// CODE MUST BE 4 DIGITS //'; return; }
   const d = getData();
-  d.password = _newPwVal;
+  const np = document.getElementById('new-pw-input').value;
+  const cp = document.getElementById('confirm-pw-input').value;
+  const msg = document.getElementById('pw-change-msg');
+  if (!np || np.length < 3) { msg.style.color='var(--red)'; msg.textContent='// CODE TOO SHORT (MIN 3 CHARACTERS) //'; return; }
+  if (np !== cp) { msg.style.color='var(--red)'; msg.textContent='// CODES DO NOT MATCH //'; return; }
+  d.password = np;
   saveData(d);
   msg.style.color='var(--green)';
-  msg.textContent='// CLEARANCE CODE UPDATED TO ' + _newPwVal + ' //';
-  _newPwVal = '';
-  updateNewPwDisplay();
+  msg.textContent='// CLEARANCE CODE UPDATED //';
+  document.getElementById('new-pw-input').value='';
+  document.getElementById('confirm-pw-input').value='';
 }
 
 // ============================================================
@@ -930,17 +795,31 @@ function showPage(name, btn) {
   const pg = document.getElementById('page-' + name);
   pg.classList.add('active');
   if (btn) btn.classList.add('active');
-  if (name === 'stats') {
-    // Restore correct tab button active state
-    document.querySelectorAll('#page-stats .tab-btn').forEach(b => b.classList.remove('active'));
-    const activeTabBtn = document.querySelector('#page-stats .tab-btn[data-days="' + currentStatTab + '"]');
-    if (activeTabBtn) activeTabBtn.classList.add('active');
-    renderStats(currentStatTab);
-  }
+  if (name === 'stats') renderStats('7');
   if (name === 'rank') renderRankPage();
   if (name === 'settings') renderSettings();
   if (name === 'ach') renderAchievements();
   if (name === 'missions') renderMissions();
+}
+
+// ============================================================
+// RECALCULATE TOTAL XP FROM LOGS
+// ============================================================
+function recalcTotalXP() {
+  const d = getData();
+  let total = 0;
+  (d.logs || []).forEach(log => {
+    (d.inputs || []).forEach(inp => {
+      const val = log.entries ? log.entries[inp.id] : undefined;
+      if (val !== undefined && val !== null) {
+        total += calculatePoints(inp, val);
+      }
+    });
+  });
+  if (total !== d.totalXP) {
+    d.totalXP = total;
+    saveData(d);
+  }
 }
 
 // ============================================================
@@ -959,10 +838,6 @@ function checkDailyReset() {
 // REFRESH ALL
 // ============================================================
 function refreshAll() {
-  // Always recalc XP on load to keep it accurate
-  const d = getData();
-  const correct = recalcTotalXP(d);
-  if (d.totalXP !== correct) { d.totalXP = correct; saveData(d); }
   updateTopBar();
   renderDailyInputs();
   renderMissions();
@@ -978,9 +853,9 @@ function updateTopBar() {
   const wrap = document.getElementById('topbar-rank-img-wrap');
   if (wrap) {
     if (grade && grade.photo) {
-      wrap.innerHTML = '<div class="topbar-rank-img"><img src="' + grade.photo + '" alt="rank"></div>';
+      wrap.innerHTML = '<div style="width:38px;height:38px;border-radius:50%;overflow:hidden;border:2px solid var(--accent);box-shadow:0 0 10px rgba(74,158,255,0.3);background:#fff;flex-shrink:0;"><img src="' + grade.photo + '" style="width:100%;height:100%;object-fit:cover;display:block;"></div>';
     } else {
-      wrap.innerHTML = '<div class="topbar-rank-placeholder"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>';
+      wrap.innerHTML = '';
     }
   }
 }
@@ -1002,10 +877,10 @@ function renderDailyInputs() {
 
   const log = getOrCreateTodayLog();
   list.innerHTML = d.inputs.map((inp, i) => {
-    const val = log.entries[inp.id] !== undefined ? log.entries[inp.id] : 0;
+    const val = log.entries[inp.id] !== undefined ? log.entries[inp.id] : (inp.initialValue || 0);
     const imgHtml = inp.photo
-      ? '<div class="img-circle" style="width:68px;height:68px;border-radius:50%;overflow:hidden;flex-shrink:0;border:3px solid rgba(74,158,255,0.3);background:#fff;"><img src="' + inp.photo + '" alt="" style="width:100%;height:100%;object-fit:cover;"></div>'
-      : '<div style="width:68px;height:68px;border-radius:50%;border:3px solid rgba(74,158,255,0.3);background:var(--card2);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:22px;color:var(--accent);">' + (inp.name[0]||'?') + '</div>';
+      ? '<div style="width:72px;height:72px;border-radius:50%;overflow:hidden;border:2px solid rgba(74,158,255,0.45);flex-shrink:0;background:#fff;box-shadow:0 0 10px rgba(74,158,255,0.15);"><img src="' + inp.photo + '" alt="" style="width:100%;height:100%;object-fit:cover;display:block;"></div>'
+      : '<div style="width:72px;height:72px;border-radius:50%;border:2px solid rgba(74,158,255,0.35);background:var(--card2);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:28px;color:var(--accent);">' + (inp.name[0]||'?') + '</div>';
 
     let control = '';
     if (inp.inputType === 'number') {
@@ -1056,7 +931,7 @@ function adjustNum(i, delta) {
   const d = getData();
   const inp = d.inputs[i];
   const log = getOrCreateTodayLog();
-  const curr = parseFloat(log.entries[inp.id] !== undefined ? log.entries[inp.id] : 0);
+  const curr = parseFloat(log.entries[inp.id] !== undefined ? log.entries[inp.id] : (inp.initialValue || 0));
   const nv = Math.max(0, curr + delta);
   saveInputVal(i, nv);
   const el = document.getElementById('inp-val-' + inp.id);
@@ -1069,44 +944,23 @@ function saveInputVal(i, val) {
   const today = todayStr();
   let log = d.logs.find(l => l.date === today);
   if (!log) { log = { date: today, entries: {} }; d.logs.push(log); }
-  const oldPts = calculatePoints(inp, log.entries[inp.id] !== undefined ? log.entries[inp.id] : 0);
+  const oldVal = log.entries[inp.id];
   log.entries[inp.id] = (inp.inputType === 'number' || inp.inputType === 'duration' || inp.inputType === 'rating')
     ? parseFloat(val) || 0
     : val;
+  const oldPts = calculatePoints(inp, oldVal !== undefined ? oldVal : (inp.initialValue || 0));
   const newPts = calculatePoints(inp, log.entries[inp.id]);
   const diff = newPts - oldPts;
-  // Recalculate total XP from all logs to stay accurate
-  d.totalXP = recalcTotalXP(d);
-  if (diff > 0) showFlash('+' + diff + ' EP');
+  if (diff > 0) {
+    d.totalXP = (d.totalXP || 0) + diff;
+    showFlash('+' + diff + ' EP');
+  } else if (diff < 0) {
+    d.totalXP = Math.max(0, (d.totalXP || 0) + diff);
+  }
   saveData(d);
   updateTopBar();
   checkGradeUp();
   checkObjectivesAuto();
-}
-
-// Recalculate total XP from scratch using all logs + initialValues
-function recalcTotalXP(d) {
-  let total = 0;
-  (d.inputs || []).forEach(inp => {
-    if (!inp.pointsConfig) return;
-    if (inp.inputType === 'number' || inp.inputType === 'duration' || inp.inputType === 'rating' || inp.inputType === 'digital_product') {
-      // Grand total = initialValue + sum of all daily logs
-      const loggedTotal = (d.logs || []).reduce((s, log) => s + (parseFloat(log.entries[inp.id]) || 0), 0);
-      const grandTotal = (inp.initialValue || 0) + loggedTotal;
-      total += calculatePoints(inp, grandTotal);
-    } else if (inp.inputType === 'checkbox') {
-      (d.logs || []).forEach(log => {
-        const v = log.entries[inp.id] ? 1 : 0;
-        total += calculatePoints(inp, v);
-      });
-    } else if (inp.inputType === 'text') {
-      (d.logs || []).forEach(log => {
-        const v = log.entries[inp.id] ? 1 : 0;
-        total += calculatePoints(inp, v);
-      });
-    }
-  });
-  return total;
 }
 
 function calculatePoints(inp, val) {
@@ -1162,7 +1016,7 @@ function openAddInputModal(editIdx) {
 
   const html = '<div class="modal-overlay" id="modal-add-input"><div class="modal">' +
     '<div class="modal-title">' + (editing ? 'EDIT INPUT' : 'NEW INPUT') + '</div>' +
-    '<div class="form-group"><label class="form-label">ICON IMAGE (400x400, WHITE BG)</label>' +
+    '<div class="form-group"><label class="form-label">ICON IMAGE (400x400, BLACK BG)</label>' +
     '<div class="img-upload-zone" id="input-img-zone">' +
     '<input type="file" accept="image/*" onchange="handleInputImg(event)">' +
     '<div id="input-img-preview">' +
@@ -1198,6 +1052,13 @@ function openAddInputModal(editIdx) {
     '<div class="mt8 hidden" id="pts-thresholds"><div class="text-small" style="margin-bottom:6px;">THRESHOLDS (value → points)</div>' +
     '<div id="threshold-rows">' + existingThresholds + '</div>' +
     '<button class="btn btn-secondary btn-sm" onclick="addThreshRow()">+ ADD THRESHOLD</button></div></div>' +
+    '<div class="form-group hidden" id="streak-toggle-group" style="background:var(--bg3);border:1px solid var(--border);padding:12px;">' +
+    '<label class="form-label" style="margin-bottom:8px;">INTEL STATS OPTIONS</label>' +
+    '<div style="display:flex;align-items:center;gap:10px;">' +
+    '<input type="checkbox" id="inp-show-streak" style="width:20px;height:20px;accent-color:var(--accent);cursor:pointer;" ' + (!editing || editing.showStreak !== false ? 'checked' : '') + '>' +
+    '<div><div style="font-family:var(--font-body);font-size:14px;color:var(--text);">Show STREAK in Intel</div>' +
+    '<div style="font-family:var(--font-mono);font-size:10px;color:var(--text3);margin-top:2px;">Enable for daily habits (journaling, etc.) — disable for occasional activities</div></div>' +
+    '</div></div>' +
     '<div class="modal-actions">' +
     '<button class="btn btn-secondary" onclick="closeModal()">CANCEL</button>' +
     '<button class="btn btn-primary" onclick="saveInput(' + (editIdx !== undefined ? editIdx : 'null') + ')">' + (editing?'UPDATE':'CREATE') + '</button>' +
@@ -1205,7 +1066,7 @@ function openAddInputModal(editIdx) {
 
   document.getElementById('modal-container').innerHTML = html;
   updatePtsThresholds();
-}
+  updateInputTypeUI();
 
 function addThreshRow() {
   const rows = document.getElementById('threshold-rows');
@@ -1236,11 +1097,16 @@ function updateInputTypeUI() {
   if (!t) return;
   const v = t.value;
   const dg = document.getElementById('digital-price-group');
-  const iv = document.querySelector('[data-field="initial-value"]');
+  const streakGroup = document.getElementById('streak-toggle-group');
   if (v === 'digital_product') {
     if (dg) dg.classList.remove('hidden');
   } else {
     if (dg) dg.classList.add('hidden');
+  }
+  if (v === 'checkbox') {
+    if (streakGroup) streakGroup.classList.remove('hidden');
+  } else {
+    if (streakGroup) streakGroup.classList.add('hidden');
   }
   updatePtsThresholds();
 }
@@ -1290,10 +1156,13 @@ function saveInput(editIdx) {
   }
   const d = getData();
   const digitalPrice = type === 'digital_product' ? parseFloat(document.getElementById('inp-digital-price')?.value) || 0 : 0;
+  const showStreakEl = document.getElementById('inp-show-streak');
+  const showStreak = type === 'checkbox' ? (showStreakEl ? showStreakEl.checked : true) : undefined;
   const inp = {
     id: (editIdx !== null && editIdx !== undefined) ? d.inputs[editIdx].id : 'inp_'+Date.now(),
     name, inputType: type, category: cat, initialValue: init, photo, pointsConfig, digitalPrice
   };
+  if (type === 'checkbox') inp.showStreak = showStreak;
   if (editIdx !== null && editIdx !== undefined) { d.inputs[editIdx] = inp; }
   else { d.inputs.push(inp); }
   saveData(d);
@@ -1387,9 +1256,11 @@ function openAddObjectiveModal(editIdx) {
     ? toArray(editing.conditions).map((c,ci) => renderCondBuildRow(c, ci, inpOptions)).join('')
     : '';
 
+  window._modalInpOptions = inpOptions;
+
   const html = '<div class="modal-overlay" id="modal-add-obj"><div class="modal">' +
     '<div class="modal-title">' + (editing?'EDIT MISSION':'NEW MISSION') + '</div>' +
-    '<div class="form-group"><label class="form-label">MISSION IMAGE (400x400, WHITE BG)</label>' +
+    '<div class="form-group"><label class="form-label">MISSION IMAGE (400x400, BLACK BG)</label>' +
     '<div class="img-upload-zone"><input type="file" accept="image/*" onchange="handleObjImg(event)">' +
     '<div id="obj-img-preview">' +
     (editing&&editing.photo ? '<div class="img-preview-circle" style="margin-bottom:8px;"><img src="' + editing.photo + '"></div>' :
@@ -1401,9 +1272,9 @@ function openAddObjectiveModal(editIdx) {
     '<div class="form-group"><label class="form-label">CONDITIONS</label>' +
     '<div class="cond-builder"><div id="cond-list">' + existingConds + '</div>' +
     '<div class="flex-row mt8" style="flex-wrap:wrap;gap:6px;">' +
-    '<button class="btn btn-secondary btn-sm" onclick="addCondRow(\'manual\',\'' + inpOptions.replace(/'/g,'&#39;') + '\')">+ MANUAL CHECK</button>' +
-    '<button class="btn btn-secondary btn-sm" onclick="addCondRow(\'input_total\',\'' + inpOptions.replace(/'/g,'&#39;') + '\')">+ INPUT TOTAL</button>' +
-    '<button class="btn btn-secondary btn-sm" onclick="addCondRow(\'ep\',\'' + inpOptions.replace(/'/g,'&#39;') + '\')">+ XP TARGET</button>' +
+    '<button class="btn btn-secondary btn-sm" onclick="addCondRow(\'manual\')">+ MANUAL CHECK</button>' +
+    '<button class="btn btn-secondary btn-sm" onclick="addCondRow(\'input_total\')">+ INPUT TOTAL</button>' +
+    '<button class="btn btn-secondary btn-sm" onclick="addCondRow(\'ep\')">+ EP TARGET</button>' +
     '</div></div></div>' +
     '<div class="modal-actions">' +
     '<button class="btn btn-secondary" onclick="closeModal()">CANCEL</button>' +
@@ -1414,42 +1285,54 @@ function openAddObjectiveModal(editIdx) {
 }
 
 function renderCondBuildRow(cond, ci, inpOptions) {
+  const hdr = function(badge) {
+    return '<div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">' +
+      '<span class="cond-type-badge" style="white-space:nowrap;">' + badge + '</span>' +
+      '<button type="button" class="btn-icon" onclick="removeCond(\'' + ci + '\')" style="margin-left:auto;line-height:1;">✕</button>' +
+      '</div>';
+  };
   if (cond.type === 'manual') {
-    return '<div class="cond-item-build" id="cond-row-' + ci + '"><span class="cond-type-badge">MANUAL</span>' +
-      '<input class="form-input" id="cond-desc-' + ci + '" value="' + (cond.description||'') + '" placeholder="Condition description" style="flex:1">' +
-      '<button class="btn-icon" onclick="removeCond(' + ci + ')">✕</button>' +
+    return '<div class="cond-item-build" id="cond-row-' + ci + '" style="flex-direction:column;align-items:stretch;">' +
+      hdr('MANUAL CHECK') +
+      '<input class="form-input" id="cond-desc-' + ci + '" value="' + (cond.description||'') + '" placeholder="Condition description" style="width:100%">' +
       '<input type="hidden" id="cond-type-' + ci + '" value="manual"></div>';
   } else if (cond.type === 'input_total') {
-    return '<div class="cond-item-build" id="cond-row-' + ci + '"><span class="cond-type-badge">TOTAL</span>' +
-      '<select class="form-select" id="cond-inp-' + ci + '" style="flex:1">' + inpOptions + '</select>' +
-      '<span class="text-small">≥</span>' +
-      '<input class="form-input" id="cond-val-' + ci + '" type="number" value="' + (cond.targetValue||0) + '" style="width:80px;">' +
-      '<button class="btn-icon" onclick="removeCond(' + ci + ')">✕</button>' +
+    return '<div class="cond-item-build" id="cond-row-' + ci + '" style="flex-direction:column;align-items:stretch;">' +
+      hdr('INPUT TOTAL') +
+      '<select class="form-select" id="cond-inp-' + ci + '" style="width:100%;margin-bottom:6px;">' + inpOptions + '</select>' +
+      '<div style="display:flex;align-items:center;gap:6px;">' +
+      '<span class="text-small" style="white-space:nowrap;flex-shrink:0;">TOTAL ≥</span>' +
+      '<input class="form-input" id="cond-val-' + ci + '" type="number" value="' + (cond.targetValue||0) + '" style="flex:1">' +
+      '</div>' +
       '<input type="hidden" id="cond-type-' + ci + '" value="input_total">' +
       '<input type="hidden" id="cond-desc-' + ci + '" value=""></div>';
   } else if (cond.type === 'ep') {
-    return '<div class="cond-item-build" id="cond-row-' + ci + '"><span class="cond-type-badge">XP</span>' +
-      '<span class="text-small">Reach</span>' +
-      '<input class="form-input" id="cond-val-' + ci + '" type="number" value="' + (cond.targetValue||0) + '" style="width:80px;">' +
-      '<span class="text-small">EP</span>' +
-      '<input class="form-input" id="cond-desc-' + ci + '" value="' + (cond.description||'') + '" placeholder="Description" style="flex:1">' +
-      '<button class="btn-icon" onclick="removeCond(' + ci + ')">✕</button>' +
+    return '<div class="cond-item-build" id="cond-row-' + ci + '" style="flex-direction:column;align-items:stretch;">' +
+      hdr('EP TARGET') +
+      '<div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">' +
+      '<span class="text-small" style="white-space:nowrap;flex-shrink:0;">REACH</span>' +
+      '<input class="form-input" id="cond-val-' + ci + '" type="number" value="' + (cond.targetValue||0) + '" style="flex:1">' +
+      '<span class="text-small" style="flex-shrink:0;">EP</span>' +
+      '</div>' +
+      '<input class="form-input" id="cond-desc-' + ci + '" value="' + (cond.description||'') + '" placeholder="Description (optional)" style="width:100%">' +
       '<input type="hidden" id="cond-type-' + ci + '" value="ep"></div>';
   } else if (cond.type === 'digital_revenue') {
-    const inpOpts = inpOptions; // will use all inputs, filter by digital
-    return '<div class="cond-item-build" id="cond-row-' + ci + '"><span class="cond-type-badge">REVENUE</span>' +
-      '<select class="form-select" id="cond-inp-' + ci + '" style="flex:1">' + inpOptions + '</select>' +
-      '<span class="text-small">≥ $</span>' +
-      '<input class="form-input" id="cond-val-' + ci + '" type="number" value="' + (cond.targetValue||0) + '" style="width:90px;">' +
-      '<button class="btn-icon" onclick="removeCond(' + ci + ')">✕</button>' +
+    return '<div class="cond-item-build" id="cond-row-' + ci + '" style="flex-direction:column;align-items:stretch;">' +
+      hdr('REVENUE') +
+      '<select class="form-select" id="cond-inp-' + ci + '" style="width:100%;margin-bottom:6px;">' + inpOptions + '</select>' +
+      '<div style="display:flex;align-items:center;gap:6px;">' +
+      '<span class="text-small" style="white-space:nowrap;flex-shrink:0;">REVENUE ≥ $</span>' +
+      '<input class="form-input" id="cond-val-' + ci + '" type="number" value="' + (cond.targetValue||0) + '" style="flex:1">' +
+      '</div>' +
       '<input type="hidden" id="cond-type-' + ci + '" value="digital_revenue">' +
       '<input type="hidden" id="cond-desc-' + ci + '" value=""></div>';
   }
   return '';
 }
 
-function addCondRow(type, inpOptions) {
+function addCondRow(type) {
   const ci = 'c' + Date.now();
+  const inpOptions = window._modalInpOptions || '';
   const div = document.createElement('div');
   div.innerHTML = renderCondBuildRow({type: type, description:'', targetValue:0}, ci, inpOptions);
   document.getElementById('cond-list').appendChild(div.firstChild);
@@ -1530,7 +1413,8 @@ function renderRankPage() {
       img +
       '<div class="grade-info">' +
         '<div class="grade-label" style="font-size:22px;line-height:1;">' + g.name + '</div>' +
-        '<div class="grade-req">' + (gi===0?'STARTING RANK':'EP REQUIRED: '+g.xpRequired) + '</div>' +
+        '<div class="grade-req">' + (gi===0?'STARTING RANK':'EP TO UNLOCK: '+g.xpRequired) + '</div>' +
+        (toArray(g.requiredMissions||[]).length > 0 ? '<div style="font-family:var(--font-mono);font-size:10px;color:var(--red);margin-top:2px;">MISSIONS REQUIRED: ' + toArray(g.requiredMissions||[]).map(mId=>{ const obj=(getData().objectives||[]).find(o=>o.id===mId); return obj?(obj.completed?'<span style="color:var(--green);">'+obj.name+'✓</span>':obj.name):'?'; }).join(', ') + '</div>' : '') +
         '<div class="grade-msg">"' + (g.message||'') + '"</div>' +
       '</div>' +
       '<div style="display:flex;flex-direction:column;gap:4px;">' +
@@ -1546,6 +1430,13 @@ function checkGradeUp() {
   if (nextIdx < d.grades.length) {
     const next = d.grades[nextIdx];
     if (d.totalXP >= next.xpRequired && !next.unlocked) {
+      // Check required missions
+      const reqMissions = toArray(next.requiredMissions || []);
+      const allMissionsMet = reqMissions.length === 0 || reqMissions.every(mId => {
+        const obj = (d.objectives||[]).find(o => o.id === mId);
+        return obj && obj.completed;
+      });
+      if (!allMissionsMet) return; // XP met but missions not done yet
       d.grades[nextIdx].unlocked = true;
       d.grades[nextIdx].unlockedDate = new Date().toISOString();
       d.currentGradeIndex = nextIdx;
@@ -1578,12 +1469,12 @@ function openAddGradeModal() {
     '<div class="modal-title">NEW RANK</div>' +
     '<div class="form-group"><label class="form-label">RANK DESIGNATION</label>' +
     '<select class="form-select" id="grade-name">' + nameOpts + '</select></div>' +
-    '<div class="form-group"><label class="form-label">RANK PHOTO (400x400, WHITE BG)</label>' +
+    '<div class="form-group"><label class="form-label">RANK PHOTO (400x400, BLACK BG)</label>' +
     '<div class="img-upload-zone"><input type="file" accept="image/*" onchange="handleGradeImg(event)">' +
     '<div id="grade-img-preview"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>' +
     '<div class="upload-hint">TAP TO UPLOAD IMAGE</div></div>' +
     '<input type="hidden" id="grade-img-data" value=""></div>' +
-    '<input type="hidden" id="grade-xp" value="0">' +
+
     '<div class="form-group"><label class="form-label">UNLOCK MESSAGE (personalized congratulation)</label>' +
     '<textarea class="form-input" id="grade-msg" placeholder="Write your personalized congratulation message..."></textarea></div>' +
     '<div class="modal-actions">' +
@@ -1596,16 +1487,31 @@ function openAddGradeModal() {
 function openEditGradeModal(gi) {
   const d = getData();
   const g = d.grades[gi];
+  const reqMissions = toArray(g.requiredMissions || []);
+  const allObj = d.objectives || [];
+  // Build mission checkboxes (completed + active)
+  const missionChecks = allObj.length === 0
+    ? '<div style="font-family:var(--font-mono);font-size:11px;color:var(--text3);">No missions created yet.</div>'
+    : allObj.map((obj, oi) => {
+        const checked = reqMissions.includes(obj.id) ? 'checked' : '';
+        const completedLabel = obj.completed ? ' <span style="color:var(--green);font-size:10px;">[DONE]</span>' : '';
+        return '<label style="display:flex;align-items:center;gap:10px;padding:6px 0;cursor:pointer;border-bottom:1px solid var(--border);">' +
+          '<input type="checkbox" class="check-input" id="req-mission-' + obj.id + '" ' + checked + ' style="width:18px;height:18px;">' +
+          '<span style="font-family:var(--font-body);font-size:14px;color:var(--text);">' + obj.name + completedLabel + '</span>' +
+          '</label>';
+      }).join('');
   const html = '<div class="modal-overlay"><div class="modal">' +
     '<div class="modal-title">EDIT RANK: ' + g.name + '</div>' +
-    '<div class="form-group"><label class="form-label">RANK PHOTO (400x400, WHITE BG)</label>' +
+    '<div class="form-group"><label class="form-label">RANK PHOTO (400x400, BLACK BG)</label>' +
     '<div class="img-upload-zone"><input type="file" accept="image/*" onchange="handleGradeImg(event)">' +
     '<div id="grade-img-preview">' + (g.photo ? '<div class="img-preview-circle" style="margin-bottom:8px;"><img src="' + g.photo + '"></div>' : '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>') + '</div>' +
     '<div class="upload-hint">TAP TO UPLOAD / CHANGE IMAGE</div></div>' +
     '<input type="hidden" id="grade-img-data" value="' + (g.photo||'') + '"></div>' +
-    (gi>0 ? '<div class="form-group"><label class="form-label">XP REQUIRED</label><input class="form-input" id="grade-xp" type="number" value="' + (g.xpRequired||0) + '"></div>' : '') +
     '<div class="form-group"><label class="form-label">UNLOCK MESSAGE</label>' +
     '<textarea class="form-input" id="grade-msg">' + (g.message||'') + '</textarea></div>' +
+    '<div class="form-group"><label class="form-label">REQUIRED MISSIONS</label>' +
+    '<div style="font-family:var(--font-mono);font-size:10px;color:var(--text3);margin-bottom:8px;letter-spacing:1px;">CHECK THE MISSIONS THAT MUST BE COMPLETED TO UNLOCK THIS RANK</div>' +
+    '<div style="background:var(--bg3);border:1px solid var(--border);padding:10px 14px;max-height:200px;overflow-y:auto;">' + missionChecks + '</div></div>' +
     '<div class="modal-actions">' +
     '<button class="btn btn-secondary" onclick="closeModal()">CANCEL</button>' +
     '<button class="btn btn-primary" onclick="updateGrade(' + gi + ')">UPDATE</button>' +
@@ -1622,11 +1528,10 @@ async function handleGradeImg(e) {
 
 function saveNewGrade() {
   const name = document.getElementById('grade-name').value;
-  const xp = parseFloat(document.getElementById('grade-xp').value) || 0;
   const msg = document.getElementById('grade-msg').value.trim();
   const photo = document.getElementById('grade-img-data').value;
   const d = getData();
-  d.grades.push({ name, xpRequired: xp, photo, message: msg, unlocked: false, unlockedDate: null });
+  d.grades.push({ name, xpRequired: 0, photo, message: msg, unlocked: false, unlockedDate: null });
   d.grades.sort((a,b) => GRADES_LIST.indexOf(a.name) - GRADES_LIST.indexOf(b.name));
   saveData(d);
   closeModal();
@@ -1638,9 +1543,17 @@ function updateGrade(gi) {
   const d = getData();
   const photo = document.getElementById('grade-img-data').value;
   const msg = document.getElementById('grade-msg').value.trim();
-  if (gi > 0) d.grades[gi].xpRequired = parseFloat(document.getElementById('grade-xp').value) || 0;
+  const xpEl = document.getElementById('grade-xp');
+  if (gi > 0 && xpEl) d.grades[gi].xpRequired = parseFloat(xpEl.value) || 0;
   if (photo) d.grades[gi].photo = photo;
   d.grades[gi].message = msg;
+  // Save required missions
+  const reqBoxes = document.querySelectorAll('[id^="req-mission-"]');
+  if (reqBoxes.length > 0) {
+    d.grades[gi].requiredMissions = Array.from(reqBoxes)
+      .filter(cb => cb.checked)
+      .map(cb => cb.id.replace('req-mission-',''));
+  }
   saveData(d);
   closeModal();
   renderRankPage();
@@ -1659,8 +1572,6 @@ function deleteGrade(gi) {
 // STATS
 // ============================================================
 let currentStatTab = '7';
-let _expandedStats = {};
-
 function setStatTab(days, btn) {
   currentStatTab = days;
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
@@ -1668,101 +1579,206 @@ function setStatTab(days, btn) {
   renderStats(days);
 }
 
-function toggleStatCard(id) {
-  _expandedStats[id] = !_expandedStats[id];
-  renderStats(currentStatTab);
-}
-
 function renderStats(days) {
   const d = getData();
   const container = document.getElementById('stats-container');
   if (!d.inputs || d.inputs.length === 0) {
-    container.innerHTML = '<div class="text-small" style="text-align:center;padding:32px 0;">NO INPUTS CONFIGURED YET</div>';
+    container.innerHTML = '<div style="font-family:var(--font-mono);font-size:13px;color:var(--text3);text-align:center;padding:40px 0;letter-spacing:2px;">NO INPUTS CONFIGURED YET</div>';
     return;
   }
   const now = new Date();
   const cutoff = days === 'all' ? null : new Date(now - (parseInt(days) * 86400000));
   const relevantLogs = days === 'all' ? d.logs : (d.logs || []).filter(l => new Date(l.date) >= cutoff);
-  const html = d.inputs.map(inp => {
+
+  // Build card HTML per input
+  function buildCard(inp, idx) {
     const isNumericStat = ['number','duration','rating','digital_product'].includes(inp.inputType);
     const isCheckbox = inp.inputType === 'checkbox';
-    if (!isNumericStat && !isCheckbox) return '';
+    const isText = inp.inputType === 'text';
+    if (!isNumericStat && !isCheckbox && !isText) return { html: '', usage: 0 };
 
-    const expanded = !!_expandedStats[inp.id];
-
+    // ── CHECKBOX stats ──────────────────────────────────────
     if (isCheckbox) {
-      const done = relevantLogs.filter(l => l.entries[inp.id]).length;
-      const total_days = relevantLogs.length || 1;
-      const rate = Math.round(done / total_days * 100);
-      const streak = (function() {
-        const sorted = [...(d.logs||[])].sort((a,b)=>b.date.localeCompare(a.date));
-        let s = 0;
-        for (const l of sorted) { if (l.entries[inp.id]) s++; else break; }
-        return s;
-      })();
-      const imgHtml = inp.photo ? '<div style="width:36px;height:36px;border-radius:50%;overflow:hidden;border:2px solid rgba(74,158,255,0.3);background:#fff;flex-shrink:0;"><img src="' + inp.photo + '" style="width:100%;height:100%;object-fit:cover;"></div>' : '';
-      const detailHtml = expanded ? (
-        '<div style="margin-top:10px;border-top:1px solid var(--border);padding-top:10px;">' +
-        '<div class="flex-row" style="gap:20px;">' +
-        '<div><div class="text-small">DONE</div><div style="font-family:var(--font-mono);color:var(--accent);font-size:18px;">' + done + '</div></div>' +
-        '<div><div class="text-small">RATE</div><div style="font-family:var(--font-mono);color:var(--text2);font-size:18px;">' + rate + '%</div></div>' +
-        '<div><div class="text-small">STREAK</div><div style="font-family:var(--font-mono);color:var(--green);font-size:18px;">' + streak + '</div></div>' +
-        '</div></div>'
-      ) : '';
-      return '<div class="stat-card" onclick="toggleStatCard(\'' + inp.id + '\')" style="cursor:pointer;">' +
-        '<div style="display:flex;align-items:center;gap:10px;">' + imgHtml +
-        '<div style="flex:1;min-width:0;"><div style="font-family:var(--font-body);font-weight:700;font-size:15px;color:var(--text);">' + inp.name + '</div>' +
-        '<div class="text-small">' + (inp.category||'') + '</div></div>' +
-        '<div style="text-align:right;flex-shrink:0;font-family:var(--font-mono);font-size:13px;">' +
-        '<span style="color:var(--accent);">' + done + 'x</span><span style="color:var(--text3);"> &nbsp;' + rate + '%</span></div>' +
-        '<div style="color:var(--text3);font-size:14px;margin-left:6px;">' + (expanded?'▲':'▼') + '</div>' +
-        '</div>' + detailHtml + '</div>';
-    }
-
-    // Numeric
-    const vals = relevantLogs.map(l => parseFloat(l.entries[inp.id]) || 0);
-    const loggedTotal = vals.reduce((s,v)=>s+v,0);
-    const total = days === 'all' ? (inp.initialValue||0) + loggedTotal : loggedTotal;
-    const avg = vals.length > 0 ? (loggedTotal/vals.length).toFixed(1) : '0.0';
-    const max = vals.length > 0 ? Math.max(...vals) : 0;
-
-    const imgHtml = inp.photo ? '<div style="width:36px;height:36px;border-radius:50%;overflow:hidden;border:2px solid rgba(74,158,255,0.3);background:#fff;flex-shrink:0;"><img src="' + inp.photo + '" style="width:100%;height:100%;object-fit:cover;"></div>' : '';
-
-    // Detail section (charts + revenue)
-    let detailHtml = '';
-    if (expanded) {
+      const daysLogged = relevantLogs.filter(l => l.entries[inp.id] == 1 || l.entries[inp.id] === true);
+      const total = daysLogged.length;
+      const pct = relevantLogs.length > 0 ? Math.round(total / relevantLogs.length * 100) : 0;
+      const allLogs = [...(d.logs||[])].sort((a,b)=>b.date.localeCompare(a.date));
+      let streak = 0;
+      for (const l of allLogs) {
+        if (l.entries[inp.id] == 1 || l.entries[inp.id] === true) streak++;
+        else break;
+      }
       const barDays = days === 'all' ? Math.min(30, (d.logs||[]).length) : parseInt(days);
       const barLogs = [...(d.logs||[])].sort((a,b)=>a.date.localeCompare(b.date)).slice(-barDays);
-      const maxVal = Math.max(...barLogs.map(l=>parseFloat(l.entries[inp.id])||0), 1);
       const barsHtml = barLogs.map(l => {
-        const v = parseFloat(l.entries[inp.id]) || 0;
-        const pct = (v/maxVal*100).toFixed(0);
+        const done = l.entries[inp.id] == 1 || l.entries[inp.id] === true;
+        const isToday = l.date === new Date().toISOString().split('T')[0];
         const dateStr = l.date.slice(5);
-        return '<div class="bar-row"><div class="bar-label">' + dateStr + '</div><div class="bar-track"><div class="bar-fill" style="width:' + pct + '%"></div></div><div class="bar-val">' + v + '</div></div>';
+        return '<div style="display:flex;flex-direction:column;align-items:center;gap:3px;flex:1;min-width:0;">' +
+          '<div style="width:18px;height:18px;border-radius:3px;background:' + (done?(isToday?'var(--accent)':'var(--accent3)'):'rgba(255,255,255,0.05)') + ';border:1px solid ' + (done?'var(--accent)':'var(--border)') + ';display:flex;align-items:center;justify-content:center;font-size:10px;">' + (done?'✓':'') + '</div>' +
+          '<div style="font-family:var(--font-mono);font-size:9px;color:var(--text3);writing-mode:vertical-lr;transform:rotate(180deg);height:28px;line-height:1;">' + dateStr + '</div>' +
+        '</div>';
       }).join('');
-      const revenueRow = inp.inputType === 'digital_product'
-        ? '<div style="font-family:var(--font-mono);font-size:12px;color:#00d4aa;margin-bottom:8px;">CUMUL. REVENUE: $' + (((inp.initialValue||0)+(d.logs||[]).reduce((s,l)=>s+(parseFloat(l.entries[inp.id])||0),0))*(inp.digitalPrice||0)).toFixed(2) + '</div>'
-        : '';
-      detailHtml = '<div style="margin-top:10px;border-top:1px solid var(--border);padding-top:10px;">' +
-        revenueRow +
-        '<div class="flex-row" style="gap:16px;margin-bottom:10px;">' +
-        '<div><div class="text-small">TOTAL</div><div style="font-family:var(--font-mono);color:var(--accent);font-size:18px;">' + total + '</div></div>' +
-        '<div><div class="text-small">AVG/DAY</div><div style="font-family:var(--font-mono);color:var(--text2);font-size:18px;">' + avg + '</div></div>' +
-        '<div><div class="text-small">BEST DAY</div><div style="font-family:var(--font-mono);color:var(--text2);font-size:18px;">' + max + '</div></div>' +
-        '</div>' + barsHtml + '</div>';
+      const imgHtml2 = inp.photo
+        ? '<div style="width:56px;height:56px;border-radius:50%;overflow:hidden;border:2px solid rgba(74,158,255,0.4);background:#fff;flex-shrink:0;"><img src="' + inp.photo + '" style="width:100%;height:100%;object-fit:cover;display:block;"></div>'
+        : '<div style="width:56px;height:56px;border-radius:50%;border:2px solid rgba(74,158,255,0.3);background:var(--card2);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:22px;color:var(--accent);">' + inp.name[0] + '</div>';
+      const cardId2 = 'stat-card-' + idx;
+      const showStreak = inp.showStreak !== false; // default true unless explicitly false
+      const statPills = showStreak
+        ? '<div style="text-align:center;"><div style="font-family:var(--font-mono);font-size:9px;color:var(--text3);letter-spacing:2px;">DONE</div><div style="font-family:var(--font-display);font-size:22px;color:var(--accent);line-height:1;">' + total + '</div></div>' +
+          '<div style="text-align:center;"><div style="font-family:var(--font-mono);font-size:9px;color:var(--text3);letter-spacing:2px;">RATE</div><div style="font-family:var(--font-display);font-size:22px;color:var(--text2);line-height:1;">' + pct + '%</div></div>' +
+          '<div style="text-align:center;"><div style="font-family:var(--font-mono);font-size:9px;color:var(--text3);letter-spacing:2px;">STREAK</div><div style="font-family:var(--font-display);font-size:22px;color:var(--green);line-height:1;">' + streak + '</div></div>'
+        : '<div style="text-align:center;"><div style="font-family:var(--font-mono);font-size:9px;color:var(--text3);letter-spacing:2px;">DONE</div><div style="font-family:var(--font-display);font-size:22px;color:var(--accent);line-height:1;">' + total + '</div></div>' +
+          '<div style="text-align:center;"><div style="font-family:var(--font-mono);font-size:9px;color:var(--text3);letter-spacing:2px;">RATE</div><div style="font-family:var(--font-display);font-size:22px;color:var(--text2);line-height:1;">' + pct + '%</div></div>';
+      const html = '<div id="' + cardId2 + '" style="background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);margin-bottom:10px;cursor:pointer;transition:border-color 0.2s;" onclick="toggleStatCard(this.id)">' +
+        '<div style="display:flex;align-items:center;gap:14px;padding:14px 16px;">' +
+          imgHtml2 +
+          '<div style="flex:1;min-width:0;">' +
+            '<div style="font-family:var(--font-body);font-size:19px;font-weight:700;color:#e8f4ff;">' + inp.name + '</div>' +
+            '<div style="font-family:var(--font-mono);font-size:12px;color:var(--text3);letter-spacing:1px;">' + (inp.category||'') + '</div>' +
+          '</div>' +
+          '<div style="display:flex;gap:12px;flex-shrink:0;">' + statPills + '</div>' +
+        '</div>' +
+        '<div class="stat-chart-section" style="display:none;padding:0 16px 16px;">' +
+          '<div style="border-top:1px solid var(--border);padding-top:12px;">' +
+            '<div style="display:flex;align-items:flex-end;gap:3px;height:60px;align-items:center;">' + barsHtml + '</div>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+      return { html, usage: total };
     }
 
-    return '<div class="stat-card" onclick="toggleStatCard(\'' + inp.id + '\')" style="cursor:pointer;">' +
-      '<div style="display:flex;align-items:center;gap:10px;">' + imgHtml +
-      '<div style="flex:1;min-width:0;"><div style="font-family:var(--font-body);font-weight:700;font-size:15px;color:var(--text);">' + inp.name + '</div>' +
-      '<div class="text-small">' + (inp.category||'') + '</div></div>' +
-      '<div style="text-align:right;flex-shrink:0;font-family:var(--font-mono);font-size:14px;">' +
-      '<span style="color:var(--accent);">' + total + '</span>' +
-      '<span style="color:var(--text3);font-size:11px;"> total</span></div>' +
-      '<div style="color:var(--text3);font-size:14px;margin-left:6px;">' + (expanded?'▲':'▼') + '</div>' +
-      '</div>' + detailHtml + '</div>';
-  }).filter(Boolean).join('');
-  container.innerHTML = html || '<div class="text-small" style="text-align:center;padding:32px 0;">NO STATS AVAILABLE</div>';
+    // ── TEXT stats ───────────────────────────────────────────
+    if (isText) {
+      const entries = relevantLogs.filter(l => l.entries[inp.id] && l.entries[inp.id].trim && l.entries[inp.id].trim() !== '');
+      const imgHtml3 = inp.photo
+        ? '<div style="width:56px;height:56px;border-radius:50%;overflow:hidden;border:2px solid rgba(74,158,255,0.4);background:#fff;flex-shrink:0;"><img src="' + inp.photo + '" style="width:100%;height:100%;object-fit:cover;display:block;"></div>'
+        : '<div style="width:56px;height:56px;border-radius:50%;border:2px solid rgba(74,158,255,0.3);background:var(--card2);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:22px;color:var(--accent);">' + inp.name[0] + '</div>';
+      const cardId3 = 'stat-card-' + idx;
+      const recentEntries = [...entries].sort((a,b)=>b.date.localeCompare(a.date)).slice(0,5)
+        .map(l => '<div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);"><div style="font-family:var(--font-mono);font-size:10px;color:var(--text3);flex-shrink:0;">' + l.date.slice(5) + '</div><div style="font-family:var(--font-body);font-size:14px;color:var(--text2);">' + (l.entries[inp.id]||'') + '</div></div>').join('');
+      const html = '<div id="' + cardId3 + '" style="background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);margin-bottom:10px;cursor:pointer;transition:border-color 0.2s;" onclick="toggleStatCard(this.id)">' +
+        '<div style="display:flex;align-items:center;gap:14px;padding:14px 16px;">' +
+          imgHtml3 +
+          '<div style="flex:1;min-width:0;">' +
+            '<div style="font-family:var(--font-body);font-size:19px;font-weight:700;color:#e8f4ff;">' + inp.name + '</div>' +
+            '<div style="font-family:var(--font-mono);font-size:12px;color:var(--text3);letter-spacing:1px;">' + (inp.category||'') + '</div>' +
+          '</div>' +
+          '<div style="text-align:center;flex-shrink:0;">' +
+            '<div style="font-family:var(--font-mono);font-size:9px;color:var(--text3);letter-spacing:2px;">LOGGED</div>' +
+            '<div style="font-family:var(--font-display);font-size:22px;color:var(--accent);line-height:1;">' + entries.length + '</div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="stat-chart-section" style="display:none;padding:0 16px 16px;">' +
+          '<div style="border-top:1px solid var(--border);padding-top:12px;font-family:var(--font-mono);font-size:11px;color:var(--text3);letter-spacing:2px;margin-bottom:8px;">LAST ENTRIES</div>' +
+          recentEntries +
+        '</div>' +
+      '</div>';
+      return { html, usage: entries.length };
+    }
+
+    // ── NUMERIC stats ────────────────────────────────────────
+    const vals = relevantLogs.map(l => parseFloat(l.entries[inp.id]) || 0);
+    const activeDayVals = vals.filter(v => v > 0);
+    const loggedTotal = vals.reduce((s,v)=>s+v,0);
+    const total = days === 'all' ? (inp.initialValue||0) + loggedTotal : loggedTotal;
+    const avg = activeDayVals.length > 0 ? (loggedTotal/activeDayVals.length).toFixed(1) : 0;
+    const best = vals.length > 0 ? Math.max(...vals) : 0;
+    const barDays = days === 'all' ? Math.min(30, (d.logs||[]).length) : parseInt(days);
+    const barLogs = [...(d.logs||[])].sort((a,b)=>a.date.localeCompare(b.date)).slice(-barDays);
+    const maxVal = Math.max(...barLogs.map(l=>parseFloat(l.entries[inp.id])||0), 1);
+    const barsHtml = barLogs.map(l => {
+      const v = parseFloat(l.entries[inp.id]) || 0;
+      const pct = Math.round(v/maxVal*100);
+      const dateStr = l.date.slice(5);
+      const isToday = l.date === new Date().toISOString().split('T')[0];
+      return '<div style="display:flex;flex-direction:column;align-items:center;gap:3px;flex:1;min-width:0;">' +
+        '<div style="font-family:var(--font-mono);font-size:10px;color:var(--text3);">' + v + '</div>' +
+        '<div style="flex:1;width:100%;display:flex;align-items:flex-end;">' +
+        '<div style="width:100%;background:' + (isToday?'var(--accent)':'var(--accent3)') + ';height:' + Math.max(pct,2) + '%;min-height:3px;border-radius:2px 2px 0 0;transition:height 0.5s;box-shadow:' + (isToday?'0 0 8px rgba(74,158,255,0.5)':'none') + ';"></div></div>' +
+        '<div style="font-family:var(--font-mono);font-size:9px;color:var(--text3);writing-mode:vertical-lr;transform:rotate(180deg);height:28px;line-height:1;">' + dateStr + '</div>' +
+      '</div>';
+    }).join('');
+    const revenueExtra = inp.inputType === 'digital_product'
+      ? '<div style="font-family:var(--font-mono);font-size:13px;color:var(--green);margin-top:4px;">REVENUE: $' + (total * (inp.digitalPrice||0)).toFixed(2) + '</div>'
+      : '';
+    const imgHtml = inp.photo
+      ? '<div style="width:56px;height:56px;border-radius:50%;overflow:hidden;border:2px solid rgba(74,158,255,0.4);background:#fff;flex-shrink:0;"><img src="' + inp.photo + '" style="width:100%;height:100%;object-fit:cover;display:block;"></div>'
+      : '<div style="width:56px;height:56px;border-radius:50%;border:2px solid rgba(74,158,255,0.3);background:var(--card2);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:22px;color:var(--accent);">' + inp.name[0] + '</div>';
+    const cardId = 'stat-card-' + idx;
+    const html = '<div id="' + cardId + '" style="background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);margin-bottom:10px;cursor:pointer;transition:border-color 0.2s;" onclick="toggleStatCard(this.id)">' +
+      '<div style="display:flex;align-items:center;gap:14px;padding:14px 16px;">' +
+        imgHtml +
+        '<div style="flex:1;min-width:0;">' +
+          '<div style="font-family:var(--font-body);font-size:19px;font-weight:700;color:#e8f4ff;">' + inp.name + '</div>' +
+          '<div style="font-family:var(--font-mono);font-size:12px;color:var(--text3);letter-spacing:1px;">' + (inp.category||'') + '</div>' +
+          revenueExtra +
+        '</div>' +
+        '<div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0;">' +
+          '<div style="display:flex;gap:12px;">' +
+            '<div style="text-align:center;"><div style="font-family:var(--font-mono);font-size:9px;color:var(--text3);letter-spacing:2px;">TOTAL</div><div style="font-family:var(--font-display);font-size:22px;color:var(--accent);line-height:1;">' + total + '</div></div>' +
+            '<div style="text-align:center;"><div style="font-family:var(--font-mono);font-size:9px;color:var(--text3);letter-spacing:2px;">AVG</div><div style="font-family:var(--font-display);font-size:22px;color:var(--text2);line-height:1;">' + avg + '</div></div>' +
+            '<div style="text-align:center;"><div style="font-family:var(--font-mono);font-size:9px;color:var(--text3);letter-spacing:2px;">BEST</div><div style="font-family:var(--font-display);font-size:22px;color:var(--text2);line-height:1;">' + best + '</div></div>' +
+          '</div>' +
+          '<div style="font-family:var(--font-mono);font-size:10px;color:var(--text3);">▼ CHART</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="stat-chart-section" style="display:none;padding:0 16px 16px;">' +
+        '<div style="border-top:1px solid var(--border);padding-top:12px;">' +
+          '<div style="display:flex;align-items:flex-end;gap:3px;height:80px;">' + barsHtml + '</div>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+    return { html, usage: loggedTotal };
+  }
+
+  // Group inputs by category, sort by total usage desc
+  const catUsage = {}; // category -> total usage
+  const catCards = {}; // category -> [{html, usage}]
+  d.inputs.forEach((inp, idx) => {
+    const cat = inp.category || 'Uncategorized';
+    const result = buildCard(inp, idx);
+    if (!result.html) return;
+    if (!catCards[cat]) { catCards[cat] = []; catUsage[cat] = 0; }
+    catCards[cat].push(result);
+    catUsage[cat] += result.usage;
+  });
+
+  // Sort categories by total usage desc
+  const sortedCats = Object.keys(catCards).sort((a,b) => catUsage[b] - catUsage[a]);
+
+  if (sortedCats.length === 0) {
+    container.innerHTML = '<div style="font-family:var(--font-mono);font-size:13px;color:var(--text3);text-align:center;padding:40px 0;">NO NUMERIC STATS AVAILABLE</div>';
+    return;
+  }
+
+  let html = '';
+  sortedCats.forEach(cat => {
+    const items = catCards[cat];
+    // Sort items within category by usage desc
+    items.sort((a,b) => b.usage - a.usage);
+    html += '<div style="margin-bottom:20px;">' +
+      '<div style="font-family:var(--font-mono);font-size:11px;color:var(--accent);letter-spacing:3px;margin-bottom:8px;padding:4px 0;border-bottom:1px solid var(--border);">' + cat.toUpperCase() + '</div>' +
+      items.map(i => i.html).join('') +
+      '</div>';
+  });
+  container.innerHTML = html;
+}
+
+function toggleStatCard(cardId) {
+  const card = document.getElementById(cardId);
+  if (!card) return;
+  const chart = card.querySelector('.stat-chart-section');
+  const lbl = card.querySelector('[style*="▼ CHART"]') || card.querySelector('[style*="▲ CHART"]');
+  if (chart.style.display === 'none') {
+    chart.style.display = 'block';
+    card.style.borderColor = 'var(--accent)';
+    if (lbl) lbl.textContent = '▲ CHART';
+  } else {
+    chart.style.display = 'none';
+    card.style.borderColor = 'var(--border)';
+    if (lbl) lbl.textContent = '▼ CHART';
+  }
 }
 
 // ============================================================
