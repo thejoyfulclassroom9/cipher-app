@@ -761,6 +761,7 @@ function doLogin() {
       document.getElementById('pw-input').value = '';
       document.getElementById('login-error').textContent = '';
       checkDailyReset();
+      recalcTotalXP(); // recalculate EP from logs in case of data drift
       refreshAll();
     } else {
       document.getElementById('login-error').textContent = 'ACCESS DENIED — INVALID CODE';
@@ -799,6 +800,26 @@ function showPage(name, btn) {
   if (name === 'settings') renderSettings();
   if (name === 'ach') renderAchievements();
   if (name === 'missions') renderMissions();
+}
+
+// ============================================================
+// RECALCULATE TOTAL XP FROM LOGS
+// ============================================================
+function recalcTotalXP() {
+  const d = getData();
+  let total = 0;
+  (d.logs || []).forEach(log => {
+    (d.inputs || []).forEach(inp => {
+      const val = log.entries ? log.entries[inp.id] : undefined;
+      if (val !== undefined && val !== null) {
+        total += calculatePoints(inp, val);
+      }
+    });
+  });
+  if (total !== d.totalXP) {
+    d.totalXP = total;
+    saveData(d);
+  }
 }
 
 // ============================================================
@@ -1427,8 +1448,7 @@ function openAddGradeModal() {
     '<div id="grade-img-preview"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>' +
     '<div class="upload-hint">TAP TO UPLOAD IMAGE</div></div>' +
     '<input type="hidden" id="grade-img-data" value=""></div>' +
-    '<div class="form-group"><label class="form-label">XP REQUIRED TO UNLOCK</label>' +
-    '<input class="form-input" id="grade-xp" type="number" placeholder="e.g. 500"></div>' +
+
     '<div class="form-group"><label class="form-label">UNLOCK MESSAGE (personalized congratulation)</label>' +
     '<textarea class="form-input" id="grade-msg" placeholder="Write your personalized congratulation message..."></textarea></div>' +
     '<div class="modal-actions">' +
@@ -1482,11 +1502,10 @@ async function handleGradeImg(e) {
 
 function saveNewGrade() {
   const name = document.getElementById('grade-name').value;
-  const xp = parseFloat(document.getElementById('grade-xp').value) || 0;
   const msg = document.getElementById('grade-msg').value.trim();
   const photo = document.getElementById('grade-img-data').value;
   const d = getData();
-  d.grades.push({ name, xpRequired: xp, photo, message: msg, unlocked: false, unlockedDate: null });
+  d.grades.push({ name, xpRequired: 0, photo, message: msg, unlocked: false, unlockedDate: null });
   d.grades.sort((a,b) => GRADES_LIST.indexOf(a.name) - GRADES_LIST.indexOf(b.name));
   saveData(d);
   closeModal();
@@ -1627,9 +1646,10 @@ function renderStats(days) {
       '</div>';
     }
     const vals = relevantLogs.map(l => parseFloat(l.entries[inp.id]) || 0);
+    const activeDayVals = vals.filter(v => v > 0); // only days with actual entries
     const loggedTotal = vals.reduce((s,v)=>s+v,0);
     const total = days === 'all' ? (inp.initialValue||0) + loggedTotal : loggedTotal;
-    const avg = vals.length > 0 ? (loggedTotal/vals.length).toFixed(1) : 0;
+    const avg = activeDayVals.length > 0 ? (loggedTotal/activeDayVals.length).toFixed(1) : 0;
     const best = vals.length > 0 ? Math.max(...vals) : 0;
 
     // Bar chart: last N days
