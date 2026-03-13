@@ -20,7 +20,10 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 const USER_ID = 'silent_postman';
-function fbSave(data) { return db.ref('users/' + USER_ID).set(data); }
+function fbSave(data) { 
+  showSaveIndicator('saving');
+  return db.ref('users/' + USER_ID).set(data).then(function(){ showSaveIndicator('saved'); });
+}
 function fbLoad(callback) { db.ref('users/' + USER_ID).once('value').then(function(snap) { callback(snap.val()); }); }
 </script>
 <style>
@@ -113,6 +116,9 @@ body::before {
 .topbar-pts { font-family: var(--font-mono); font-size: 20px; color: var(--accent); display: flex; flex-direction: column; align-items: flex-end; text-shadow: 0 0 10px rgba(74,158,255,0.4); }
 .pts-label { color: var(--text3); font-size: 9px; display: block; letter-spacing: 2px; font-family: var(--font-mono); line-height: 1; margin-bottom: 1px; }
 .topbar-agent { font-family: var(--font-mono); font-size: 10px; color: var(--text3); letter-spacing: 1px; display: none; }
+#save-indicator { font-family: var(--font-mono); font-size: 10px; letter-spacing: 2px; padding: 3px 8px; border: 1px solid; transition: opacity 0.4s ease; opacity: 0; pointer-events: none; }
+#save-indicator.saving { color: #ff85c0; border-color: #ff85c0; opacity: 1; }
+#save-indicator.saved { color: #ff85c0; border-color: rgba(255,133,192,0.4); opacity: 1; }
 #bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; height: 60px; background: var(--bg2); border-top: 1px solid var(--border); display: flex; z-index: 100; box-shadow: 0 -2px 20px rgba(0,0,0,0.5); }
 #bottom-nav::before { content:''; position:absolute; top:0; left:0; right:0; height:1px; background:linear-gradient(90deg,transparent,rgba(74,158,255,0.3),transparent); }
 .nav-btn { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; cursor: pointer; border: none; background: none; color: var(--text3); font-family: var(--font-mono); font-size: 9px; letter-spacing: 1px; transition: all 0.2s; padding: 0; position: relative; }
@@ -123,8 +129,12 @@ body::before {
 .nav-btn:hover { color: var(--text2); }
 #app { display: none; }
 .page { display: none; padding: 72px 16px 76px; max-width: 600px; margin: 0 auto; opacity:0; transform:translateY(8px); }
+#page-ops { max-width: 1100px; }
 .page.active { display: block; animation: page-in 0.3s ease forwards; }
-@keyframes page-in { to { opacity:1; transform:translateY(0); } }
+@media (min-width: 800px) {
+  #daily-inputs-list { display: grid; grid-template-columns: 1fr 1fr; gap: 0 12px; }
+  #daily-inputs-list .input-item { margin-bottom: 10px; }
+}
 .sec-title { font-family: var(--font-display); font-size: 36px; color: var(--accent); letter-spacing: 4px; margin-bottom: 4px; text-shadow: 0 0 20px rgba(74,158,255,0.35); }
 .sec-sub { font-family: var(--font-mono); font-size: 10px; color: var(--text3); letter-spacing: 2px; margin-bottom: 20px; }
 .card { background: linear-gradient(135deg, var(--card) 0%, var(--card2) 100%); border: 1px solid var(--border); padding: 16px; margin-bottom: 12px; }
@@ -481,6 +491,7 @@ textarea.form-input { resize: vertical; min-height: 80px; }
     </div>
     <div class="topbar-divider"></div>
     <div class="topbar-pts"><span class="pts-label">EP</span><span id="topbar-pts">0</span></div>
+    <div id="save-indicator"></div>
   </div>
 
   <!-- DAILY OPS -->
@@ -580,6 +591,21 @@ textarea.form-input { resize: vertical; min-height: 80px; }
       <p style="font-family:var(--font-mono);font-size:12px;color:var(--text2);margin-bottom:12px;">PASSWORD REQUIRED TO RESET ALL DATA</p>
       <button class="btn btn-danger" onclick="confirmResetWithPassword()">RESET ALL DATA</button>
     </div>
+    <div class="settings-section" style="border-color:rgba(74,158,255,0.2);">
+      <div class="settings-title" style="font-size:13px;">FIREBASE SECURITY RULES</div>
+      <p style="font-family:var(--font-mono);font-size:11px;color:var(--text3);line-height:1.7;margin-bottom:10px;">To restrict database access, apply these rules in your <a href="https://console.firebase.google.com/project/cipher-app-d9f4d/database/cipher-app-d9f4d-default-rtdb/rules" target="_blank" style="color:var(--accent);">Firebase Console → Rules</a>:</p>
+      <pre style="background:var(--bg3);border:1px solid var(--border);padding:12px;font-family:var(--font-mono);font-size:11px;color:var(--text2);overflow-x:auto;line-height:1.6;">{
+  "rules": {
+    "users": {
+      "silent_postman": {
+        ".read": true,
+        ".write": true
+      }
+    }
+  }
+}</pre>
+      <div style="font-family:var(--font-mono);font-size:10px;color:var(--text3);margin-top:8px;letter-spacing:1px;">// BLOCKS ALL OTHER PATHS — ONLY silent_postman IS ACCESSIBLE //</div>
+    </div>
   </div>
 
   <!-- BOTTOM NAV -->
@@ -607,6 +633,45 @@ textarea.form-input { resize: vertical; min-height: 80px; }
 
 <div id="modal-container"></div>
 <script>
+let _saveIndicatorTimeout = null;
+// Register service worker for offline support
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    const swCode = `
+const CACHE = 'cipher-v1';
+const ASSETS = [
+  'https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700&display=swap',
+  'https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js',
+  'https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js'
+];
+self.addEventListener('install', e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).catch(()=>{})); self.skipWaiting(); });
+self.addEventListener('activate', e => { e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k))))); self.clients.claim(); });
+self.addEventListener('fetch', e => {
+  if (e.request.url.includes('firebaseio.com') || e.request.url.includes('googleapis.com/identitytoolkit')) return;
+  e.respondWith(caches.match(e.request).then(r => r || fetch(e.request).then(res => {
+    if (res && res.status === 200 && e.request.method === 'GET') {
+      const clone = res.clone(); caches.open(CACHE).then(c => c.put(e.request, clone));
+    }
+    return res;
+  }).catch(() => caches.match(e.request))));
+});
+`;
+    const blob = new Blob([swCode], { type: 'application/javascript' });
+    const url = URL.createObjectURL(blob);
+    navigator.serviceWorker.register(url).catch(function(){});
+  });
+}
+function showSaveIndicator(state) {
+  const el = document.getElementById('save-indicator'); if (!el) return;
+  if (_saveIndicatorTimeout) clearTimeout(_saveIndicatorTimeout);
+  el.className = ''; el.textContent = '';
+  if (state === 'saving') { el.id = 'save-indicator'; el.className = 'saving'; el.textContent = 'SAVING...'; }
+  else if (state === 'saved') { el.className = 'saved'; el.textContent = 'SAVED ✓'; _saveIndicatorTimeout = setTimeout(function(){ el.style.opacity='0'; }, 2000); }
+}
+
+// === MD5 PASSWORD HASHING ===
+function md5(s){function L(k,d){return(k<<d)|(k>>>(32-d))}function K(G,k){var I,d,F,H,x;F=(G&2147483648);H=(k&2147483648);I=(G&1073741824);d=(k&1073741824);x=(G&1073741823)+(k&1073741823);if(I&d){return(x^2147483648^F^H)}if(I|d){if(x&1073741824){return(x^3221225472^F^H)}else{return(x^1073741824^F^H)}}else{return(x^F^H)}}function r(d,F,k,I,H,G,x){d=K(d,K(K((F&k)|(~F&I),H),x));return K(L(d,G),F)}function q(d,F,k,I,H,G,x){d=K(d,K(K((F&I)|(k&~I),H),x));return K(L(d,G),F)}function p(d,F,k,I,H,G,x){d=K(d,K(K(F^k^I,H),x));return K(L(d,G),F)}function n(d,F,k,I,H,G,x){d=K(d,K(K(k^(F|~I),H),x));return K(L(d,G),F)}function u(G){var F=G.length;var x=F+8;var k=(x-(x%64))/64;var I=(k+1)*16;var H=Array(I-1);var d=0;var G2=0;while(G2<F){var k2=(G2-(G2%4))/4;d=((G2%4)*8);H[k2]=(H[k2]|(G.charCodeAt(G2)<<d));G2++}var k3=(G2-(G2%4))/4;var d2=((G2%4)*8);H[k3]=H[k3]|(128<<d2);H[I-2]=F<<3;H[I-1]=F>>>29;return H}function m(F){var G="";var k;var I;for(var d=0;d<4;d++){I=(F>>>(d*8))&255;k="0"+I.toString(16);G=G+k.substr(k.length-2,2)}return G}function E(G){G=G.replace(/\r\n/g,"\n");var F="";for(var d=0;d<G.length;d++){var k=G.charCodeAt(d);if(k<128){F+=String.fromCharCode(k)}else if((k>127)&&(k<2048)){F+=String.fromCharCode((k>>6)|192);F+=String.fromCharCode((k&63)|128)}else{F+=String.fromCharCode((k>>12)|224);F+=String.fromCharCode(((k>>6)&63)|128);F+=String.fromCharCode((k&63)|128)}}return F}var H=Array();var F,G,B,J,I,A,C,D,X,a;var q2=7,r2=12,s2=17,t2=22;var w=5,x2=9,y=14,z=20;var A2=4,b2=11,c2=16,e2=23;var f2=6,g2=10,h2=15,i2=21;s=E(s);H=u(s);A=1732584193;C=4023233417;D=2562383102;X=271733878;for(var M=0;M<H.length;M+=16){F=A;G=C;B=D;J=X;A=r(A,C,D,X,H[M+0],q2,3614090360);X=r(X,A,C,D,H[M+1],r2,3905402710);D=r(D,X,A,C,H[M+2],s2,606105819);C=r(C,D,X,A,H[M+3],t2,3250441966);A=r(A,C,D,X,H[M+4],q2,4118548399);X=r(X,A,C,D,H[M+5],r2,1200080426);D=r(D,X,A,C,H[M+6],s2,2821735955);C=r(C,D,X,A,H[M+7],t2,4249261313);A=r(A,C,D,X,H[M+8],q2,1770035416);X=r(X,A,C,D,H[M+9],r2,2336552879);D=r(D,X,A,C,H[M+10],s2,4294925233);C=r(C,D,X,A,H[M+11],t2,2304563134);A=r(A,C,D,X,H[M+12],q2,1804603682);X=r(X,A,C,D,H[M+13],r2,4254626195);D=r(D,X,A,C,H[M+14],s2,2792965006);C=r(C,D,X,A,H[M+15],t2,1236535329);A=q(A,C,D,X,H[M+1],w,4129170786);X=q(X,A,C,D,H[M+6],x2,3225465664);D=q(D,X,A,C,H[M+11],y,643717713);C=q(C,D,X,A,H[M+0],z,3921069994);A=q(A,C,D,X,H[M+5],w,3593408605);X=q(X,A,C,D,H[M+10],x2,38016083);D=q(D,X,A,C,H[M+15],y,3634488961);C=q(C,D,X,A,H[M+4],z,3889429448);A=q(A,C,D,X,H[M+9],w,568446438);X=q(X,A,C,D,H[M+14],x2,3275163606);D=q(D,X,A,C,H[M+3],y,4107603335);C=q(C,D,X,A,H[M+8],z,1163531501);A=q(A,C,D,X,H[M+13],w,2850285829);X=q(X,A,C,D,H[M+2],x2,4243563512);D=q(D,X,A,C,H[M+7],y,1735328473);C=q(C,D,X,A,H[M+12],z,2368359562);A=p(A,C,D,X,H[M+5],A2,4294588738);X=p(X,A,C,D,H[M+8],b2,2272392833);D=p(D,X,A,C,H[M+11],c2,1839030562);C=p(C,D,X,A,H[M+14],e2,4259657740);A=p(A,C,D,X,H[M+1],A2,2763975236);X=p(X,A,C,D,H[M+4],b2,1272893353);D=p(D,X,A,C,H[M+7],c2,4139469664);C=p(C,D,X,A,H[M+10],e2,3200236656);A=p(A,C,D,X,H[M+13],A2,681279174);X=p(X,A,C,D,H[M+0],b2,3936430074);D=p(D,X,A,C,H[M+3],c2,3572445317);C=p(C,D,X,A,H[M+6],e2,76029189);A=p(A,C,D,X,H[M+9],A2,3654602809);X=p(X,A,C,D,H[M+12],b2,3873151461);D=p(D,X,A,C,H[M+15],c2,530742520);C=p(C,D,X,A,H[M+2],e2,3299628645);A=n(A,C,D,X,H[M+0],f2,4096336452);X=n(X,A,C,D,H[M+7],g2,1126891415);D=n(D,X,A,C,H[M+14],h2,2878612391);C=n(C,D,X,A,H[M+5],i2,4237533241);A=n(A,C,D,X,H[M+12],f2,1700485571);X=n(X,A,C,D,H[M+3],g2,2399980690);D=n(D,X,A,C,H[M+10],h2,4293915773);C=n(C,D,X,A,H[M+1],i2,2240044497);A=n(A,C,D,X,H[M+8],f2,1873313359);X=n(X,A,C,D,H[M+15],g2,4264355552);D=n(D,X,A,C,H[M+6],h2,2734768916);C=n(C,D,X,A,H[M+13],i2,1309151649);A=n(A,C,D,X,H[M+4],f2,4149444226);X=n(X,A,C,D,H[M+11],g2,3174756917);D=n(D,X,A,C,H[M+2],h2,718787259);C=n(C,D,X,A,H[M+9],i2,3951481745);A=K(A,F);C=K(C,G);D=K(D,B);X=K(X,J)}return(m(A)+m(C)+m(D)+m(X)).toLowerCase()}
+
 // === LOADING SCREEN ===
 window.addEventListener('load', () => {
   setTimeout(() => {
@@ -681,7 +746,26 @@ function getOrCreateTodayLog() {
 }
 function todayStr() { return new Date().toISOString().split('T')[0]; }
 function imageToDataURL(file) {
-  return new Promise((res, rej) => { const r = new FileReader(); r.onload = e => res(e.target.result); r.onerror = rej; r.readAsDataURL(file); });
+  return new Promise((res, rej) => {
+    const reader = new FileReader();
+    reader.onerror = rej;
+    reader.onload = e => {
+      const img = new Image();
+      img.onerror = rej;
+      img.onload = () => {
+        const MAX = 400;
+        const canvas = document.createElement('canvas');
+        const ratio = Math.min(MAX / img.width, MAX / img.height, 1);
+        canvas.width = Math.round(img.width * ratio);
+        canvas.height = Math.round(img.height * ratio);
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        res(canvas.toDataURL('image/jpeg', 0.75));
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
 }
 
 // NUMPAD
@@ -717,7 +801,7 @@ function doLogin() {
   initData(function() {
     btn.textContent = 'ACCESS GRANTED'; btn.disabled = false;
     const d = getData();
-    if (pw === d.password) {
+    if (pw === d.password || md5(pw) === d.password) {
       const ls = document.getElementById('login-screen');
       ls.style.transition = 'opacity 0.4s ease'; ls.style.opacity = '0';
       setTimeout(() => {
@@ -741,7 +825,7 @@ function changePassword() {
   const msg = document.getElementById('pw-change-msg');
   if (!np || np.length < 3) { msg.style.color='var(--red)'; msg.textContent='// CODE TOO SHORT (MIN 3 CHARACTERS) //'; return; }
   if (np !== cp) { msg.style.color='var(--red)'; msg.textContent='// CODES DO NOT MATCH //'; return; }
-  d.password = np; saveData(d);
+  d.password = md5(np); saveData(d);
   msg.style.color='var(--green)'; msg.textContent='// CLEARANCE CODE UPDATED //';
   document.getElementById('new-pw-input').value=''; document.getElementById('confirm-pw-input').value='';
 }
@@ -1199,9 +1283,15 @@ function renderAchievements(){
 function renderSettings(){
   const d=getData();
   const mi=document.getElementById('manage-inputs-list');
-  if(mi){if(!d.inputs||d.inputs.length===0){mi.innerHTML='<div class="text-small">No inputs configured.</div>';}else{mi.innerHTML=d.inputs.map((inp,i)=>'<div class="flex-between" style="padding:8px 0;border-bottom:1px solid var(--border);"><div style="display:flex;align-items:center;gap:8px;">'+(inp.photo?'<div class="img-preview-circle" style="width:32px;height:32px;"><img src="'+inp.photo+'"></div>':'')+'<div><div style="font-family:var(--font-body);font-size:14px;font-weight:600;">'+inp.name+'</div><div class="text-small">'+inp.inputType+' · '+(inp.category||'')+'</div></div></div><div style="display:flex;gap:6px;"><button class="btn btn-secondary btn-sm" onclick="openAddInputModal('+i+')">EDIT</button><button class="btn btn-danger btn-sm" onclick="deleteInput('+i+')">DEL</button></div></div>').join('');}}
+  if(mi){if(!d.inputs||d.inputs.length===0){mi.innerHTML='<div class="text-small">No inputs configured.</div>';}else{mi.innerHTML=d.inputs.map((inp,i)=>'<div class="flex-between" style="padding:8px 0;border-bottom:1px solid var(--border);"><div style="display:flex;align-items:center;gap:8px;">'+(inp.photo?'<div class="img-preview-circle" style="width:32px;height:32px;"><img src="'+inp.photo+'"></div>':'')+'<div><div style="font-family:var(--font-body);font-size:14px;font-weight:600;">'+inp.name+'</div><div class="text-small">'+inp.inputType+' · '+(inp.category||'')+'</div></div></div><div style="display:flex;gap:6px;align-items:center;"><div style="display:flex;flex-direction:column;gap:2px;"><button class="btn btn-sm" style="padding:1px 7px;font-size:14px;line-height:1;background:transparent;border:1px solid var(--border);color:var(--text2);cursor:pointer;" onclick="moveInput('+i+',-1)" '+(i===0?'disabled style="opacity:0.3;"':'')+'>▲</button><button class="btn btn-sm" style="padding:1px 7px;font-size:14px;line-height:1;background:transparent;border:1px solid var(--border);color:var(--text2);cursor:pointer;" onclick="moveInput('+i+',1)" '+(i===d.inputs.length-1?'disabled style="opacity:0.3;"':'')+'>▼</button></div><button class="btn btn-secondary btn-sm" onclick="openAddInputModal('+i+')">EDIT</button><button class="btn btn-danger btn-sm" onclick="deleteInput('+i+')">DEL</button></div></div>').join('');}}
   const mm=document.getElementById('manage-missions-list');
   if(mm){const active=(d.objectives||[]).filter(o=>!o.completed);if(active.length===0){mm.innerHTML='<div class="text-small">No active missions.</div>';}else{mm.innerHTML=active.map(obj=>{const realIdx=d.objectives.indexOf(obj);return '<div class="flex-between" style="padding:8px 0;border-bottom:1px solid var(--border);"><div style="font-family:var(--font-body);font-size:14px;font-weight:600;">'+obj.name+'</div><div style="display:flex;gap:6px;"><button class="btn btn-secondary btn-sm" onclick="openAddObjectiveModal('+realIdx+')">EDIT</button><button class="btn btn-danger btn-sm" onclick="deleteObjective('+realIdx+')">DEL</button></div></div>';}).join('');}}
+}
+function moveInput(i, dir) {
+  const d = getData(); const j = i + dir;
+  if (j < 0 || j >= d.inputs.length) return;
+  [d.inputs[i], d.inputs[j]] = [d.inputs[j], d.inputs[i]];
+  saveData(d); renderSettings();
 }
 function deleteInput(i){if(!confirm('Delete this input?'))return;const d=getData();d.inputs.splice(i,1);saveData(d);renderDailyInputs();renderSettings();}
 function deleteObjective(i){if(!confirm('Delete this mission?'))return;const d=getData();d.objectives.splice(i,1);saveData(d);renderMissions();renderSettings();}
@@ -1211,7 +1301,7 @@ function confirmResetWithPassword(){
 }
 function executeReset(){
   const pw=document.getElementById('reset-pw-confirm').value;const d=getData();
-  if(pw!==d.password){document.getElementById('reset-error').textContent='INVALID CLEARANCE CODE';return;}
+  if(pw!==d.password && md5(pw)!==d.password){document.getElementById('reset-error').textContent='INVALID CLEARANCE CODE';return;}
   closeModal();_appData=getDefaultData();fbSave(_appData);location.reload();
 }
 function closeModal(){document.getElementById('modal-container').innerHTML='';}
