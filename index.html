@@ -20,7 +20,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 const USER_ID = 'silent_postman';
-function fbSave(data) { 
+function fbSave(data) {
   showSaveIndicator('saving');
   return db.ref('users/' + USER_ID).set(data).then(function(){ showSaveIndicator('saved'); });
 }
@@ -116,7 +116,7 @@ body::before {
 .topbar-pts { font-family: var(--font-mono); font-size: 20px; color: var(--accent); display: flex; flex-direction: column; align-items: flex-end; text-shadow: 0 0 10px rgba(74,158,255,0.4); }
 .pts-label { color: var(--text3); font-size: 9px; display: block; letter-spacing: 2px; font-family: var(--font-mono); line-height: 1; margin-bottom: 1px; }
 .topbar-agent { font-family: var(--font-mono); font-size: 10px; color: var(--text3); letter-spacing: 1px; display: none; }
-#save-indicator { font-family: var(--font-mono); font-size: 10px; letter-spacing: 2px; padding: 3px 8px; border: 1px solid; transition: opacity 0.4s ease; opacity: 0; pointer-events: none; }
+#save-indicator { font-family: var(--font-mono); font-size: 10px; letter-spacing: 2px; padding: 3px 8px; border: 1px solid transparent; transition: opacity 0.5s ease; opacity: 0; pointer-events: none; }
 #save-indicator.saving { color: #ff85c0; border-color: #ff85c0; opacity: 1; }
 #save-indicator.saved { color: #ff85c0; border-color: rgba(255,133,192,0.4); opacity: 1; }
 #bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; height: 60px; background: var(--bg2); border-top: 1px solid var(--border); display: flex; z-index: 100; box-shadow: 0 -2px 20px rgba(0,0,0,0.5); }
@@ -130,11 +130,12 @@ body::before {
 #app { display: none; }
 .page { display: none; padding: 72px 16px 76px; max-width: 600px; margin: 0 auto; opacity:0; transform:translateY(8px); }
 #page-ops { max-width: 1100px; }
-.page.active { display: block; animation: page-in 0.3s ease forwards; }
 @media (min-width: 800px) {
   #daily-inputs-list { display: grid; grid-template-columns: 1fr 1fr; gap: 0 12px; }
   #daily-inputs-list .input-item { margin-bottom: 10px; }
 }
+.page.active { display: block; animation: page-in 0.3s ease forwards; }
+@keyframes page-in { to { opacity:1; transform:translateY(0); } }
 .sec-title { font-family: var(--font-display); font-size: 36px; color: var(--accent); letter-spacing: 4px; margin-bottom: 4px; text-shadow: 0 0 20px rgba(74,158,255,0.35); }
 .sec-sub { font-family: var(--font-mono); font-size: 10px; color: var(--text3); letter-spacing: 2px; margin-bottom: 20px; }
 .card { background: linear-gradient(135deg, var(--card) 0%, var(--card2) 100%); border: 1px solid var(--border); padding: 16px; margin-bottom: 12px; }
@@ -591,20 +592,11 @@ textarea.form-input { resize: vertical; min-height: 80px; }
       <p style="font-family:var(--font-mono);font-size:12px;color:var(--text2);margin-bottom:12px;">PASSWORD REQUIRED TO RESET ALL DATA</p>
       <button class="btn btn-danger" onclick="confirmResetWithPassword()">RESET ALL DATA</button>
     </div>
-    <div class="settings-section" style="border-color:rgba(74,158,255,0.2);">
-      <div class="settings-title" style="font-size:13px;">FIREBASE SECURITY RULES</div>
-      <p style="font-family:var(--font-mono);font-size:11px;color:var(--text3);line-height:1.7;margin-bottom:10px;">To restrict database access, apply these rules in your <a href="https://console.firebase.google.com/project/cipher-app-d9f4d/database/cipher-app-d9f4d-default-rtdb/rules" target="_blank" style="color:var(--accent);">Firebase Console → Rules</a>:</p>
-      <pre style="background:var(--bg3);border:1px solid var(--border);padding:12px;font-family:var(--font-mono);font-size:11px;color:var(--text2);overflow-x:auto;line-height:1.6;">{
-  "rules": {
-    "users": {
-      "silent_postman": {
-        ".read": true,
-        ".write": true
-      }
-    }
-  }
-}</pre>
-      <div style="font-family:var(--font-mono);font-size:10px;color:var(--text3);margin-top:8px;letter-spacing:1px;">// BLOCKS ALL OTHER PATHS — ONLY silent_postman IS ACCESSIBLE //</div>
+    <div class="settings-section" style="border-color:rgba(74,158,255,0.15);">
+      <div class="settings-title" style="font-size:12px;color:var(--text2);">FIREBASE SECURITY RULES</div>
+      <p style="font-family:var(--font-mono);font-size:11px;color:var(--text3);line-height:1.7;margin-bottom:10px;">Apply these rules in your <a href="https://console.firebase.google.com/project/cipher-app-d9f4d/database/cipher-app-d9f4d-default-rtdb/rules" target="_blank" style="color:var(--accent);">Firebase Console → Rules</a> to block all public access:</p>
+      <pre style="background:var(--bg3);border:1px solid var(--border);padding:12px;font-family:var(--font-mono);font-size:11px;color:var(--text2);overflow-x:auto;line-height:1.6;white-space:pre-wrap;">{"rules":{"users":{"silent_postman":{".read":true,".write":true}}}}</pre>
+      <div style="font-family:var(--font-mono);font-size:10px;color:var(--text3);margin-top:6px;">// SEUL silent_postman EST ACCESSIBLE — TOUT LE RESTE EST BLOQUÉ //</div>
     </div>
   </div>
 
@@ -633,44 +625,50 @@ textarea.form-input { resize: vertical; min-height: 80px; }
 
 <div id="modal-container"></div>
 <script>
-let _saveIndicatorTimeout = null;
-// Register service worker for offline support
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', function() {
-    const swCode = `
-const CACHE = 'cipher-v1';
-const ASSETS = [
-  'https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700&display=swap',
-  'https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js',
-  'https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js'
-];
-self.addEventListener('install', e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).catch(()=>{})); self.skipWaiting(); });
-self.addEventListener('activate', e => { e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k))))); self.clients.claim(); });
-self.addEventListener('fetch', e => {
-  if (e.request.url.includes('firebaseio.com') || e.request.url.includes('googleapis.com/identitytoolkit')) return;
-  e.respondWith(caches.match(e.request).then(r => r || fetch(e.request).then(res => {
-    if (res && res.status === 200 && e.request.method === 'GET') {
-      const clone = res.clone(); caches.open(CACHE).then(c => c.put(e.request, clone));
-    }
-    return res;
-  }).catch(() => caches.match(e.request))));
-});
-`;
-    const blob = new Blob([swCode], { type: 'application/javascript' });
-    const url = URL.createObjectURL(blob);
-    navigator.serviceWorker.register(url).catch(function(){});
-  });
-}
+// === SAVE INDICATOR ===
+var _saveIndicatorTimeout = null;
 function showSaveIndicator(state) {
-  const el = document.getElementById('save-indicator'); if (!el) return;
+  var el = document.getElementById('save-indicator'); if (!el) return;
   if (_saveIndicatorTimeout) clearTimeout(_saveIndicatorTimeout);
-  el.className = ''; el.textContent = '';
-  if (state === 'saving') { el.id = 'save-indicator'; el.className = 'saving'; el.textContent = 'SAVING...'; }
-  else if (state === 'saved') { el.className = 'saved'; el.textContent = 'SAVED ✓'; _saveIndicatorTimeout = setTimeout(function(){ el.style.opacity='0'; }, 2000); }
+  el.className = '';
+  if (state === 'saving') { el.className = 'saving'; el.textContent = 'SAVING...'; }
+  else if (state === 'saved') { el.className = 'saved'; el.textContent = 'SAVED \u2713'; _saveIndicatorTimeout = setTimeout(function(){ el.style.opacity='0'; }, 2000); }
 }
 
-// === MD5 PASSWORD HASHING ===
-function md5(s){function L(k,d){return(k<<d)|(k>>>(32-d))}function K(G,k){var I,d,F,H,x;F=(G&2147483648);H=(k&2147483648);I=(G&1073741824);d=(k&1073741824);x=(G&1073741823)+(k&1073741823);if(I&d){return(x^2147483648^F^H)}if(I|d){if(x&1073741824){return(x^3221225472^F^H)}else{return(x^1073741824^F^H)}}else{return(x^F^H)}}function r(d,F,k,I,H,G,x){d=K(d,K(K((F&k)|(~F&I),H),x));return K(L(d,G),F)}function q(d,F,k,I,H,G,x){d=K(d,K(K((F&I)|(k&~I),H),x));return K(L(d,G),F)}function p(d,F,k,I,H,G,x){d=K(d,K(K(F^k^I,H),x));return K(L(d,G),F)}function n(d,F,k,I,H,G,x){d=K(d,K(K(k^(F|~I),H),x));return K(L(d,G),F)}function u(G){var F=G.length;var x=F+8;var k=(x-(x%64))/64;var I=(k+1)*16;var H=Array(I-1);var d=0;var G2=0;while(G2<F){var k2=(G2-(G2%4))/4;d=((G2%4)*8);H[k2]=(H[k2]|(G.charCodeAt(G2)<<d));G2++}var k3=(G2-(G2%4))/4;var d2=((G2%4)*8);H[k3]=H[k3]|(128<<d2);H[I-2]=F<<3;H[I-1]=F>>>29;return H}function m(F){var G="";var k;var I;for(var d=0;d<4;d++){I=(F>>>(d*8))&255;k="0"+I.toString(16);G=G+k.substr(k.length-2,2)}return G}function E(G){G=G.replace(/\r\n/g,"\n");var F="";for(var d=0;d<G.length;d++){var k=G.charCodeAt(d);if(k<128){F+=String.fromCharCode(k)}else if((k>127)&&(k<2048)){F+=String.fromCharCode((k>>6)|192);F+=String.fromCharCode((k&63)|128)}else{F+=String.fromCharCode((k>>12)|224);F+=String.fromCharCode(((k>>6)&63)|128);F+=String.fromCharCode((k&63)|128)}}return F}var H=Array();var F,G,B,J,I,A,C,D,X,a;var q2=7,r2=12,s2=17,t2=22;var w=5,x2=9,y=14,z=20;var A2=4,b2=11,c2=16,e2=23;var f2=6,g2=10,h2=15,i2=21;s=E(s);H=u(s);A=1732584193;C=4023233417;D=2562383102;X=271733878;for(var M=0;M<H.length;M+=16){F=A;G=C;B=D;J=X;A=r(A,C,D,X,H[M+0],q2,3614090360);X=r(X,A,C,D,H[M+1],r2,3905402710);D=r(D,X,A,C,H[M+2],s2,606105819);C=r(C,D,X,A,H[M+3],t2,3250441966);A=r(A,C,D,X,H[M+4],q2,4118548399);X=r(X,A,C,D,H[M+5],r2,1200080426);D=r(D,X,A,C,H[M+6],s2,2821735955);C=r(C,D,X,A,H[M+7],t2,4249261313);A=r(A,C,D,X,H[M+8],q2,1770035416);X=r(X,A,C,D,H[M+9],r2,2336552879);D=r(D,X,A,C,H[M+10],s2,4294925233);C=r(C,D,X,A,H[M+11],t2,2304563134);A=r(A,C,D,X,H[M+12],q2,1804603682);X=r(X,A,C,D,H[M+13],r2,4254626195);D=r(D,X,A,C,H[M+14],s2,2792965006);C=r(C,D,X,A,H[M+15],t2,1236535329);A=q(A,C,D,X,H[M+1],w,4129170786);X=q(X,A,C,D,H[M+6],x2,3225465664);D=q(D,X,A,C,H[M+11],y,643717713);C=q(C,D,X,A,H[M+0],z,3921069994);A=q(A,C,D,X,H[M+5],w,3593408605);X=q(X,A,C,D,H[M+10],x2,38016083);D=q(D,X,A,C,H[M+15],y,3634488961);C=q(C,D,X,A,H[M+4],z,3889429448);A=q(A,C,D,X,H[M+9],w,568446438);X=q(X,A,C,D,H[M+14],x2,3275163606);D=q(D,X,A,C,H[M+3],y,4107603335);C=q(C,D,X,A,H[M+8],z,1163531501);A=q(A,C,D,X,H[M+13],w,2850285829);X=q(X,A,C,D,H[M+2],x2,4243563512);D=q(D,X,A,C,H[M+7],y,1735328473);C=q(C,D,X,A,H[M+12],z,2368359562);A=p(A,C,D,X,H[M+5],A2,4294588738);X=p(X,A,C,D,H[M+8],b2,2272392833);D=p(D,X,A,C,H[M+11],c2,1839030562);C=p(C,D,X,A,H[M+14],e2,4259657740);A=p(A,C,D,X,H[M+1],A2,2763975236);X=p(X,A,C,D,H[M+4],b2,1272893353);D=p(D,X,A,C,H[M+7],c2,4139469664);C=p(C,D,X,A,H[M+10],e2,3200236656);A=p(A,C,D,X,H[M+13],A2,681279174);X=p(X,A,C,D,H[M+0],b2,3936430074);D=p(D,X,A,C,H[M+3],c2,3572445317);C=p(C,D,X,A,H[M+6],e2,76029189);A=p(A,C,D,X,H[M+9],A2,3654602809);X=p(X,A,C,D,H[M+12],b2,3873151461);D=p(D,X,A,C,H[M+15],c2,530742520);C=p(C,D,X,A,H[M+2],e2,3299628645);A=n(A,C,D,X,H[M+0],f2,4096336452);X=n(X,A,C,D,H[M+7],g2,1126891415);D=n(D,X,A,C,H[M+14],h2,2878612391);C=n(C,D,X,A,H[M+5],i2,4237533241);A=n(A,C,D,X,H[M+12],f2,1700485571);X=n(X,A,C,D,H[M+3],g2,2399980690);D=n(D,X,A,C,H[M+10],h2,4293915773);C=n(C,D,X,A,H[M+1],i2,2240044497);A=n(A,C,D,X,H[M+8],f2,1873313359);X=n(X,A,C,D,H[M+15],g2,4264355552);D=n(D,X,A,C,H[M+6],h2,2734768916);C=n(C,D,X,A,H[M+13],i2,1309151649);A=n(A,C,D,X,H[M+4],f2,4149444226);X=n(X,A,C,D,H[M+11],g2,3174756917);D=n(D,X,A,C,H[M+2],h2,718787259);C=n(C,D,X,A,H[M+9],i2,3951481745);A=K(A,F);C=K(C,G);D=K(D,B);X=K(X,J)}return(m(A)+m(C)+m(D)+m(X)).toLowerCase()}
+// === MD5 HASH (password security) ===
+function md5(string) {
+  function RotateLeft(lValue, iShiftBits) { return (lValue<<iShiftBits) | (lValue>>>(32-iShiftBits)); }
+  function AddUnsigned(lX,lY) { var lX8,lY8,lX4,lY4,lResult; lX8=(lX&0x80000000);lY8=(lY&0x80000000);lX4=(lX&0x40000000);lY4=(lY&0x40000000);lResult=(lX&0x3FFFFFFF)+(lY&0x3FFFFFFF); if(lX4&lY4){return(lResult^0x80000000^lX8^lY8);}if(lX4|lY4){if(lResult&0x40000000){return(lResult^0xC0000000^lX8^lY8);}else{return(lResult^0x40000000^lX8^lY8);}}else{return(lResult^lX8^lY8);} }
+  function F(x,y,z){return(x&y)|((~x)&z);}function G(x,y,z){return(x&z)|(y&(~z));}function H(x,y,z){return(x^y^z);}function I(x,y,z){return(y^(x|(~z)));}
+  function FF(a,b,c,d,x,s,ac){a=AddUnsigned(RotateLeft(AddUnsigned(AddUnsigned(a,F(b,c,d)),AddUnsigned(x,ac)),s),b);return a;}
+  function GG(a,b,c,d,x,s,ac){a=AddUnsigned(RotateLeft(AddUnsigned(AddUnsigned(a,G(b,c,d)),AddUnsigned(x,ac)),s),b);return a;}
+  function HH(a,b,c,d,x,s,ac){a=AddUnsigned(RotateLeft(AddUnsigned(AddUnsigned(a,H(b,c,d)),AddUnsigned(x,ac)),s),b);return a;}
+  function II(a,b,c,d,x,s,ac){a=AddUnsigned(RotateLeft(AddUnsigned(AddUnsigned(a,I(b,c,d)),AddUnsigned(x,ac)),s),b);return a;}
+  function CWA(s){var lWC,lML=s.length,lt1=lML+8,lt2=(lt1-(lt1%64))/64,lNW=(lt2+1)*16,lWA=Array(lNW-1),lBP=0,lBC=0;while(lBC<lML){lWC=(lBC-(lBC%4))/4;lBP=(lBC%4)*8;lWA[lWC]=(lWA[lWC]|(s.charCodeAt(lBC)<<lBP));lBC++;}lWC=(lBC-(lBC%4))/4;lBP=(lBC%4)*8;lWA[lWC]=lWA[lWC]|(0x80<<lBP);lWA[lNW-2]=lML<<3;lWA[lNW-1]=lML>>>29;return lWA;}
+  function WTH(v){var r='',t='',lb,lc;for(lc=0;lc<=3;lc++){lb=(v>>>(lc*8))&255;t='0'+lb.toString(16);r+=t.substr(t.length-2,2);}return r;}
+  function UTE(s){s=s.replace(/\r\n/g,'\n');var r='';for(var n=0;n<s.length;n++){var c=s.charCodeAt(n);if(c<128){r+=String.fromCharCode(c);}else if(c>127&&c<2048){r+=String.fromCharCode((c>>6)|192);r+=String.fromCharCode((c&63)|128);}else{r+=String.fromCharCode((c>>12)|224);r+=String.fromCharCode(((c>>6)&63)|128);r+=String.fromCharCode((c&63)|128);}}return r;}
+  var x,k,AA,BB,CC,DD,a,b,c,d,S11=7,S12=12,S13=17,S14=22,S21=5,S22=9,S23=14,S24=20,S31=4,S32=11,S33=16,S34=23,S41=6,S42=10,S43=15,S44=21;
+  string=UTE(string);x=CWA(string);a=0x67452301;b=0xEFCDAB89;c=0x98BADCFE;d=0x10325476;
+  for(k=0;k<x.length;k+=16){AA=a;BB=b;CC=c;DD=d;a=FF(a,b,c,d,x[k+0],S11,0xD76AA478);d=FF(d,a,b,c,x[k+1],S12,0xE8C7B756);c=FF(c,d,a,b,x[k+2],S13,0x242070DB);b=FF(b,c,d,a,x[k+3],S14,0xC1BDCEEE);a=FF(a,b,c,d,x[k+4],S11,0xF57C0FAF);d=FF(d,a,b,c,x[k+5],S12,0x4787C62A);c=FF(c,d,a,b,x[k+6],S13,0xA8304613);b=FF(b,c,d,a,x[k+7],S14,0xFD469501);a=FF(a,b,c,d,x[k+8],S11,0x698098D8);d=FF(d,a,b,c,x[k+9],S12,0x8B44F7AF);c=FF(c,d,a,b,x[k+10],S13,0xFFFF5BB1);b=FF(b,c,d,a,x[k+11],S14,0x895CD7BE);a=FF(a,b,c,d,x[k+12],S11,0x6B901122);d=FF(d,a,b,c,x[k+13],S12,0xFD987193);c=FF(c,d,a,b,x[k+14],S13,0xA679438E);b=FF(b,c,d,a,x[k+15],S14,0x49B40821);a=GG(a,b,c,d,x[k+1],S21,0xF61E2562);d=GG(d,a,b,c,x[k+6],S22,0xC040B340);c=GG(c,d,a,b,x[k+11],S23,0x265E5A51);b=GG(b,c,d,a,x[k+0],S24,0xE9B6C7AA);a=GG(a,b,c,d,x[k+5],S21,0xD62F105D);d=GG(d,a,b,c,x[k+10],S22,0x2441453);c=GG(c,d,a,b,x[k+15],S23,0xD8A1E681);b=GG(b,c,d,a,x[k+4],S24,0xE7D3FBC8);a=GG(a,b,c,d,x[k+9],S21,0x21E1CDE6);d=GG(d,a,b,c,x[k+14],S22,0xC33707D6);c=GG(c,d,a,b,x[k+3],S23,0xF4D50D87);b=GG(b,c,d,a,x[k+8],S24,0x455A14ED);a=GG(a,b,c,d,x[k+13],S21,0xA9E3E905);d=GG(d,a,b,c,x[k+2],S22,0xFCEFA3F8);c=GG(c,d,a,b,x[k+7],S23,0x676F02D9);b=GG(b,c,d,a,x[k+12],S24,0x8D2A4C8A);a=HH(a,b,c,d,x[k+5],S31,0xFFFA3942);d=HH(d,a,b,c,x[k+8],S32,0x8771F681);c=HH(c,d,a,b,x[k+11],S33,0x6D9D6122);b=HH(b,c,d,a,x[k+14],S34,0xFDE5380C);a=HH(a,b,c,d,x[k+1],S31,0xA4BEEA44);d=HH(d,a,b,c,x[k+4],S32,0x4BDECFA9);c=HH(c,d,a,b,x[k+7],S33,0xF6BB4B60);b=HH(b,c,d,a,x[k+10],S34,0xBEBFBC70);a=HH(a,b,c,d,x[k+13],S31,0x289B7EC6);d=HH(d,a,b,c,x[k+0],S32,0xEAA127FA);c=HH(c,d,a,b,x[k+3],S33,0xD4EF3085);b=HH(b,c,d,a,x[k+6],S34,0x4881D05);a=HH(a,b,c,d,x[k+9],S31,0xD9D4D039);d=HH(d,a,b,c,x[k+12],S32,0xE6DB99E5);c=HH(c,d,a,b,x[k+15],S33,0x1FA27CF8);b=HH(b,c,d,a,x[k+2],S34,0xC4AC5665);a=II(a,b,c,d,x[k+0],S41,0xF4292244);d=II(d,a,b,c,x[k+7],S42,0x432AFF97);c=II(c,d,a,b,x[k+14],S43,0xAB9423A7);b=II(b,c,d,a,x[k+5],S44,0xFC93A039);a=II(a,b,c,d,x[k+12],S41,0x655B59C3);d=II(d,a,b,c,x[k+3],S42,0x8F0CCC92);c=II(c,d,a,b,x[k+10],S43,0xFFEFF47D);b=II(b,c,d,a,x[k+1],S44,0x85845DD1);a=II(a,b,c,d,x[k+8],S41,0x6FA87E4F);d=II(d,a,b,c,x[k+15],S42,0xFE2CE6E0);c=II(c,d,a,b,x[k+6],S43,0xA3014314);b=II(b,c,d,a,x[k+13],S44,0x4E0811A1);a=II(a,b,c,d,x[k+4],S41,0xF7537E82);d=II(d,a,b,c,x[k+11],S42,0xBD3AF235);c=II(c,d,a,b,x[k+2],S43,0x2AD7D2BB);b=II(b,c,d,a,x[k+9],S44,0xEB86D391);a=AddUnsigned(a,AA);b=AddUnsigned(b,BB);c=AddUnsigned(c,CC);d=AddUnsigned(d,DD);}
+  return (WTH(a)+WTH(b)+WTH(c)+WTH(d)).toLowerCase();
+}
+
+// === SERVICE WORKER (offline support) ===
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    var sw = [
+      'var CACHE="cipher-v1";',
+      'var URLS=["https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700&display=swap","https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js","https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"];',
+      'self.addEventListener("install",function(e){e.waitUntil(caches.open(CACHE).then(function(c){return c.addAll(URLS);}).catch(function(){}));self.skipWaiting();});',
+      'self.addEventListener("activate",function(e){e.waitUntil(caches.keys().then(function(keys){return Promise.all(keys.filter(function(k){return k!==CACHE;}).map(function(k){return caches.delete(k);}));}));self.clients.claim();});',
+      'self.addEventListener("fetch",function(e){if(e.request.url.indexOf("firebaseio.com")>-1||e.request.url.indexOf("googleapis.com/identitytoolkit")>-1)return;e.respondWith(caches.match(e.request).then(function(r){return r||fetch(e.request).then(function(res){if(res&&res.status===200&&e.request.method==="GET"){var cl=res.clone();caches.open(CACHE).then(function(c){c.put(e.request,cl);});}return res;}).catch(function(){return caches.match(e.request);});}));});'
+    ].join('\n');
+    try {
+      var blob = new Blob([sw], {type:'application/javascript'});
+      navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(function(){});
+    } catch(e) {}
+  });
+}
 
 // === LOADING SCREEN ===
 window.addEventListener('load', () => {
@@ -746,20 +744,19 @@ function getOrCreateTodayLog() {
 }
 function todayStr() { return new Date().toISOString().split('T')[0]; }
 function imageToDataURL(file) {
-  return new Promise((res, rej) => {
-    const reader = new FileReader();
+  return new Promise(function(res, rej) {
+    var reader = new FileReader();
     reader.onerror = rej;
-    reader.onload = e => {
-      const img = new Image();
+    reader.onload = function(e) {
+      var img = new Image();
       img.onerror = rej;
-      img.onload = () => {
-        const MAX = 400;
-        const canvas = document.createElement('canvas');
-        const ratio = Math.min(MAX / img.width, MAX / img.height, 1);
+      img.onload = function() {
+        var MAX = 400;
+        var canvas = document.createElement('canvas');
+        var ratio = Math.min(MAX / img.width, MAX / img.height, 1);
         canvas.width = Math.round(img.width * ratio);
         canvas.height = Math.round(img.height * ratio);
-        const ctx = canvas.getContext('2d');
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
         res(canvas.toDataURL('image/jpeg', 0.75));
       };
       img.src = e.target.result;
@@ -1283,14 +1280,14 @@ function renderAchievements(){
 function renderSettings(){
   const d=getData();
   const mi=document.getElementById('manage-inputs-list');
-  if(mi){if(!d.inputs||d.inputs.length===0){mi.innerHTML='<div class="text-small">No inputs configured.</div>';}else{mi.innerHTML=d.inputs.map((inp,i)=>'<div class="flex-between" style="padding:8px 0;border-bottom:1px solid var(--border);"><div style="display:flex;align-items:center;gap:8px;">'+(inp.photo?'<div class="img-preview-circle" style="width:32px;height:32px;"><img src="'+inp.photo+'"></div>':'')+'<div><div style="font-family:var(--font-body);font-size:14px;font-weight:600;">'+inp.name+'</div><div class="text-small">'+inp.inputType+' · '+(inp.category||'')+'</div></div></div><div style="display:flex;gap:6px;align-items:center;"><div style="display:flex;flex-direction:column;gap:2px;"><button class="btn btn-sm" style="padding:1px 7px;font-size:14px;line-height:1;background:transparent;border:1px solid var(--border);color:var(--text2);cursor:pointer;" onclick="moveInput('+i+',-1)" '+(i===0?'disabled style="opacity:0.3;"':'')+'>▲</button><button class="btn btn-sm" style="padding:1px 7px;font-size:14px;line-height:1;background:transparent;border:1px solid var(--border);color:var(--text2);cursor:pointer;" onclick="moveInput('+i+',1)" '+(i===d.inputs.length-1?'disabled style="opacity:0.3;"':'')+'>▼</button></div><button class="btn btn-secondary btn-sm" onclick="openAddInputModal('+i+')">EDIT</button><button class="btn btn-danger btn-sm" onclick="deleteInput('+i+')">DEL</button></div></div>').join('');}}
+  if(mi){if(!d.inputs||d.inputs.length===0){mi.innerHTML='<div class="text-small">No inputs configured.</div>';}else{mi.innerHTML=d.inputs.map((inp,i)=>'<div class="flex-between" style="padding:8px 0;border-bottom:1px solid var(--border);"><div style="display:flex;align-items:center;gap:8px;">'+(inp.photo?'<div class="img-preview-circle" style="width:32px;height:32px;"><img src="'+inp.photo+'"></div>':'')+'<div><div style="font-family:var(--font-body);font-size:14px;font-weight:600;">'+inp.name+'</div><div class="text-small">'+inp.inputType+' · '+(inp.category||'')+'</div></div></div><div style="display:flex;gap:6px;align-items:center;"><div style="display:flex;flex-direction:column;gap:2px;"><button onclick="moveInput('+i+',-1)" '+(i===0?'disabled':'')+'style="background:transparent;border:1px solid var(--border);color:'+(i===0?'var(--border)':'var(--text2)')+';cursor:pointer;padding:0 7px;font-size:13px;line-height:1.6;">▲</button><button onclick="moveInput('+i+',1)" '+(i===d.inputs.length-1?'disabled':'')+'style="background:transparent;border:1px solid var(--border);color:'+(i===d.inputs.length-1?'var(--border)':'var(--text2)')+';cursor:pointer;padding:0 7px;font-size:13px;line-height:1.6;">▼</button></div><button class="btn btn-secondary btn-sm" onclick="openAddInputModal('+i+')">EDIT</button><button class="btn btn-danger btn-sm" onclick="deleteInput('+i+')">DEL</button></div></div>').join('');}}
   const mm=document.getElementById('manage-missions-list');
   if(mm){const active=(d.objectives||[]).filter(o=>!o.completed);if(active.length===0){mm.innerHTML='<div class="text-small">No active missions.</div>';}else{mm.innerHTML=active.map(obj=>{const realIdx=d.objectives.indexOf(obj);return '<div class="flex-between" style="padding:8px 0;border-bottom:1px solid var(--border);"><div style="font-family:var(--font-body);font-size:14px;font-weight:600;">'+obj.name+'</div><div style="display:flex;gap:6px;"><button class="btn btn-secondary btn-sm" onclick="openAddObjectiveModal('+realIdx+')">EDIT</button><button class="btn btn-danger btn-sm" onclick="deleteObjective('+realIdx+')">DEL</button></div></div>';}).join('');}}
 }
 function moveInput(i, dir) {
-  const d = getData(); const j = i + dir;
+  var d = getData(); var j = i + dir;
   if (j < 0 || j >= d.inputs.length) return;
-  [d.inputs[i], d.inputs[j]] = [d.inputs[j], d.inputs[i]];
+  var tmp = d.inputs[i]; d.inputs[i] = d.inputs[j]; d.inputs[j] = tmp;
   saveData(d); renderSettings();
 }
 function deleteInput(i){if(!confirm('Delete this input?'))return;const d=getData();d.inputs.splice(i,1);saveData(d);renderDailyInputs();renderSettings();}
