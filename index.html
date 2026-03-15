@@ -742,7 +742,7 @@ function getOrCreateTodayLog() {
   if (!log) { log = { date: today, entries: {} }; d.logs.push(log); saveData(d); }
   return log;
 }
-function todayStr() { return new Date().toISOString().split('T')[0]; }
+function todayStr() { const d = new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
 function imageToDataURL(file) {
   return new Promise(function(res, rej) {
     var reader = new FileReader();
