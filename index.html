@@ -588,6 +588,21 @@ textarea.form-input { resize: vertical; min-height: 80px; }
       <div id="manage-missions-list"></div>
     </div>
     <div class="settings-section">
+      <div class="settings-title">DATA BACKUP</div>
+      <p style="font-family:var(--font-mono);font-size:12px;color:var(--text2);margin-bottom:12px;">EXPORT A FULL BACKUP OF YOUR DATA — RECOMMENDED MONTHLY</p>
+      <button class="btn btn-primary" onclick="exportData()" style="margin-bottom:16px;">⬇ EXPORT BACKUP (JSON)</button>
+      <div style="border-top:1px solid var(--border);margin-bottom:16px;"></div>
+      <p style="font-family:var(--font-mono);font-size:12px;color:var(--text2);margin-bottom:8px;">RESTORE FROM A PREVIOUS BACKUP — THIS WILL OVERWRITE ALL CURRENT DATA</p>
+      <div class="form-group">
+        <label class="form-label">SELECT BACKUP FILE (.json)</label>
+        <input type="file" accept=".json" id="import-file-input" style="display:none;" onchange="handleImportFile(event)">
+        <button class="btn btn-secondary" onclick="document.getElementById('import-file-input').click()">⬆ SELECT BACKUP FILE</button>
+        <div id="import-file-name" style="font-family:var(--font-mono);font-size:11px;color:var(--text3);margin-top:6px;min-height:16px;"></div>
+      </div>
+      <button class="btn btn-danger" id="import-confirm-btn" style="display:none;" onclick="confirmImport()">⚠ RESTORE THIS BACKUP</button>
+      <div id="import-msg" style="font-family:var(--font-mono);font-size:12px;min-height:18px;margin-top:8px;"></div>
+    </div>
+    <div class="settings-section">
       <div class="settings-title">DANGER ZONE</div>
       <p style="font-family:var(--font-mono);font-size:12px;color:var(--text2);margin-bottom:12px;">PASSWORD REQUIRED TO RESET ALL DATA</p>
       <button class="btn btn-danger" onclick="confirmResetWithPassword()">RESET ALL DATA</button>
@@ -1302,6 +1317,72 @@ function executeReset(){
   closeModal();_appData=getDefaultData();fbSave(_appData);location.reload();
 }
 function closeModal(){document.getElementById('modal-container').innerHTML='';}
+
+// === DATA BACKUP: EXPORT ===
+function exportData(){
+  var d=getData();
+  // Strip base64 images to keep file small
+  var clean=JSON.parse(JSON.stringify(d));
+  if(clean.inputs){clean.inputs=clean.inputs.map(function(inp){var c=Object.assign({},inp);if(c.photo&&c.photo.length>200)c.photo='[IMAGE_STRIPPED]';return c;});}
+  if(clean.grades){clean.grades=clean.grades.map(function(g){var c=Object.assign({},g);if(c.image&&c.image.length>200)c.image='[IMAGE_STRIPPED]';return c;});}
+  var ts=new Date().toISOString().slice(0,10);
+  var blob=new Blob([JSON.stringify(clean,null,2)],{type:'application/json'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');
+  a.href=url;a.download='cipher_backup_'+ts+'.json';
+  document.body.appendChild(a);a.click();
+  document.body.removeChild(a);URL.revokeObjectURL(url);
+  showNotif('BACKUP EXPORTED — '+ts);
+}
+
+// === DATA BACKUP: IMPORT ===
+var _importData=null;
+function handleImportFile(e){
+  var file=e.target.files[0];
+  if(!file){return;}
+  var nameEl=document.getElementById('import-file-name');
+  var btn=document.getElementById('import-confirm-btn');
+  var msg=document.getElementById('import-msg');
+  _importData=null;
+  btn.style.display='none';
+  msg.textContent='';
+  var reader=new FileReader();
+  reader.onload=function(ev){
+    try{
+      var parsed=JSON.parse(ev.target.result);
+      if(!parsed||typeof parsed!=='object'){throw new Error('Invalid format');}
+      _importData=parsed;
+      nameEl.textContent='✓ '+file.name;
+      nameEl.style.color='var(--green,#4ade80)';
+      btn.style.display='block';
+      msg.textContent='';
+    }catch(err){
+      nameEl.textContent='✗ INVALID FILE — JSON EXPECTED';
+      nameEl.style.color='var(--red)';
+      btn.style.display='none';
+    }
+  };
+  reader.readAsText(file);
+}
+function confirmImport(){
+  if(!_importData){return;}
+  var html='<div class="modal-overlay"><div class="modal" style="max-width:380px;"><div class="modal-title" style="color:var(--red);letter-spacing:3px;">CONFIRM RESTORE</div><p style="font-family:var(--font-mono);font-size:13px;color:var(--text2);margin-bottom:20px;line-height:1.6;">This will OVERWRITE all current data with the backup. This cannot be undone. Enter your clearance code to confirm.</p><div class="form-group"><label class="form-label">CLEARANCE CODE</label><input class="form-input" id="import-pw-confirm" type="password" placeholder="•••••"></div><div id="import-pw-error" style="font-family:var(--font-mono);font-size:12px;color:var(--red);min-height:18px;margin-bottom:8px;"></div><div class="modal-actions"><button class="btn btn-secondary" onclick="closeModal()">CANCEL</button><button class="btn btn-danger" onclick="executeImport()">RESTORE BACKUP</button></div></div></div>';
+  document.getElementById('modal-container').innerHTML=html;
+}
+function executeImport(){
+  var pw=document.getElementById('import-pw-confirm').value;
+  var d=getData();
+  if(pw!==d.password&&md5(pw)!==d.password){document.getElementById('import-pw-error').textContent='INVALID CLEARANCE CODE';return;}
+  // Preserve current password — don't overwrite with backup password
+  var currentPw=d.password;
+  var restored=normalizeData(_importData);
+  restored.password=currentPw;
+  closeModal();
+  _appData=restored;
+  fbSave(_appData);
+  showNotif('BACKUP RESTORED — RELOADING...');
+  setTimeout(function(){location.reload();},1500);
+}
 </script>
 </body>
 </html>
